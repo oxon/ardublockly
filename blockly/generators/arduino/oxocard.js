@@ -6,13 +6,7 @@ goog.provide('Blockly.Arduino.oxocard');
 goog.require('Blockly.Arduino');
 
 
-
-Blockly.Arduino.oxocard_button_ispressed = function() {
-  var dropdown_button = this.getFieldValue('BUTTON');
-  var code = 'is' + dropdown_button + 'ButtonPressed()';
-  return [code, Blockly.Arduino.ORDER_ATOMIC];
-};
-
+/* ---------- System ---------- */
 Blockly.Arduino.oxocard_turn_off = function() {
 	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
 	return 'turnOff();\n';
@@ -23,6 +17,37 @@ Blockly.Arduino.oxocard_reset_oxocard = function() {
 	return 'resetOXOcard();\n';
 };
 
+Blockly.Arduino.oxocard_handle_autoturnoff = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var timeout = Blockly.Arduino.valueToCode(this, 'TIMEOUT', Blockly.Arduino.ORDER_ATOMIC) || 0;
+	return 'handleAutoTurnOff(' + timeout + ');\n';
+};
+
+Blockly.Arduino.oxocard_button_ispressed = function() {
+  var dropdown_button = this.getFieldValue('BUTTON');
+  var code = 'is' + dropdown_button + 'ButtonPressed()';
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.oxocard_get_timer_seconds = function() {
+  Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var code = 'getTimerSeconds()';
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.oxocard_reset_timer = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+	return 'resetTimer);\n';
+};
+
+Blockly.Arduino.oxocard_print = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var log = Blockly.Arduino.valueToCode(this, 'LOG', Blockly.Arduino.ORDER_ATOMIC) || '';
+	return 'print(' + log + ');\n';
+};
+
+
+/* ---------- Display ---------- */
 Blockly.Arduino.oxocard_fill_display = function() {
 	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_ATOMIC) || 0;
@@ -83,3 +108,27 @@ Blockly.Arduino.oxocard_draw_line = function() {
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawLine(' + fromX + ', ' + fromY + ', ' + toX + ', ' + toY + ', ' + brightness + ');\n';
 };
+
+
+/* ---------- Accelerometer ---------- */
+Blockly.Arduino.oxocard_get_acceleration = function() {
+  Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var dropdown_button = this.getFieldValue('AXIS');
+  var code = 'get' + dropdown_button + 'Acceleration()';
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.oxocard_get_orientation = function() {
+  Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var code = 'getOrientation()';
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.oxocard_is_orientation = function() {
+  Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var dropdown_button = this.getFieldValue('DIRECTION');
+  var code = 'is' + 'Acceleration' + dropdown_button + '()' ;
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+/* ---------- Bluetooth ---------- */

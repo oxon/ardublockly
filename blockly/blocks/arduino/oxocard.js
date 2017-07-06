@@ -22,7 +22,7 @@ function createGenericOxocardInitFunc(name, tooltip){
 /* ---------- System ---------- */
 Blockly.Blocks['oxocard_turn_off'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('Turn off', 'Turns off the card')
+	init: createGenericOxocardInitFunc('Turn OXOcard off', 'Turns off the card')
 };
 
 Blockly.Blocks['oxocard_reset_oxocard'] = {
@@ -56,7 +56,7 @@ Blockly.Blocks['oxocard_button_ispressed'] = {
   init: function() {
     this.setColour(10);
     this.appendDummyInput()
-        .appendField("Button is pressed?")
+        .appendField("Is button pressed?")
         .appendField(new Blockly.FieldDropdown([["Left", "Left"], ["Middle", "Middle"], ["Right", "Right"]]), "BUTTON")
     this.setOutput(true, 'Boolean');
     this.setTooltip('Yes(?) if button pressed');
@@ -110,12 +110,12 @@ Blockly.Blocks['oxocard_println'] = {
 /* ---------- Display ---------- */
 Blockly.Blocks['oxocard_turn_display_on'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('turnDisplayOn', 'Turn the whole display on')
+	init: createGenericOxocardInitFunc('Turn display on', 'Turn the whole display on')
 };
 
 Blockly.Blocks['oxocard_clear_display'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('clearDisplay', 'Turn the whole display off')
+	init: createGenericOxocardInitFunc('Clear display', 'Turn the whole display off')
 };
 
 Blockly.Blocks['oxocard_fill_display'] = {
@@ -278,4 +278,29 @@ Blockly.Blocks['oxocard_find_ibeacon'] = {
     this.setNextStatement(true, null);
     this.setTooltip('Serach for iBeacons with the given ID');
   }
+};
+
+
+/* ---------- Speaker ---------- */
+Blockly.Blocks['oxocard_tone'] = {
+  helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+  init: function() {
+    this.setColour(10);
+    this.appendDummyInput()
+        .appendField("Play tone")
+    this.appendValueInput("FREQUENCY", 'Frequency')
+        .appendField("with frequency")
+        .setCheck('Number');
+    this.appendValueInput("DURATION", 'Duration')
+        .appendField("for the duration")
+        .setCheck('Number');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('Plays a tone for the givern time');
+  }
+};
+
+Blockly.Blocks['oxocard_no_tone'] = {
+	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+	init: createGenericOxocardInitFunc('No tone', 'Stops the tone')
 };

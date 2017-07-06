@@ -154,3 +154,17 @@ Blockly.Arduino.oxocard_find_ibeacon = function() {
   var id = Blockly.Arduino.valueToCode(this, 'ID', Blockly.Arduino.ORDER_ATOMIC) || '';
 	return 'findIBeacon(' + id + ');\n';
 };
+
+
+/* ---------- Speaker ---------- */
+Blockly.Arduino.oxocard_tone = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var frequency = Blockly.Arduino.valueToCode(this, 'FREQUENCY', Blockly.Arduino.ORDER_ATOMIC) || 0;
+  var duration = Blockly.Arduino.valueToCode(this, 'DURATION', Blockly.Arduino.ORDER_ATOMIC) || 0;
+	return 'tone(' + frequency + ',' + duration +');\n';
+};
+
+Blockly.Arduino.oxocard_no_tone = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+	return 'noTone();\n';
+};

@@ -12,12 +12,12 @@ var Ardublockly = Ardublockly || {};
 Ardublockly.TOOLBOX_XML =
 '<xml>' +
 '  <sep></sep>' +
-'  <category id="catLogic" name="Logic">' +
+'  <category name="LOGIC">' +
 '    <block type="controls_if"></block>' +
 '    <block type="logic_compare"></block>' +
 '    <block type="logic_negate"></block>' +
 '    <block type="controls_repeat_ext">' +
-'      <value name="TIMES">' +
+'      <value name="Times">' +
 '        <block type="math_number">' +
 '          <field name="NUM">10</field>' +
 '        </block>' +
@@ -26,16 +26,16 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="controls_flow_statements"></block>' +
 '  </category>' +
 '  <sep></sep>' +
-'  <category id="catVariables" name="Variables">' +
+'  <category   name="VARIABLES">' +
 '    <block type="math_number"></block>' +
 '    <block type="text"></block>' +
 '    <block type="variables_get"></block>' +
 '    <block type="variables_set"></block>' +
 '  </category>' +
 '  <sep></sep>' +
-'  <category id="catFunctions" name="Functions" custom="PROCEDURE"></category>' +
+'  <category  name="FUNCTIONS" custom="PROCEDURE"></category>' +
 '  <sep></sep>' +
-'  <category id="catInputOutput" name="Input/Output">' +
+'  <category  name="INPUT/OUTPUT">' +
 '    <block type="io_digitalwrite">' +
 '      <value name="STATE">' +
 '        <block type="io_highlow"></block>' +
@@ -67,7 +67,7 @@ Ardublockly.TOOLBOX_XML =
 '    </block>' +
 '  </category>' +
 '  <sep></sep>' +
-'  <category id="catTime" name="Time">' +
+'  <category name="TIME">' +
 '    <block type="time_delay">' +
 '      <value name="DELAY_TIME_MILI">' +
 '        <block type="math_number">' +
@@ -87,7 +87,7 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="infinite_loop"></block>' +
 '  </category>' +
 '  <sep></sep>' +
-'  <category id="catAudio" name="Audio">' +
+'  <category  name="AUDIO">' +
 '    <block type="io_tone">' +
 '      <field name="TONEPIN">0</field>' +
 '      <value name="FREQUENCY">' +
@@ -101,7 +101,7 @@ Ardublockly.TOOLBOX_XML =
 
 '  <sep></sep>' +
 
-'  <category name="Oxocard">' +
+'  <category name="OXOCARD">' +
 '    <block type="oxocard_turn_off"></block>' +
 '    <block type="oxocard_reset_oxocard"></block>' +
 '    <block type="oxocard_handle_autoturnoff_wp"></block>' +
@@ -118,7 +118,7 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="oxocard_print"></block>' +
 '    <block type="oxocard_println"></block>' +
 '  </category>' +
-'  <category name="Display">' +
+'  <category name="DISPLAY">' +
 '    <block type="oxocard_clear_display"></block>' +
 '    <block type="oxocard_turn_display_on"></block>' +
 '    <block type="oxocard_fill_display">' +
@@ -156,16 +156,20 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '  </category>' +
-'  <category name="Accelerometer">' +
+'  <category name="ACCELEROMETER">' +
 '    <block type="oxocard_get_acceleration"></block>' +
 '    <block type="oxocard_get_orientation"></block>' +
 '    <block type="oxocard_is_orientation"></block>' +
 '  </category>' +
-'  <category name="Bluetooth">' +
+'  <category name="BLUETOOTH">' +
 '    <block type="oxocard_setup_as_ibeacon"></block>' +
 '    <block type="oxocard_find_ibeacon"></block>' +
 '  </category>' +
-'  <category name="Shortcuts">' +
+'  <category name="SPEAKER">' +
+'    <block type="oxocard_tone"></block>' +
+'    <block type="oxocard_no_tone"></block>' +
+'  </category>' +
+'  <category name="SHORTCUTS">' +
 '    <block type="oxocard_smile"></block>' +
 '    <block type="oxocard_wink"></block>' +
 '  </category>' +

@@ -41,11 +41,42 @@ Ardublockly.bindActionFunctions = function() {
   Ardublockly.bindClick_('button_load', Ardublockly.loadUserXmlFile);
   Ardublockly.bindClick_('button_save', Ardublockly.saveXmlFile);
 
-  Ardublockly.bindClick_('button_example_1', function() {
-    Ardublockly.loadServerXmlFile('../examples/blink.xml');
+  Ardublockly.bindClick_('button_example_AB04', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB04.xml');
     $('.button-collapse').sideNav('hide');
   });
-
+  Ardublockly.bindClick_('button_example_AB05', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB05.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB06', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB06.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB07', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB07.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB08', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB08.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB09', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB09.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB10', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB10.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB13', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB13.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB14', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB14.xml');
+    $('.button-collapse').sideNav('hide');
+  });
 
   //Ardublockly.bindClick_('button_delete', Ardublockly.discardAllBlocks);
 

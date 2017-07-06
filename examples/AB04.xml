@@ -78,13 +78,7 @@
       </block>
     </statement>
     <statement name="LOOP_FUNC">
-      <block type="oxocard_handle_autoturnoff" id="dQPZ[]@Y0;BLT@T!p#d.">
-        <value name="TIMEOUT">
-          <block type="math_number" id="~J4#Gx:l8mv6i-?L-Ul`">
-            <field name="NUM">120</field>
-          </block>
-        </value>
-      </block>
+      <block type="oxocard_handle_autoturnoff_wp" id="c]j)8{)YYV!hI2AJ^V7."></block>
     </statement>
   </block>
 </xml>

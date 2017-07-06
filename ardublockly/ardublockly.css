@@ -27,7 +27,7 @@ body {
 }
 
 body {
-  background-color: #eeeeee;
+  background-color: #fff;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
@@ -73,7 +73,7 @@ body {
 }
 @media only screen and (min-width : 993px) {
   body {
-    padding-top: 100px;
+    padding-top: 136px;
   }
   .nav-fixed {
     position: fixed;
@@ -192,10 +192,10 @@ ul.side-nav li.side-menu-end {
   min-height: 388px;
 }
 .content_arduino_large {
-  height: -moz-calc(100vh - 375px);     /* Firefox  */
-  height: -webkit-calc(100vh - 375px);  /* WebKit   */
-  height: -o-calc(100vh - 375px);       /* Opera    */
-  height: calc(100vh - 375px);          /* Standard */
+  height: -moz-calc(100vh - 376px);     /* Firefox  */
+  height: -webkit-calc(100vh - 376px);  /* WebKit   */
+  height: -o-calc(100vh - 376px);       /* Opera    */
+  height: calc(100vh - 376px);          /* Standard */
 }
 .content_arduino_small {
   height: -moz-calc(100vh - 440px);     /* Firefox  */
@@ -653,7 +653,7 @@ ul.side-nav li.side-menu-end {
   border: none !important;
   margin: 0px !important;
   padding: 0px 0px 0px 0px !important;
-  background: rgba(98, 174, 178, .2) !important;  /* Arduino Light Teal */
+  background: #EBEBEB !important;  /* Arduino Light Teal */
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -676,8 +676,9 @@ ul.side-nav li.side-menu-end {
   background: none !important;
   border: none !important;
   margin: 0px 0px !important;
-  padding: 7px 16px 7px 0px !important;
+  padding: 13px 18px 13px 18px !important;
   box-sizing: content-box !important;
+  font-size:16px;
 }
 .blocklyTreeSelected {
   background-color: #E47128 !important;  /* arduino orange */
@@ -833,4 +834,37 @@ ul.side-nav li ul li ul li {
   padding: 0 1px !important;
   width: 100% !important;
   background-color: white !important;
+}
+
+.card-panel.white, .z-depth-1, .collapsible, .blocklyToolboxDiv{
+  webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+#content_wrapper_blockly, #content_wrapper_source{
+  border:12px solid #969696;
+  padding:0;
+}
+
+#content_wrapper_source{
+  margin-left:-12px;
+}
+
+#content_wrapper_source > ul, #content_wrapper_blockly > div{
+  margin:0 !important;
+}
+
+.nav-fixed, #button_load > i, #button_save > i, i.mdi-image-edit.sketch_name_icon{
+  height:128px;
+  line-height:128px;
+}
+
+#oxopus{
+  float:left;
+  background:url('img/oxopus.png') no-repeat;
+  background-position:50% 50%;
+  margin-right:20px;
+  height:128px;
+  width:128px;
 }

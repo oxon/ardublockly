@@ -20,7 +20,7 @@ Ardublockly.init = function() {
   Ardublockly.importExtraBlocks();
 
   Ardublockly.designJsInit();
-  Ardublockly.initialiseIdeButtons();
+  //Ardublockly.initialiseIdeButtons();
 
   Ardublockly.bindDesignEventListeners();
   Ardublockly.bindActionFunctions();
@@ -40,26 +40,33 @@ Ardublockly.bindActionFunctions = function() {
   // Navigation buttons
   Ardublockly.bindClick_('button_load', Ardublockly.loadUserXmlFile);
   Ardublockly.bindClick_('button_save', Ardublockly.saveXmlFile);
-  Ardublockly.bindClick_('button_delete', Ardublockly.discardAllBlocks);
+
+  Ardublockly.bindClick_('button_example_1', function() {
+    Ardublockly.loadServerXmlFile('../examples/blink.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+
+
+  //Ardublockly.bindClick_('button_delete', Ardublockly.discardAllBlocks);
 
   // Side menu buttons, they also close the side menu
-  Ardublockly.bindClick_('menu_load', function() {
+  /*Ardublockly.bindClick_('menu_load', function() {
     Ardublockly.loadUserXmlFile();
     $('.button-collapse').sideNav('hide');
   });
   Ardublockly.bindClick_('menu_save', function() {
     Ardublockly.saveXmlFile();
     $('.button-collapse').sideNav('hide');
-  });
-  Ardublockly.bindClick_('menu_delete', function() {
+  });*/
+  /*Ardublockly.bindClick_('menu_delete', function() {
     Ardublockly.discardAllBlocks();
     $('.button-collapse').sideNav('hide');
-  });
+  });*/
   Ardublockly.bindClick_('menu_settings', function() {
     Ardublockly.openSettings();
     $('.button-collapse').sideNav('hide');
   });
-  Ardublockly.bindClick_('menu_example_1', function() {
+  /*Ardublockly.bindClick_('menu_example_1', function() {
     Ardublockly.loadServerXmlFile('../examples/blink.xml');
     $('.button-collapse').sideNav('hide');
   });
@@ -78,10 +85,10 @@ Ardublockly.bindActionFunctions = function() {
   Ardublockly.bindClick_('menu_example_5', function() {
     Ardublockly.loadServerXmlFile('../examples/stepper_knob.xml');
     $('.button-collapse').sideNav('hide');
-  });
+  });*/
 
   // Floating buttons
-  Ardublockly.bindClick_('button_ide_large', function() {
+  /*Ardublockly.bindClick_('button_ide_large', function() {
     Ardublockly.ideButtonLargeAction();
   });
   Ardublockly.bindClick_('button_ide_middle', function() {
@@ -89,9 +96,9 @@ Ardublockly.bindActionFunctions = function() {
   });
   Ardublockly.bindClick_('button_ide_left', function() {
     Ardublockly.ideButtonLeftAction();
-  });
+  });*/
   Ardublockly.bindClick_('button_load_xml', Ardublockly.XmlTextareaToBlocks);
-  Ardublockly.bindClick_('button_toggle_toolbox', Ardublockly.toogleToolbox);
+  //Ardublockly.bindClick_('button_toggle_toolbox', Ardublockly.toogleToolbox);
 
   // Settings modal input field listeners only if they can be edited
   var settingsPathInputListeners = function(elId, setValFunc, setHtmlCallback) {

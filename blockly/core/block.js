@@ -1157,6 +1157,10 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
           case 'field_number':
             field = new Blockly.FieldNumber(element['text']);
             break;
+          case 'field_led':
+            field = new Blockly.FieldLed(
+                element['checked'] ? 'TRUE' : 'FALSE');
+            break;
           case 'field_date':
             if (Blockly.FieldDate) {
               field = new Blockly.FieldDate(element['date']);

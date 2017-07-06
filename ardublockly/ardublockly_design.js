@@ -13,7 +13,7 @@ var Ardublockly = Ardublockly || {};
 /** Initialises all the design related JavaScript. */
 Ardublockly.designJsInit = function() {
   Ardublockly.materializeJsInit();
-  Ardublockly.resizeToggleToolboxBotton();
+  //Ardublockly.resizeToggleToolboxBotton();
   Ardublockly.sketchNameSizeEffect();
   Ardublockly.sketchNameSet();
 };
@@ -53,10 +53,10 @@ Ardublockly.bindDesignEventListeners = function() {
   document.getElementById('xml_collapsible_header').addEventListener(
       'click', Ardublockly.buttonLoadXmlCodeDisplay);
   // Toggle the content height on click to the IDE output collapsible header
-  document.getElementById('ide_output_collapsible_header').addEventListener(
+  /*document.getElementById('ide_output_collapsible_header').addEventListener(
       'click', function() {
         Ardublockly.contentHeightToggle();
-      });
+      });*/
   // Display/hide the additional IDE buttons when mouse over/out of play button
   $('#button_ide_large').mouseenter(function() {
       Ardublockly.showExtraIdeButtons(true);

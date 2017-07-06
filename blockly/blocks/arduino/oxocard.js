@@ -142,7 +142,7 @@ Blockly.Blocks['oxocard_draw_image'] = {
 		for(var i=0, l=8; i<l; i++){
 			var input = this.appendDummyInput();
 			for(var j=0, ll=8; j<ll; j++){
-				input.appendField(new Blockly.FieldCheckbox('FALSE'), i + '' + j);
+				input.appendField(new Blockly.FieldLed('FALSE'), i + '' + j);
 			}
 		}
 		this.appendValueInput("BRIGHTNESS", 'Brightness')

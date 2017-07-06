@@ -1,0 +1,90 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="arduino_functions" id="RTPN?L,T6y7?QN:v6!o?" x="193" y="457">
+    <statement name="SETUP_FUNC">
+      <block type="oxocard_clear_display" id="J(j_L#SN@=;8_:zZBmPl">
+        <next>
+          <block type="oxocard_draw_image" id="03%0(?(g,W#|4hCx|[2y">
+            <field name="00">FALSE</field>
+            <field name="01">FALSE</field>
+            <field name="02">FALSE</field>
+            <field name="03">FALSE</field>
+            <field name="04">FALSE</field>
+            <field name="05">FALSE</field>
+            <field name="06">FALSE</field>
+            <field name="07">FALSE</field>
+            <field name="10">FALSE</field>
+            <field name="11">FALSE</field>
+            <field name="12">FALSE</field>
+            <field name="13">FALSE</field>
+            <field name="14">FALSE</field>
+            <field name="15">FALSE</field>
+            <field name="16">FALSE</field>
+            <field name="17">FALSE</field>
+            <field name="20">FALSE</field>
+            <field name="21">FALSE</field>
+            <field name="22">FALSE</field>
+            <field name="23">FALSE</field>
+            <field name="24">FALSE</field>
+            <field name="25">FALSE</field>
+            <field name="26">FALSE</field>
+            <field name="27">FALSE</field>
+            <field name="30">FALSE</field>
+            <field name="31">FALSE</field>
+            <field name="32">FALSE</field>
+            <field name="33">FALSE</field>
+            <field name="34">FALSE</field>
+            <field name="35">FALSE</field>
+            <field name="36">FALSE</field>
+            <field name="37">FALSE</field>
+            <field name="40">FALSE</field>
+            <field name="41">FALSE</field>
+            <field name="42">FALSE</field>
+            <field name="43">FALSE</field>
+            <field name="44">FALSE</field>
+            <field name="45">FALSE</field>
+            <field name="46">FALSE</field>
+            <field name="47">FALSE</field>
+            <field name="50">FALSE</field>
+            <field name="51">FALSE</field>
+            <field name="52">FALSE</field>
+            <field name="53">FALSE</field>
+            <field name="54">FALSE</field>
+            <field name="55">FALSE</field>
+            <field name="56">FALSE</field>
+            <field name="57">FALSE</field>
+            <field name="60">FALSE</field>
+            <field name="61">FALSE</field>
+            <field name="62">FALSE</field>
+            <field name="63">FALSE</field>
+            <field name="64">FALSE</field>
+            <field name="65">FALSE</field>
+            <field name="66">FALSE</field>
+            <field name="67">FALSE</field>
+            <field name="70">FALSE</field>
+            <field name="71">FALSE</field>
+            <field name="72">FALSE</field>
+            <field name="73">FALSE</field>
+            <field name="74">FALSE</field>
+            <field name="75">FALSE</field>
+            <field name="76">FALSE</field>
+            <field name="77">FALSE</field>
+            <value name="BRIGHTNESS">
+              <block type="math_number" id="h0Z(;Q?;fRGMK~0|KmE9">
+                <field name="NUM">255</field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="LOOP_FUNC">
+      <block type="oxocard_handle_autoturnoff" id="dQPZ[]@Y0;BLT@T!p#d.">
+        <value name="TIMEOUT">
+          <block type="math_number" id="~J4#Gx:l8mv6i-?L-Ul`">
+            <field name="NUM">120</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+</xml>

@@ -40,6 +40,13 @@ Ardublockly.bindActionFunctions = function() {
   // Navigation buttons
   Ardublockly.bindClick_('button_load', Ardublockly.loadUserXmlFile);
   Ardublockly.bindClick_('button_save', Ardublockly.saveXmlFile);
+
+  Ardublockly.bindClick_('button_example_1', function() {
+    Ardublockly.loadServerXmlFile('../examples/blink.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+
+
   //Ardublockly.bindClick_('button_delete', Ardublockly.discardAllBlocks);
 
   // Side menu buttons, they also close the side menu
@@ -59,7 +66,7 @@ Ardublockly.bindActionFunctions = function() {
     Ardublockly.openSettings();
     $('.button-collapse').sideNav('hide');
   });
-  Ardublockly.bindClick_('menu_example_1', function() {
+  /*Ardublockly.bindClick_('menu_example_1', function() {
     Ardublockly.loadServerXmlFile('../examples/blink.xml');
     $('.button-collapse').sideNav('hide');
   });
@@ -78,7 +85,7 @@ Ardublockly.bindActionFunctions = function() {
   Ardublockly.bindClick_('menu_example_5', function() {
     Ardublockly.loadServerXmlFile('../examples/stepper_knob.xml');
     $('.button-collapse').sideNav('hide');
-  });
+  });*/
 
   // Floating buttons
   /*Ardublockly.bindClick_('button_ide_large', function() {

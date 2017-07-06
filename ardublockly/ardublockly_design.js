@@ -186,7 +186,7 @@ Ardublockly.largeIdeButtonSpinner = function(active) {
  * @param {!boolean} show Indicates if the toolbox should be set visible.
  */
 Ardublockly.displayToolbox = function(show) {
-/*  var toolbox = $('.blocklyToolboxDiv');
+  var toolbox = $('.blocklyToolboxDiv');
   var toolboxTree = $('.blocklyTreeRoot');
   var button = document.getElementById('button_toggle_toolbox');
   var buttonIcon = document.getElementById('button_toggle_toolbox_icon');
@@ -234,7 +234,7 @@ Ardublockly.displayToolbox = function(show) {
         $('#toolboxButtonScreen').remove();
       });
     });
-  }*/
+  }
 };
 
 /**

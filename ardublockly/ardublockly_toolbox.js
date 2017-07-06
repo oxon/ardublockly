@@ -24,6 +24,7 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="controls_flow_statements"></block>' +
+'    <block type="procedures_defnoreturn"></block>' +
 '  </category>' +
 '  <sep></sep>' +
 '  <category   name="VARIABLES">' +
@@ -33,40 +34,7 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="variables_set"></block>' +
 '  </category>' +
 '  <sep></sep>' +
-'  <category  name="FUNCTIONS" custom="PROCEDURE"></category>' +
-'  <sep></sep>' +
-'  <category  name="INPUT/OUTPUT">' +
-'    <block type="io_digitalwrite">' +
-'      <value name="STATE">' +
-'        <block type="io_highlow"></block>' +
-'      </value>' +
-'    </block>' +
-'    <block type="io_digitalread"></block>' +
-'    <block type="io_builtin_led">' +
-'      <value name="STATE">' +
-'        <block type="io_highlow"></block>' +
-'      </value>' +
-'    </block>' +
-'    <block type="io_analogwrite"></block>' +
-'    <block type="io_analogread"></block>' +
-'    <block type="io_highlow"></block>' +
-'    <block type="io_pulsein">' +
-'      <value name="PULSETYPE">' +
-'        <shadow type="io_highlow"></shadow>' +
-'      </value>' +
-'    </block>' +
-'    <block type="io_pulsetimeout">' +
-'      <value name="PULSETYPE">' +
-'        <shadow type="io_highlow"></shadow>' +
-'      </value>' +
-'      <value name="TIMEOUT">' +
-'        <shadow type="math_number">' +
-'          <field name="NUM">100</field>' +
-'        </shadow>' +
-'      </value>'+
-'    </block>' +
-'  </category>' +
-'  <sep></sep>' +
+
 '  <category name="TIME">' +
 '    <block type="time_delay">' +
 '      <value name="DELAY_TIME_MILI">' +
@@ -75,33 +43,10 @@ Ardublockly.TOOLBOX_XML =
 '        </block>' +
 '      </value>' +
 '    </block>' +
-'    <block type="time_delaymicros">' +
-'      <value name="DELAY_TIME_MICRO">' +
-'        <block type="math_number">' +
-'          <field name="NUM">100</field>' +
-'        </block>' +
-'      </value>' +
-'    </block>' +
-'    <block type="time_millis"></block>' +
-'    <block type="time_micros"></block>' +
-'    <block type="infinite_loop"></block>' +
 '  </category>' +
 '  <sep></sep>' +
-'  <category  name="AUDIO">' +
-'    <block type="io_tone">' +
-'      <field name="TONEPIN">0</field>' +
-'      <value name="FREQUENCY">' +
-'        <shadow type="math_number">' +
-'          <field name="NUM">220</field>' +
-'        </shadow>' +
-'      </value>' +
-'    </block>' +
-'    <block type="io_notone"></block>' +
-'  </category>' +
-
-'  <sep></sep>' +
-
 '  <category name="OXOCARD">' +
+'    <block type="arduino_functions"></block>' +
 '    <block type="oxocard_turn_off"></block>' +
 '    <block type="oxocard_reset_oxocard"></block>' +
 '    <block type="oxocard_handle_autoturnoff_wp"></block>' +

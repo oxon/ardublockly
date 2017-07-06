@@ -17,6 +17,11 @@ Blockly.Arduino.oxocard_reset_oxocard = function() {
 	return 'resetOXOcard();\n';
 };
 
+Blockly.Arduino.oxocard_handle_autoturnoff_wp = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+	return 'handleAutoTurnOff();\n';
+};
+
 Blockly.Arduino.oxocard_handle_autoturnoff = function() {
 	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
   var timeout = Blockly.Arduino.valueToCode(this, 'TIMEOUT', Blockly.Arduino.ORDER_ATOMIC) || 0;
@@ -44,6 +49,12 @@ Blockly.Arduino.oxocard_print = function() {
 	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
   var log = Blockly.Arduino.valueToCode(this, 'LOG', Blockly.Arduino.ORDER_ATOMIC) || '';
 	return 'print(' + log + ');\n';
+};
+
+Blockly.Arduino.oxocard_println = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var log = Blockly.Arduino.valueToCode(this, 'LOG', Blockly.Arduino.ORDER_ATOMIC) || '';
+	return 'println(' + log + ');\n';
 };
 
 
@@ -132,3 +143,14 @@ Blockly.Arduino.oxocard_is_orientation = function() {
 };
 
 /* ---------- Bluetooth ---------- */
+Blockly.Arduino.oxocard_setup_as_ibeacon = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var id = Blockly.Arduino.valueToCode(this, 'ID', Blockly.Arduino.ORDER_ATOMIC) || '';
+	return 'setupAsIBeacon(' + id + ');\n';
+};
+
+Blockly.Arduino.oxocard_find_ibeacon = function() {
+	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
+  var id = Blockly.Arduino.valueToCode(this, 'ID', Blockly.Arduino.ORDER_ATOMIC) || '';
+	return 'findIBeacon(' + id + ');\n';
+};

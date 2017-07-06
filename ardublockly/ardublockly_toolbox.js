@@ -104,6 +104,7 @@ Ardublockly.TOOLBOX_XML =
 '  <category name="Oxocard">' +
 '    <block type="oxocard_turn_off"></block>' +
 '    <block type="oxocard_reset_oxocard"></block>' +
+'    <block type="oxocard_handle_autoturnoff_wp"></block>' +
 '    <block type="oxocard_handle_autoturnoff">' +
 '      <value name="TIMEOUT">' +
 '        <block type="math_number">' +
@@ -115,6 +116,7 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="oxocard_get_timer_seconds"></block>' +
 '    <block type="oxocard_reset_timer"></block>' +
 '    <block type="oxocard_print"></block>' +
+'    <block type="oxocard_println"></block>' +
 '  </category>' +
 '  <category name="Display">' +
 '    <block type="oxocard_clear_display"></block>' +
@@ -158,6 +160,10 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="oxocard_get_acceleration"></block>' +
 '    <block type="oxocard_get_orientation"></block>' +
 '    <block type="oxocard_is_orientation"></block>' +
+'  </category>' +
+'  <category name="Bluetooth">' +
+'    <block type="oxocard_setup_as_ibeacon"></block>' +
+'    <block type="oxocard_find_ibeacon"></block>' +
 '  </category>' +
 '  <category name="Shortcuts">' +
 '    <block type="oxocard_smile"></block>' +

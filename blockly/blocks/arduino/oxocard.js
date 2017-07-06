@@ -22,12 +22,18 @@ function createGenericOxocardInitFunc(name, tooltip){
 /* ---------- System ---------- */
 Blockly.Blocks['oxocard_turn_off'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('Turn off', 'Turns off the card.')
+	init: createGenericOxocardInitFunc('Turn off', 'Turns off the card')
 };
 
 Blockly.Blocks['oxocard_reset_oxocard'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('Reset OXOcard', 'Reboots the card.')
+	init: createGenericOxocardInitFunc('Reset OXOcard', 'Reboots the card')
+};
+
+Blockly.Blocks['oxocard_handle_autoturnoff_wp'] = {
+	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+	init: createGenericOxocardInitFunc('Handle auto turnoff',
+                                     'Enter sleep mode after given timeout')
 };
 
 Blockly.Blocks['oxocard_handle_autoturnoff'] = {
@@ -77,14 +83,25 @@ Blockly.Blocks['oxocard_print'] = {
   helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
   init: function() {
     this.setColour(10);
-	// this.appendDummyInput()
-  //       .appendField("Print");
     this.appendValueInput("LOG", 'Log')
         .appendField("Print")
         .setCheck(['String', 'Number', 'Array', 'Text']);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('Prints the given number or string to the console');
+  }
+};
+
+Blockly.Blocks['oxocard_println'] = {
+  helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+  init: function() {
+    this.setColour(10);
+    this.appendValueInput("LOG", 'Log')
+        .appendField("Println")
+        .setCheck(['String', 'Number', 'Array', 'Text']);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('Prints the given number or string to the console (with new line)');
   }
 };
 
@@ -228,5 +245,37 @@ Blockly.Blocks['oxocard_is_orientation'] = {
         .appendField(new Blockly.FieldDropdown([["Up", "Up"], ["Down", "Down"], ["Horizontally", "Horizontally"], ["Vertically", "Vertically"]]), "DIRECTION")
     this.setOutput(true, 'Boolean');
     this.setTooltip('Return if the OXOcard is in the given orientation');
+  }
+};
+
+
+/* ---------- Bluetooth ---------- */
+Blockly.Blocks['oxocard_setup_as_ibeacon'] = {
+  helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+  init: function() {
+    this.setColour(10);
+    this.appendDummyInput()
+        .appendField("Setup the OXOcard as iBeacon")
+    this.appendValueInput("ID", 'Id')
+        .appendField("With the ID")
+        .setCheck(['String', 'Number', 'Array', 'Text']);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('Sets the OXOcard up as iBeacon with the given ID');
+  }
+};
+
+Blockly.Blocks['oxocard_find_ibeacon'] = {
+  helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+  init: function() {
+    this.setColour(10);
+    this.appendDummyInput()
+        .appendField("Find iBeacon")
+    this.appendValueInput("ID", 'Id')
+        .appendField("With the ID")
+        .setCheck(['String', 'Number', 'Array', 'Text']);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('Serach for iBeacons with the given ID');
   }
 };

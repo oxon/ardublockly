@@ -32,6 +32,7 @@ Ardublockly.init = function() {
     console.log('Offline app modal opened as non localhost host name found: ' +
                 document.location.hostname)
   }
+
 };
 
 /** Binds functions to each of the buttons, nav links, and related. */

@@ -192,10 +192,10 @@ ul.side-nav li.side-menu-end {
   min-height: 388px;
 }
 .content_arduino_large {
-  height: -moz-calc(100vh - 280px);     /* Firefox  */
-  height: -webkit-calc(100vh - 280px);  /* WebKit   */
-  height: -o-calc(100vh - 280px);       /* Opera    */
-  height: calc(100vh - 280px);          /* Standard */
+  height: -moz-calc(100vh - 375px);     /* Firefox  */
+  height: -webkit-calc(100vh - 375px);  /* WebKit   */
+  height: -o-calc(100vh - 375px);       /* Opera    */
+  height: calc(100vh - 375px);          /* Standard */
 }
 .content_arduino_small {
   height: -moz-calc(100vh - 440px);     /* Firefox  */

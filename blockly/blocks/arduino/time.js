@@ -26,7 +26,7 @@ Blockly.Blocks['time_delay'] = {
    */
   init: function() {
     this.setHelpUrl('http://arduino.cc/en/Reference/Delay');
-    this.setColour(Blockly.Blocks.time.HUE);
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_SYSTEM);
     this.appendValueInput('DELAY_TIME_MILI')
         .setCheck(Blockly.Types.NUMBER.checkList)
         .appendField(Blockly.Msg.ARD_TIME_DELAY);

@@ -25,6 +25,7 @@ Ardublockly.TOOLBOX_XML =
 '    </block>' +
 '    <block type="controls_flow_statements"></block>' +
 '    <block type="procedures_defnoreturn"></block>' +
+'    <block type="procedures_callnoreturn"></block>' +
 '  </category>' +
 '  <sep></sep>' +
 '  <category   name="VARIABLES">' +
@@ -43,12 +44,14 @@ Ardublockly.TOOLBOX_XML =
 '        </block>' +
 '      </value>' +
 '    </block>' +
+'    <block type="oxocard_reset_timer"></block>' +
+'    <block type="oxocard_get_timer_seconds"></block>' +
 '  </category>' +
 '  <sep></sep>' +
 '  <category name="OXOCARD">' +
 '    <block type="arduino_functions"></block>' +
-'    <block type="oxocard_turn_off"></block>' +
-'    <block type="oxocard_reset_oxocard"></block>' +
+'    <block type="oxocard_print"></block>' +
+'    <block type="oxocard_println"></block>' +
 '    <block type="oxocard_handle_autoturnoff_wp"></block>' +
 '    <block type="oxocard_handle_autoturnoff">' +
 '      <value name="TIMEOUT">' +
@@ -57,11 +60,10 @@ Ardublockly.TOOLBOX_XML =
 '        </block>' +
 '      </value>' +
 '    </block>' +
+'    <block type="oxocard_turn_off"></block>' +
+'    <block type="oxocard_reset_oxocard"></block>' +
+
 '    <block type="oxocard_button_ispressed"></block>' +
-'    <block type="oxocard_get_timer_seconds"></block>' +
-'    <block type="oxocard_reset_timer"></block>' +
-'    <block type="oxocard_print"></block>' +
-'    <block type="oxocard_println"></block>' +
 '  </category>' +
 '  <category name="DISPLAY">' +
 '    <block type="oxocard_clear_display"></block>' +

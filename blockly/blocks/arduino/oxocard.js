@@ -6,10 +6,14 @@ goog.provide('Blockly.Blocks.oxocard');
 
 goog.require('Blockly.Blocks');
 
+Blockly.Blocks.oxocard.COLOUR_METHOD = '#24A5A7';
+Blockly.Blocks.oxocard.COLOUR_SYSTEM = '#168183';
+Blockly.Blocks.oxocard.COLOUR_VARIABLE = '#74B41D';
 
-function createGenericOxocardInitFunc(name, tooltip){
+function createGenericOxocardInitFunc(name, tooltip, color){
+	color = color || Blockly.Blocks.oxocard.COLOUR_METHOD;
 	return function() {
-		this.setColour(10);
+		this.setColour(color);
 		this.appendDummyInput()
 			.appendField(name);
 		this.setPreviousStatement(true, null);
@@ -22,86 +26,85 @@ function createGenericOxocardInitFunc(name, tooltip){
 /* ---------- System ---------- */
 Blockly.Blocks['oxocard_turn_off'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('Turn OXOcard off', 'Turns off the card')
+	init: createGenericOxocardInitFunc('Turn OXOcard off', 'Turns off the card', Blockly.Blocks.oxocard.COLOUR_SYSTEM)
 };
 
 Blockly.Blocks['oxocard_reset_oxocard'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('Reset OXOcard', 'Reboots the card')
+	init: createGenericOxocardInitFunc('Reset OXOcard', 'Reboots the card', Blockly.Blocks.oxocard.COLOUR_SYSTEM)
 };
 
 Blockly.Blocks['oxocard_handle_autoturnoff_wp'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('Handle auto turnoff',
-                                     'Enter sleep mode after given timeout')
+	init: createGenericOxocardInitFunc('Handle auto turnoff', 'Enter sleep mode after 2 Minutes', Blockly.Blocks.oxocard.COLOUR_SYSTEM)
 };
 
 Blockly.Blocks['oxocard_handle_autoturnoff'] = {
-  helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-  init: function() {
-    this.setColour(10);
-	this.appendDummyInput()
-        .appendField("Handle auto turnoff");
-    this.appendValueInput("TIMEOUT", 'Timeout')
-        .appendField("with timeout")
-        .setCheck('Number');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setTooltip('Enter sleep mode after given timeout');
-  }
+	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+	init: function() {
+		this.appendDummyInput()
+			.appendField("Handle auto turnoff");
+		this.appendValueInput("TIMEOUT", 'Timeout')
+			.appendField("with timeout")
+			.setCheck('Number');
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setTooltip('Enter sleep mode after given timeout');
+		this.setColour(Blockly.Blocks.oxocard.COLOUR_SYSTEM);
+	}
 };
 
 Blockly.Blocks['oxocard_button_ispressed'] = {
   helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
   init: function() {
-    this.setColour(10);
     this.appendDummyInput()
         .appendField("Is button pressed?")
         .appendField(new Blockly.FieldDropdown([["Left", "Left"], ["Middle", "Middle"], ["Right", "Right"]]), "BUTTON")
     this.setOutput(true, 'Boolean');
     this.setTooltip('Yes(?) if button pressed');
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
   }
 };
 
 Blockly.Blocks['oxocard_get_timer_seconds'] = {
   helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
   init: function() {
-    this.setColour(10);
     this.appendDummyInput()
         .appendField("Get timer seconds")
     this.setOutput(true, 'Number');
     this.setTooltip('Return the seconds value uf the timer');
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
   }
 };
 
 Blockly.Blocks['oxocard_reset_timer'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
-	init: createGenericOxocardInitFunc('Reset timer', 'Resets the timer')
+	init: createGenericOxocardInitFunc('Reset timer', 'Resets the timer', Blockly.Blocks.oxocard.COLOUR_SYSTEM)
 };
 
 Blockly.Blocks['oxocard_print'] = {
   helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
   init: function() {
-    this.setColour(10);
     this.appendValueInput("LOG", 'Log')
         .appendField("Print")
         .setCheck(['String', 'Number', 'Array', 'Text']);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('Prints the given number or string to the console');
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_SYSTEM);
   }
 };
 
 Blockly.Blocks['oxocard_println'] = {
   helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
   init: function() {
-    this.setColour(10);
     this.appendValueInput("LOG", 'Log')
         .appendField("Println")
         .setCheck(['String', 'Number', 'Array', 'Text']);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('Prints the given number or string to the console (with new line)');
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_SYSTEM);
   }
 };
 

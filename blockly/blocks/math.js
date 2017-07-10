@@ -42,7 +42,7 @@ Blockly.Blocks['math_number'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
-    this.setColour(Blockly.Blocks.math.HUE);
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
     this.appendDummyInput()
         .appendField(
             new Blockly.FieldTextInput(

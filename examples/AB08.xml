@@ -1,0 +1,31 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="arduino_functions" id="j4hME@w@w5j~?U*%kCRn" x="141" y="95">
+    <statement name="SETUP_FUNC">
+      <block type="oxocard_clear_display" id="EtouQ(udGBlB-^ztQ3x0"></block>
+    </statement>
+    <statement name="LOOP_FUNC">
+      <block type="oxocard_handle_autoturnoff_wp" id="[O!pRs+fyOoj3k5/At%_">
+        <next>
+          <block type="variables_set" id="Sal1eWohmCNzf60g*d7V">
+            <field name="VAR">a</field>
+            <value name="VALUE">
+              <block type="math_number" id="a^1%`iWS`PAi.u0OQbKk">
+                <field name="NUM">5</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="`_VcXTBDpUIz%9l/tYn+">
+                <field name="VAR">b</field>
+                <value name="VALUE">
+                  <block type="math_number" id=")i@=#;OSWVpaO)56%h?6">
+                    <field name="NUM">10</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

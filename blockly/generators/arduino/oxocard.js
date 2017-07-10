@@ -89,17 +89,16 @@ Blockly.Arduino.oxocard_draw_image = function() {
 	Blockly.Arduino.definitions_['define_servo'] = '#include "OXOcardRunner.h"\n';
 	var code = 'drawImage(';
 	for(var i=0, l=8; i<l; i++){
-		var val = 0;
+		if(i!=0) code += '          ';
+		code += '0b';
 		for(var j=0, ll=8; j<l; j++){
-			if(this.getFieldValue(i + '' + j) == 'TRUE')
-				val += Math.pow(2,ll-j-1);
+			code += (this.getFieldValue(i + '' + j) == 'TRUE') ? '1' : '0';
 		}
-		code += val;
-		if(i != l-1)
-			code += ', ';
+		 code += ',';
+		if (i != l-1) code += '\n';
 	}
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
-	return code += ', ' + brightness + ');\n';
+	return code += ' ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_pixel = function() {

@@ -33,6 +33,9 @@ Ardublockly.init = function() {
                 document.location.hostname)
   }
 */
+
+  Ardublockly.clipboard = new Clipboard(document.getElementById('button_copy'));
+
 };
 
 /** Binds functions to each of the buttons, nav links, and related. */
@@ -800,3 +803,5 @@ Ardublockly.bindClick_ = function(el, func) {
   el.addEventListener('ontouchend', propagateOnce);
   el.addEventListener('click', propagateOnce);
 };
+
+

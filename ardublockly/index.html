@@ -77,8 +77,10 @@
       </a>
       <!-- Horizontal Navbar links only shown on large resolutions -->
       <ul id="nav-mobile" class="right hide-on-med-and-down">
+
         <li><a href="#" id="button_load"><span class="translatable_open">Open</span><i class="mdi-file-file-upload left"></i></a></li>
         <li><a href="#" id="button_save"><span class="translatable_save">Save</span><i class="mdi-file-file-download left"></i></a></li>
+        <li><a href="#" id="button_copy" data-clipboard-target="#content_arduino"><span class="translate_copy">Copy</span><i class="mdi mdi-content-content-copy left"></i></a></li>
         <!--<li><a href="#" id="button_delete"><span class="translatable_deleteAll">Delete All</span><i class="mdi-action-delete left"></i></a></li>-->
       </ul>
     </div>
@@ -361,6 +363,8 @@
   <script src="js_libs/diff.js"></script>
   <!-- Prettify JS -->
   <script src="prettify/prettify.js"></script>
+  <!-- For copy&paste action -->
+  <script src="js_libs/clipboard.min.js"></script>
   <!-- Ardublockly app -->
   <script src="ardublocklyserver_ajax.js"></script>
   <script src="ardublockly_lang.js"></script>

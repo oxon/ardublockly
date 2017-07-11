@@ -59,6 +59,11 @@ Blockly.Arduino.oxocard_println = function() {
 
 
 /* ---------- Display ---------- */
+Blockly.Arduino.oxocard_clear_display = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+	return 'clearDisplay();\n';
+};
+
 Blockly.Arduino.oxocard_fill_display = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_ATOMIC) || 0;
@@ -68,11 +73,6 @@ Blockly.Arduino.oxocard_fill_display = function() {
 Blockly.Arduino.oxocard_turn_display_on = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
 	return 'turnDisplayOn();\n';
-};
-
-Blockly.Arduino.oxocard_clear_display = function() {
-	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	return 'clearDisplay();\n';
 };
 
 Blockly.Arduino.oxocard_smile = function() {
@@ -117,6 +117,44 @@ Blockly.Arduino.oxocard_draw_line = function() {
 	var toY = this.getFieldValue('TO_Y');
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawLine(' + fromX + ', ' + fromY + ', ' + toX + ', ' + toY + ', ' + brightness + ');\n';
+};
+
+Blockly.Arduino.oxocard_draw_rectangle = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+	var x = this.getFieldValue('X');
+	var y = this.getFieldValue('Y');
+	var w = this.getFieldValue('W');
+	var h = this.getFieldValue('H');
+	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawRectangle(' + x + ', ' + y + ', ' + w + ', ' + h + ', ' + brightness + ');\n';
+};
+
+Blockly.Arduino.oxocard_draw_filled_rectangle = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+	var x = this.getFieldValue('X');
+	var y = this.getFieldValue('Y');
+	var w = this.getFieldValue('W');
+	var h = this.getFieldValue('H');
+	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawFilledRectangle(' + x + ', ' + y + ', ' + w + ', ' + h + ', ' + brightness + ');\n';
+};
+
+Blockly.Arduino.oxocard_draw_circle = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+	var x = this.getFieldValue('X');
+	var y = this.getFieldValue('Y');
+	var r = this.getFieldValue('R');
+	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawCircle(' + x + ', ' + y + ', ' + r + ', ' + brightness + ');\n';
+};
+
+Blockly.Arduino.oxocard_draw_filled_circle = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+	var x = this.getFieldValue('X');
+	var y = this.getFieldValue('Y');
+	var r = this.getFieldValue('R');
+	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawFilledCircle(' + x + ', ' + y + ', ' + r + ', ' + brightness + ');\n';
 };
 
 

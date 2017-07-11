@@ -102,6 +102,48 @@ Ardublockly.TOOLBOX_XML =
 '        </block>' +
 '      </value>' +
 '    </block>' +
+'    <block type="oxocard_draw_rectangle">' +
+'      <field name="X">0</field>' +
+'      <field name="Y">0</field>' +
+'      <field name="W">1</field>' +
+'      <field name="H">1</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_draw_filled_rectangle">' +
+'      <field name="X">0</field>' +
+'      <field name="Y">0</field>' +
+'      <field name="W">1</field>' +
+'      <field name="H">1</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_draw_circle">' +
+'      <field name="X">0</field>' +
+'      <field name="Y">0</field>' +
+'      <field name="R">1</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_draw_filled_circle">' +
+'      <field name="X">0</field>' +
+'      <field name="Y">0</field>' +
+'      <field name="R">1</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
 '  </category>' +
 '  <category name="ACCELEROMETER">' +
 '    <block type="oxocard_get_acceleration"></block>' +

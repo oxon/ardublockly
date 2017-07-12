@@ -63,6 +63,9 @@ Blockly.Blocks['oxocard_button_ispressed'] = {
     this.setOutput(true, 'Boolean');
     this.setTooltip('Yes(?) if button pressed');
     this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
+  },
+  getBlockType: function() {
+    return Blockly.Types.BOOLEAN;
   }
 };
 
@@ -74,6 +77,9 @@ Blockly.Blocks['oxocard_get_timer_seconds'] = {
     this.setOutput(true, 'Number');
     this.setTooltip('Return the seconds value uf the timer');
     this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
+  },
+  getBlockType: function() {
+    return Blockly.Types.NUMBER;
   }
 };
 
@@ -329,6 +335,9 @@ Blockly.Blocks['oxocard_get_acceleration'] = {
     this.setOutput(true, 'Number');
     this.setTooltip('Return the selected accelerometer axis value');
     this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
+  },
+  getBlockType: function() {
+    return Blockly.Types.NUMBER;
   }
 };
 
@@ -340,6 +349,9 @@ Blockly.Blocks['oxocard_get_orientation'] = {
     this.setOutput(true, 'Number');
     this.setTooltip('Return the orientation of the OXOcard');
     this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
+  },
+  getBlockType: function() {
+    return Blockly.Types.NUMBER;
   }
 };
 
@@ -352,6 +364,9 @@ Blockly.Blocks['oxocard_is_orientation'] = {
     this.setOutput(true, 'Boolean');
     this.setTooltip('Return if the OXOcard is in the given orientation');
     this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
+  },
+  getBlockType: function() {
+    return Blockly.Types.BOOLEAN;
   }
 };
 

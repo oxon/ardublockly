@@ -157,6 +157,59 @@ Blockly.Arduino.oxocard_draw_filled_circle = function() {
 	return 'drawFilledCircle(' + x + ', ' + y + ', ' + r + ', ' + brightness + ');\n';
 };
 
+Blockly.Arduino.oxocard_draw_triangle = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+	var xOne = this.getFieldValue('X_ONE');
+	var yOne = this.getFieldValue('Y_ONE');
+  var xTwo = this.getFieldValue('X_TWO');
+  var yTwo = this.getFieldValue('Y_TWO');
+  var xThree = this.getFieldValue('X_THREE');
+	var yThree = this.getFieldValue('Y_THREE');
+	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawTriangle(' + xOne + ', ' + yOne + ', ' + xTwo + ', ' + yTwo + ', ' + xThree + ', ' + yThree + ', ' + brightness + ');\n';
+};
+
+Blockly.Arduino.oxocard_draw_filled_triangle = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+	var xOne = this.getFieldValue('X_ONE');
+	var yOne = this.getFieldValue('Y_ONE');
+  var xTwo = this.getFieldValue('X_TWO');
+  var yTwo = this.getFieldValue('Y_TWO');
+  var xThree = this.getFieldValue('X_THREE');
+	var yThree = this.getFieldValue('Y_THREE');
+	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawFilledTriangle(' + xOne + ', ' + yOne + ', ' + xTwo + ', ' + yTwo + ', ' + xThree + ', ' + yThree + ', ' + brightness + ');\n';
+};
+
+Blockly.Arduino.oxocard_draw_char = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+  // var char = Blockly.Arduino.valueToCode(this, 'CHAR', Blockly.Arduino.ORDER_ATOMIC) || 'A';
+  var char = this.getFieldValue('CHAR').substring(0,1).toUpperCase();
+  var pattern = new RegExp('[A-Z0-9]{1}');
+  if (!char.match(pattern))
+    char = ' ';
+  var x = this.getFieldValue('X');
+  var y = this.getFieldValue('Y');
+  var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawChar(' + x + ', ' + y + ', \'' + char + '\', ' + brightness + ');\n';
+};
+
+Blockly.Arduino.oxocard_draw_digit = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+  var digit = Blockly.Arduino.valueToCode(this, 'DIGIT', Blockly.Arduino.ORDER_ATOMIC) || 0;
+  var x = this.getFieldValue('X');
+  var y = this.getFieldValue('Y');
+  var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawDigit(' + x + ', ' + y + ', ' + digit + ', ' + brightness + ');\n';
+};
+
+Blockly.Arduino.oxocard_draw_number = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+  var num = Blockly.Arduino.valueToCode(this, 'NUM', Blockly.Arduino.ORDER_ATOMIC) || 0;
+  var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
+	return 'drawNumber(' + num + ', ' + brightness + ');\n';
+};
+
 
 /* ---------- Accelerometer ---------- */
 Blockly.Arduino.oxocard_get_acceleration = function() {
@@ -204,4 +257,12 @@ Blockly.Arduino.oxocard_tone = function() {
 Blockly.Arduino.oxocard_no_tone = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
 	return 'noTone();\n';
+};
+
+
+/* ---------- Other ---------- */
+Blockly.Arduino.oxocard_random = function() {
+  var num = this.getFieldValue('NUM');
+  var code = 'random(' + num +' + 1' +')';
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
 };

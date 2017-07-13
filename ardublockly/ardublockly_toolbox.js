@@ -33,6 +33,7 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="text"></block>' +
 '    <block type="variables_get"></block>' +
 '    <block type="variables_set"></block>' +
+'    <block type="oxocard_random"></block>' +
 '  </category>' +
 '  <sep></sep>' +
 
@@ -62,7 +63,6 @@ Ardublockly.TOOLBOX_XML =
 '    </block>' +
 '    <block type="oxocard_turn_off"></block>' +
 '    <block type="oxocard_reset_oxocard"></block>' +
-
 '    <block type="oxocard_button_ispressed"></block>' +
 '  </category>' +
 '  <category name="DISPLAY">' +
@@ -138,6 +138,68 @@ Ardublockly.TOOLBOX_XML =
 '      <field name="X">0</field>' +
 '      <field name="Y">0</field>' +
 '      <field name="R">1</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_draw_triangle">' +
+'      <field name="X_ONE">2</field>' +
+'      <field name="Y_ONE">0</field>' +
+'      <field name="X_TWO">0</field>' +
+'      <field name="Y_TWO">2</field>' +
+'      <field name="X_THREE">4</field>' +
+'      <field name="Y_THREE">2</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_draw_filled_triangle">' +
+'      <field name="X_ONE">2</field>' +
+'      <field name="Y_ONE">0</field>' +
+'      <field name="X_TWO">0</field>' +
+'      <field name="Y_TWO">2</field>' +
+'      <field name="X_THREE">4</field>' +
+'      <field name="Y_THREE">2</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_draw_char">' +
+
+'      <field name="X">0</field>' +
+'      <field name="Y">0</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_draw_digit">' +
+'      <value name="DIGIT">' +
+'        <block type="math_number">' +
+'          <field name="NUM">1</field>' +
+'        </block>' +
+'      </value>' +
+'      <field name="X">0</field>' +
+'      <field name="Y">0</field>' +
+'      <value name="BRIGHTNESS">' +
+'        <block type="math_number">' +
+'          <field name="NUM">255</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_draw_number">' +
+'      <value name="NUM">' +
+'        <block type="math_number">' +
+'          <field name="NUM">11</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +

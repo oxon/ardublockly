@@ -187,7 +187,7 @@ Blockly.Blocks['oxocard_draw_line'] = {
 	init: function() {
 		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
 		this.appendDummyInput()
-			.appendField("Draw line")
+			.appendField("Draw line");
 		this.appendDummyInput()
 			.appendField("from X:")
 			.appendField(new Blockly.FieldDropdown(matrix_list), "FROM_X")
@@ -215,7 +215,7 @@ Blockly.Blocks['oxocard_draw_rectangle'] = {
 		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
     var matrix_list2 = [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"]];
 		this.appendDummyInput()
-			.appendField("Draw rectangle")
+			.appendField("Draw rectangle");
 		this.appendDummyInput()
 			.appendField("from X:")
 			.appendField(new Blockly.FieldDropdown(matrix_list), "X")
@@ -242,7 +242,7 @@ Blockly.Blocks['oxocard_draw_filled_rectangle'] = {
 		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
     var matrix_list2 = [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"]];
 		this.appendDummyInput()
-			.appendField("Draw filled rectangle")
+			.appendField("Draw filled rectangle");
 		this.appendDummyInput()
 			.appendField("from X:")
 			.appendField(new Blockly.FieldDropdown(matrix_list), "X")
@@ -269,7 +269,7 @@ Blockly.Blocks['oxocard_draw_circle'] = {
 		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
     var matrix_list2 = [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"]];
 		this.appendDummyInput()
-			.appendField("Draw circle")
+			.appendField("Draw circle");
 		this.appendDummyInput()
 			.appendField("from X:")
 			.appendField(new Blockly.FieldDropdown(matrix_list), "X")
@@ -294,7 +294,7 @@ Blockly.Blocks['oxocard_draw_filled_circle'] = {
 		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
     var matrix_list2 = [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"]];
 		this.appendDummyInput()
-			.appendField("Draw filled circle")
+			.appendField("Draw filled circle");
 		this.appendDummyInput()
 			.appendField("from X:")
 			.appendField(new Blockly.FieldDropdown(matrix_list), "X")
@@ -310,6 +310,132 @@ Blockly.Blocks['oxocard_draw_filled_circle'] = {
 		this.setNextStatement(true, null);
 		this.setTooltip('Draw a filled circle');
 		this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
+	}
+};
+
+Blockly.Blocks['oxocard_draw_triangle'] = {
+	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+	init: function() {
+		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
+		this.appendDummyInput()
+			.appendField("Draw triangle");
+		this.appendDummyInput()
+			.appendField("Point 1 X:")
+			.appendField(new Blockly.FieldDropdown(matrix_list), "X_ONE")
+			.appendField(" Y:")
+			.appendField(new Blockly.FieldDropdown(matrix_list), "Y_ONE");
+    this.appendDummyInput()
+      .appendField("Point 2 X:")
+      .appendField(new Blockly.FieldDropdown(matrix_list), "X_TWO")
+      .appendField(" Y:")
+      .appendField(new Blockly.FieldDropdown(matrix_list), "Y_TWO");
+    this.appendDummyInput()
+      .appendField("Point 3 X:")
+      .appendField(new Blockly.FieldDropdown(matrix_list), "X_THREE")
+      .appendField(" Y:")
+      .appendField(new Blockly.FieldDropdown(matrix_list), "Y_THREE");
+		this.appendValueInput("BRIGHTNESS", 'Brightness')
+			.appendField("with brightness")
+			.setCheck('Number');
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setTooltip('Draw a triangle');
+		this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
+	}
+};
+
+Blockly.Blocks['oxocard_draw_filled_triangle'] = {
+	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+	init: function() {
+		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
+		this.appendDummyInput()
+			.appendField("Draw filled triangle");
+		this.appendDummyInput()
+			.appendField("Point 1 X:")
+			.appendField(new Blockly.FieldDropdown(matrix_list), "X_ONE")
+			.appendField(" Y:")
+			.appendField(new Blockly.FieldDropdown(matrix_list), "Y_ONE");
+    this.appendDummyInput()
+      .appendField("Point 2 X:")
+      .appendField(new Blockly.FieldDropdown(matrix_list), "X_TWO")
+      .appendField(" Y:")
+      .appendField(new Blockly.FieldDropdown(matrix_list), "Y_TWO");
+    this.appendDummyInput()
+      .appendField("Point 3 X:")
+      .appendField(new Blockly.FieldDropdown(matrix_list), "X_THREE")
+      .appendField(" Y:")
+      .appendField(new Blockly.FieldDropdown(matrix_list), "Y_THREE");
+		this.appendValueInput("BRIGHTNESS", 'Brightness')
+			.appendField("with brightness")
+			.setCheck('Number');
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setTooltip('Draw a filled triangle');
+		this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
+	}
+};
+
+Blockly.Blocks['oxocard_draw_char'] = {
+	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+	init: function() {
+		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
+      this.appendDummyInput()
+          .appendField("Draw char")
+          .appendField(new Blockly.FieldTextInput('A'),'CHAR');
+      this.appendDummyInput()
+          .appendField("at X:")
+          .appendField(new Blockly.FieldDropdown(matrix_list), "X")
+          .appendField(" Y:")
+          .appendField(new Blockly.FieldDropdown(matrix_list), "Y");
+      this.appendValueInput("BRIGHTNESS", 'Brightness')
+          .appendField("with brightness")
+          .setCheck('Number');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setTooltip('Draw single character (A - Z)');
+      this.setInputsInline(false);
+      this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
+	}
+};
+
+Blockly.Blocks['oxocard_draw_digit'] = {
+	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+	init: function() {
+		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
+      this.appendValueInput("DIGIT", 'Digit')
+          .appendField("Draw digit")
+          .setCheck('Number');
+      this.appendDummyInput()
+          .appendField("at X:")
+          .appendField(new Blockly.FieldDropdown(matrix_list), "X")
+          .appendField(" Y:")
+          .appendField(new Blockly.FieldDropdown(matrix_list), "Y");
+      this.appendValueInput("BRIGHTNESS", 'Brightness')
+          .appendField("with brightness")
+          .setCheck('Number');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setTooltip('Draw single digit (0 - 9)');
+      this.setInputsInline(false);
+      this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
+	}
+};
+
+Blockly.Blocks['oxocard_draw_number'] = {
+	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+	init: function() {
+		var matrix_list = [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"], ["7", "6"], ["8", "7"]];
+      this.appendValueInput("NUM", 'Num')
+          .appendField("Draw number")
+          .setCheck('Number');
+      this.appendValueInput("BRIGHTNESS", 'Brightness')
+          .appendField("with brightness")
+          .setCheck('Number');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setTooltip('Draw a number (0 - 99)');
+      this.setInputsInline(false);
+      this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
 	}
 };
 
@@ -425,4 +551,21 @@ Blockly.Blocks['oxocard_tone'] = {
 Blockly.Blocks['oxocard_no_tone'] = {
 	helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
 	init: createGenericOxocardInitFunc('No tone', 'Stops the tone', Blockly.Blocks.oxocard.COLOUR_METHOD)
+};
+
+
+/* ---------- Other ---------- */
+Blockly.Blocks['oxocard_random'] = {
+  helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Random 0 to ")
+        .appendField(new Blockly.FieldTextInput('1', Blockly.FieldTextInput.numberValidator),'NUM');
+    this.setOutput(true, 'Number');
+    this.setTooltip('Returns a random number between 0 an the given value');
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
+  },
+  getBlockType: function() {
+    return Blockly.Types.NUMBER;
+  }
 };

@@ -103,93 +103,95 @@ Blockly.Arduino.oxocard_draw_image = function() {
 
 Blockly.Arduino.oxocard_draw_pixel = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	var posX = this.getFieldValue('X');
-	var posY = this.getFieldValue('Y');
+	var posX = Blockly.Arduino.valueToCode(this, 'X', Blockly.Arduino.ORDER_NONE);
+	var posY = Blockly.Arduino.valueToCode(this, 'Y', Blockly.Arduino.ORDER_NONE);
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawPixel(' + posX + ', ' + posY + ', ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_line = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	var fromX = this.getFieldValue('FROM_X');
-	var fromY = this.getFieldValue('FROM_Y');
-	var toX = this.getFieldValue('TO_X');
-	var toY = this.getFieldValue('TO_Y');
+	var fromX = Blockly.Arduino.valueToCode(this, 'FROM_X', Blockly.Arduino.ORDER_NONE);
+	var fromY = Blockly.Arduino.valueToCode(this, 'FROM_Y', Blockly.Arduino.ORDER_NONE);
+	var toX = Blockly.Arduino.valueToCode(this, 'TO_X', Blockly.Arduino.ORDER_NONE);
+	var toY = Blockly.Arduino.valueToCode(this, 'TO_Y', Blockly.Arduino.ORDER_NONE);
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawLine(' + fromX + ', ' + fromY + ', ' + toX + ', ' + toY + ', ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_rectangle = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	var x = this.getFieldValue('X');
-	var y = this.getFieldValue('Y');
-	var w = this.getFieldValue('W');
-	var h = this.getFieldValue('H');
+	var x = Blockly.Arduino.valueToCode(this, 'X', Blockly.Arduino.ORDER_NONE);
+	var y = Blockly.Arduino.valueToCode(this, 'Y', Blockly.Arduino.ORDER_NONE);
+	var w = Blockly.Arduino.valueToCode(this, 'W', Blockly.Arduino.ORDER_NONE);
+	var h = Blockly.Arduino.valueToCode(this, 'H', Blockly.Arduino.ORDER_NONE);
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawRectangle(' + x + ', ' + y + ', ' + w + ', ' + h + ', ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_filled_rectangle = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	var x = this.getFieldValue('X');
-	var y = this.getFieldValue('Y');
-	var w = this.getFieldValue('W');
-	var h = this.getFieldValue('H');
+  var x = Blockly.Arduino.valueToCode(this, 'X', Blockly.Arduino.ORDER_NONE);
+	var y = Blockly.Arduino.valueToCode(this, 'Y', Blockly.Arduino.ORDER_NONE);
+	var w = Blockly.Arduino.valueToCode(this, 'W', Blockly.Arduino.ORDER_NONE);
+	var h = Blockly.Arduino.valueToCode(this, 'H', Blockly.Arduino.ORDER_NONE);
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawFilledRectangle(' + x + ', ' + y + ', ' + w + ', ' + h + ', ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_circle = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	var x = this.getFieldValue('X');
-	var y = this.getFieldValue('Y');
-	var r = this.getFieldValue('R');
+	var x = Blockly.Arduino.valueToCode(this, 'X', Blockly.Arduino.ORDER_NONE);
+	var y = Blockly.Arduino.valueToCode(this, 'Y', Blockly.Arduino.ORDER_NONE);
+	var r = Blockly.Arduino.valueToCode(this, 'R', Blockly.Arduino.ORDER_NONE);
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawCircle(' + x + ', ' + y + ', ' + r + ', ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_filled_circle = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	var x = this.getFieldValue('X');
-	var y = this.getFieldValue('Y');
-	var r = this.getFieldValue('R');
+  var x = Blockly.Arduino.valueToCode(this, 'X', Blockly.Arduino.ORDER_NONE);
+	var y = Blockly.Arduino.valueToCode(this, 'Y', Blockly.Arduino.ORDER_NONE);
+	var r = Blockly.Arduino.valueToCode(this, 'R', Blockly.Arduino.ORDER_NONE);
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawFilledCircle(' + x + ', ' + y + ', ' + r + ', ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_triangle = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	var xOne = this.getFieldValue('X_ONE');
-	var yOne = this.getFieldValue('Y_ONE');
-  var xTwo = this.getFieldValue('X_TWO');
-  var yTwo = this.getFieldValue('Y_TWO');
-  var xThree = this.getFieldValue('X_THREE');
-	var yThree = this.getFieldValue('Y_THREE');
+	var xOne = Blockly.Arduino.valueToCode(this, 'X_ONE', Blockly.Arduino.ORDER_NONE);
+	var yOne = Blockly.Arduino.valueToCode(this, 'Y_ONE', Blockly.Arduino.ORDER_NONE);
+  var xTwo = Blockly.Arduino.valueToCode(this, 'X_TWO', Blockly.Arduino.ORDER_NONE);
+  var yTwo = Blockly.Arduino.valueToCode(this, 'Y_TWO', Blockly.Arduino.ORDER_NONE);
+  var xThree = Blockly.Arduino.valueToCode(this, 'X_THREE', Blockly.Arduino.ORDER_NONE);
+	var yThree = Blockly.Arduino.valueToCode(this, 'Y_THREE', Blockly.Arduino.ORDER_NONE);
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawTriangle(' + xOne + ', ' + yOne + ', ' + xTwo + ', ' + yTwo + ', ' + xThree + ', ' + yThree + ', ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_filled_triangle = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	var xOne = this.getFieldValue('X_ONE');
-	var yOne = this.getFieldValue('Y_ONE');
-  var xTwo = this.getFieldValue('X_TWO');
-  var yTwo = this.getFieldValue('Y_TWO');
-  var xThree = this.getFieldValue('X_THREE');
-	var yThree = this.getFieldValue('Y_THREE');
+  var xOne = Blockly.Arduino.valueToCode(this, 'X_ONE', Blockly.Arduino.ORDER_NONE);
+	var yOne = Blockly.Arduino.valueToCode(this, 'Y_ONE', Blockly.Arduino.ORDER_NONE);
+  var xTwo = Blockly.Arduino.valueToCode(this, 'X_TWO', Blockly.Arduino.ORDER_NONE);
+  var yTwo = Blockly.Arduino.valueToCode(this, 'Y_TWO', Blockly.Arduino.ORDER_NONE);
+  var xThree = Blockly.Arduino.valueToCode(this, 'X_THREE', Blockly.Arduino.ORDER_NONE);
+	var yThree = Blockly.Arduino.valueToCode(this, 'Y_THREE', Blockly.Arduino.ORDER_NONE);
 	var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawFilledTriangle(' + xOne + ', ' + yOne + ', ' + xTwo + ', ' + yTwo + ', ' + xThree + ', ' + yThree + ', ' + brightness + ');\n';
 };
 
 Blockly.Arduino.oxocard_draw_char = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-  // var char = Blockly.Arduino.valueToCode(this, 'CHAR', Blockly.Arduino.ORDER_ATOMIC) || 'A';
-  var char = this.getFieldValue('CHAR').substring(0,1).toUpperCase();
+  // var char = this.getFieldValue('CHAR').substring(0,1).toUpperCase();
+  var char = Blockly.Arduino.valueToCode(this, 'CHAR', Blockly.Arduino.ORDER_NONE).replace(/(['"])/g,'').substring(0,1).toUpperCase();
+  console.log("Char: " +char);
+  console.log("RAW: " +Blockly.Arduino.valueToCode(this, 'CHAR', Blockly.Arduino.ORDER_NONE));
   var pattern = new RegExp('[A-Z0-9]{1}');
   if (!char.match(pattern))
     char = ' ';
-  var x = this.getFieldValue('X');
-  var y = this.getFieldValue('Y');
+  var x = Blockly.Arduino.valueToCode(this, 'X', Blockly.Arduino.ORDER_NONE);
+  var y = Blockly.Arduino.valueToCode(this, 'Y', Blockly.Arduino.ORDER_NONE);
   var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawChar(' + x + ', ' + y + ', \'' + char + '\', ' + brightness + ');\n';
 };
@@ -197,8 +199,8 @@ Blockly.Arduino.oxocard_draw_char = function() {
 Blockly.Arduino.oxocard_draw_digit = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
   var digit = Blockly.Arduino.valueToCode(this, 'DIGIT', Blockly.Arduino.ORDER_ATOMIC) || 0;
-  var x = this.getFieldValue('X');
-  var y = this.getFieldValue('Y');
+  var x = Blockly.Arduino.valueToCode(this, 'X', Blockly.Arduino.ORDER_NONE);
+  var y = Blockly.Arduino.valueToCode(this, 'Y', Blockly.Arduino.ORDER_NONE);
   var brightness = Blockly.Arduino.valueToCode(this, 'BRIGHTNESS', Blockly.Arduino.ORDER_NONE);
 	return 'drawDigit(' + x + ', ' + y + ', ' + digit + ', ' + brightness + ');\n';
 };

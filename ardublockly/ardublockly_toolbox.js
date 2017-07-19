@@ -76,8 +76,16 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_pixel">' +
-'      <field name="X">0</field>' +
-'      <field name="Y">0</field>' +
+'      <value name="X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">1</field>' +
+'        </block>' +
+'       </value>' +
+'      <value name="Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">1</field>' +
+'        </block>' +
+'       </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -92,10 +100,26 @@ Ardublockly.TOOLBOX_XML =
 '       </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_line">' +
-'      <field name="FROM_X">0</field>' +
-'      <field name="FROM_Y">0</field>' +
-'      <field name="TO_X">0</field>' +
-'      <field name="TO_Y">0</field>' +
+'      <value name="FROM_X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="FROM_Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="TO_X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="TO_Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -103,10 +127,26 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_rectangle">' +
-'      <field name="X">0</field>' +
-'      <field name="Y">0</field>' +
-'      <field name="W">1</field>' +
-'      <field name="H">1</field>' +
+'      <value name="X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="W">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="H">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -114,10 +154,26 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_filled_rectangle">' +
-'      <field name="X">0</field>' +
-'      <field name="Y">0</field>' +
-'      <field name="W">1</field>' +
-'      <field name="H">1</field>' +
+'      <value name="X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="W">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="H">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -125,9 +181,21 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_circle">' +
-'      <field name="X">0</field>' +
-'      <field name="Y">0</field>' +
-'      <field name="R">1</field>' +
+'      <value name="X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="R">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -135,9 +203,21 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_filled_circle">' +
-'      <field name="X">0</field>' +
-'      <field name="Y">0</field>' +
-'      <field name="R">1</field>' +
+'      <value name="X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="R">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -145,12 +225,36 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_triangle">' +
-'      <field name="X_ONE">2</field>' +
-'      <field name="Y_ONE">0</field>' +
-'      <field name="X_TWO">0</field>' +
-'      <field name="Y_TWO">2</field>' +
-'      <field name="X_THREE">4</field>' +
-'      <field name="Y_THREE">2</field>' +
+'      <value name="X_ONE">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y_ONE">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="X_TWO">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y_TWO">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="X_THREE">' +
+'        <block type="math_number">' +
+'          <field name="NUM">4</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y_THREE">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -158,12 +262,36 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_filled_triangle">' +
-'      <field name="X_ONE">2</field>' +
-'      <field name="Y_ONE">0</field>' +
-'      <field name="X_TWO">0</field>' +
-'      <field name="Y_TWO">2</field>' +
-'      <field name="X_THREE">4</field>' +
-'      <field name="Y_THREE">2</field>' +
+'      <value name="X_ONE">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y_ONE">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="X_TWO">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y_TWO">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="X_THREE">' +
+'        <block type="math_number">' +
+'          <field name="NUM">4</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y_THREE">' +
+'        <block type="math_number">' +
+'          <field name="NUM">2</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -171,9 +299,21 @@ Ardublockly.TOOLBOX_XML =
 '      </value>' +
 '    </block>' +
 '    <block type="oxocard_draw_char">' +
-
-'      <field name="X">0</field>' +
-'      <field name="Y">0</field>' +
+'      <value name="CHAR">' +
+'        <block type="text">' +
+'          <field name="TEXT">A</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +
@@ -186,8 +326,16 @@ Ardublockly.TOOLBOX_XML =
 '          <field name="NUM">1</field>' +
 '        </block>' +
 '      </value>' +
-'      <field name="X">0</field>' +
-'      <field name="Y">0</field>' +
+'      <value name="X">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="Y">' +
+'        <block type="math_number">' +
+'          <field name="NUM">0</field>' +
+'        </block>' +
+'      </value>' +
 '      <value name="BRIGHTNESS">' +
 '        <block type="math_number">' +
 '          <field name="NUM">255</field>' +

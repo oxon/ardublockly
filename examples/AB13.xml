@@ -1,0 +1,28 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="arduino_functions" id="%hnbld874]TWYu{QdG@%" x="134" y="173">
+    <statement name="SETUP_FUNC">
+      <block type="oxocard_tone_no_duration" id="uCh~OSuv%Q.oJ0Jhn!:2">
+        <value name="FREQUENCY">
+          <block type="math_number" id="rrf.P]/zbArud#TZpYoW">
+            <field name="NUM">440</field>
+          </block>
+        </value>
+        <next>
+          <block type="time_delay" id="`yTOxvX8WY;wt}[+d8^:">
+            <value name="DELAY_TIME_MILI">
+              <block type="math_number" id="4oEH]rHN]n+XdCcit.])">
+                <field name="NUM">1000</field>
+              </block>
+            </value>
+            <next>
+              <block type="oxocard_no_tone" id="]|Tz6eZ;M?(uoc|_Aq9+"></block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <statement name="LOOP_FUNC">
+      <block type="oxocard_handle_autoturnoff_wp" id="wa9]rq?EzirK^@tpc:.r"></block>
+    </statement>
+  </block>
+</xml>

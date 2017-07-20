@@ -1,0 +1,44 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="arduino_functions" id="|Js=+BHijXtqbMJ,gU~1" x="50" y="98">
+    <statement name="SETUP_FUNC">
+      <block type="oxocard_clear_display" id="(h~~_td.CMIdu1:PT.bJ"></block>
+    </statement>
+    <statement name="LOOP_FUNC">
+      <block type="oxocard_handle_autoturnoff_wp" id="RTF~CA0|[^tc5PD}.h!T">
+        <next>
+          <block type="variables_set" id="#qVs6Js]SUE(uXHd^#u0">
+            <field name="VAR">a</field>
+            <value name="VALUE">
+              <block type="oxocard_random" id="V`Ffr._-3|{M%N(M#ZFM">
+                <field name="NUM">99</field>
+              </block>
+            </value>
+            <next>
+              <block type="oxocard_draw_number" id="ZqUe-~CH4%%}l?yrSi-@">
+                <value name="NUM">
+                  <block type="variables_get" id="QUejq+LY3m1Z%:~J8L3i">
+                    <field name="VAR">a</field>
+                  </block>
+                </value>
+                <value name="BRIGHTNESS">
+                  <block type="math_number" id="#?#sOVx}v(LDCy(*#|LW">
+                    <field name="NUM">255</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="time_delay" id="],6oq0z)wLG!D0kIf(rv">
+                    <value name="DELAY_TIME_MILI">
+                      <block type="math_number" id="fU`aed[EP|uFdev7Crr+">
+                        <field name="NUM">2000</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

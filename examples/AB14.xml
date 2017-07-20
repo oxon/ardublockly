@@ -1,0 +1,126 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="arduino_functions" id="%hnbld874]TWYu{QdG@%" x="134" y="173">
+    <statement name="LOOP_FUNC">
+      <block type="oxocard_handle_autoturnoff_wp" id="wa9]rq?EzirK^@tpc:.r">
+        <next>
+          <block type="variables_set" id="Db*-[B]A7wm_ao9(-(q,">
+            <field name="VAR">x</field>
+            <value name="VALUE">
+              <block type="oxocard_get_acceleration" id=";Y/lX}[6FgM63z=-Y)X;">
+                <field name="AXIS">X</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_if" id="=w,UzYNn{}a@gXuH+%-.">
+                <value name="IF0">
+                  <block type="logic_compare" id="pjKz1GeoUh!S(Gq)^I{j">
+                    <field name="OP">GT</field>
+                    <value name="A">
+                      <block type="variables_get" id="flic:@5nNLvuSn%lz0jB">
+                        <field name="VAR">x</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="uhUDrE,oG71fGbrj.dU~">
+                        <field name="NUM">50</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="oxocard_draw_line" id="wWaFIt!3NnX`RF-4)_hl">
+                    <value name="FROM_X">
+                      <block type="math_number" id="(I}R4F)7pbs1%-}s-5Ir">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <value name="FROM_Y">
+                      <block type="math_number" id="kHXlps}/Kv}`BS4@6lN]">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <value name="TO_X">
+                      <block type="math_number" id="G~_P2Edhv?6bLL3(v^bM">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <value name="TO_Y">
+                      <block type="math_number" id="wN(9+~B9-YdQm*x5-ft-">
+                        <field name="NUM">7</field>
+                      </block>
+                    </value>
+                    <value name="BRIGHTNESS">
+                      <block type="math_number" id="g-5g:X@?)Mbw4s:{u{~@">
+                        <field name="NUM">255</field>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="controls_if" id="4{=??FD8_K{4UPt#Rp3x">
+                    <value name="IF0">
+                      <block type="logic_compare" id="bRqQ.qt=gK0kwO{QYhbX">
+                        <field name="OP">LT</field>
+                        <value name="A">
+                          <block type="variables_get" id="UOb1YH3~4b0UaWs2cM{A">
+                            <field name="VAR">x</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="iB*,aa4xs2354DrhfpF5">
+                            <field name="NUM">-50</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="oxocard_draw_line" id="#-{!DKh2D1nm/kpS`#cV">
+                        <value name="FROM_X">
+                          <block type="math_number" id="ABT8?goAtC32X8NGjp41">
+                            <field name="NUM">7</field>
+                          </block>
+                        </value>
+                        <value name="FROM_Y">
+                          <block type="math_number" id="h9]me]`FU_fK3~NaT{0;">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <value name="TO_X">
+                          <block type="math_number" id="^z-H!@s-V+@lUe?#*7mK">
+                            <field name="NUM">7</field>
+                          </block>
+                        </value>
+                        <value name="TO_Y">
+                          <block type="math_number" id="9V.l.n%V,q0wyID[6H%B">
+                            <field name="NUM">7</field>
+                          </block>
+                        </value>
+                        <value name="BRIGHTNESS">
+                          <block type="math_number" id=",2jkSNTPg7^j6^5Ru)lg">
+                            <field name="NUM">255</field>
+                          </block>
+                        </value>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="time_delay" id="VqDlGdi28B#0[r9_vyvG">
+                        <value name="DELAY_TIME_MILI">
+                          <block type="math_number" id="59Rj(X4NT4LTto`Z-=2H">
+                            <field name="NUM">100</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="oxocard_clear_display" id="j4Z1Tmsf+VZIn~oNQ5P,"></block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

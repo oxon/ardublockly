@@ -1,5 +1,5 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
-  <block type="arduino_functions" id="j4hME@w@w5j~?U*%kCRn" x="141" y="95">
+  <block type="arduino_functions" id="j4hME@w@w5j~?U*%kCRn" x="100" y="98">
     <statement name="SETUP_FUNC">
       <block type="oxocard_clear_display" id="EtouQ(udGBlB-^ztQ3x0"></block>
     </statement>
@@ -21,6 +21,40 @@
                     <field name="NUM">10</field>
                   </block>
                 </value>
+                <next>
+                  <block type="oxocard_draw_number" id="ZTs%l24,na},unj:d_.]">
+                    <value name="NUM">
+                      <block type="math_arithmetic" id="}@,;O?Rw%VogHYvZI[5F">
+                        <field name="OP">ADD</field>
+                        <value name="A">
+                          <block type="variables_get" id="bF0A9Bfw!S)e:+pDl_dc">
+                            <field name="VAR">a</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_arithmetic" id="[FeZZJv3L]AK~jLBTM,L">
+                            <field name="OP">DIVIDE</field>
+                            <value name="A">
+                              <block type="variables_get" id="!fzqqG18MJCin(L_zI3V">
+                                <field name="VAR">b</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="8CbDL*aT*0[[MWls]Gr2">
+                                <field name="NUM">2</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <value name="BRIGHTNESS">
+                      <block type="math_number" id="QE12csDfYSKbwLQ5jW8%">
+                        <field name="NUM">255</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
               </block>
             </next>
           </block>

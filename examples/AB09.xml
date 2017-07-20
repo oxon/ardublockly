@@ -1,0 +1,108 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="arduino_functions" id="|Js=+BHijXtqbMJ,gU~1" x="50" y="98">
+    <statement name="SETUP_FUNC">
+      <block type="oxocard_clear_display" id="(h~~_td.CMIdu1:PT.bJ"></block>
+    </statement>
+    <statement name="LOOP_FUNC">
+      <block type="oxocard_handle_autoturnoff_wp" id="Q}%9`_G~_u97=wu2RW`6">
+        <next>
+          <block type="oxocard_draw_pixel" id="VRYseM@U.)+%Tr7PQ}mS">
+            <value name="X">
+              <block type="math_number" id="v=FE(-FPSdq{BFMHpHB2">
+                <field name="NUM">3</field>
+              </block>
+            </value>
+            <value name="Y">
+              <block type="variables_get" id="N4Ne`?T{{tX]`DCd(,7P">
+                <field name="VAR">a</field>
+              </block>
+            </value>
+            <value name="BRIGHTNESS">
+              <block type="math_number" id="0nSTVh.h6d;M?!xgYJcJ">
+                <field name="NUM">255</field>
+              </block>
+            </value>
+            <next>
+              <block type="time_delay" id="9~)4mtUuQ.PE5JSq1P.|">
+                <value name="DELAY_TIME_MILI">
+                  <block type="math_number" id="3:%?dMryUOCKICIxQX=I">
+                    <field name="NUM">50</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="oxocard_draw_pixel" id="]wL:MSk[}4Qb{Dy4[Q6C">
+                    <value name="X">
+                      <block type="math_number" id="M6C@FMdvCE|ZE}z~9Rj?">
+                        <field name="NUM">3</field>
+                      </block>
+                    </value>
+                    <value name="Y">
+                      <block type="variables_get" id="U:%4EkxT*0NZY?y2J]b;">
+                        <field name="VAR">a</field>
+                      </block>
+                    </value>
+                    <value name="BRIGHTNESS">
+                      <block type="math_number" id="3{nnM1Ana|qoC-~IwbC7">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="controls_if" id="}nf06k}o/a8Pb_zuFBRI">
+                        <mutation else="1"></mutation>
+                        <value name="IF0">
+                          <block type="logic_compare" id="=kcv=h3!AD/`*8nC1-Oj">
+                            <field name="OP">LT</field>
+                            <value name="A">
+                              <block type="variables_get" id="203T%65MJ+r(R{xqEod.">
+                                <field name="VAR">a</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="p^i_5bo,lRW1bVX==3Q3">
+                                <field name="NUM">7</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="variables_set" id="~pj%I/Y5(c@]Z462[Yk|">
+                            <field name="VAR">a</field>
+                            <value name="VALUE">
+                              <block type="math_arithmetic" id="3p|eHg8d:A!IvKDz+/^7">
+                                <field name="OP">ADD</field>
+                                <value name="A">
+                                  <block type="variables_get" id="hfi(@ax6+wblO)I;~!1n">
+                                    <field name="VAR">a</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="A(2?kH4Cs`Q!CIv4uSm2">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <statement name="ELSE">
+                          <block type="variables_set" id="492[^G?w]+5uDm9yAwab">
+                            <field name="VAR">a</field>
+                            <value name="VALUE">
+                              <block type="math_number" id="z|%cK|WrH;-0LByC(r`F">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

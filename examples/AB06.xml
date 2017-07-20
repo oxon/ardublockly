@@ -1,5 +1,5 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
-  <block type="arduino_functions" id="RTPN?L,T6y7?QN:v6!o?" x="145" y="341">
+  <block type="arduino_functions" id="RTPN?L,T6y7?QN:v6!o?" x="57" y="53">
     <statement name="SETUP_FUNC">
       <block type="oxocard_clear_display" id="J(j_L#SN@=;8_:zZBmPl"></block>
     </statement>
@@ -80,7 +80,7 @@
               <block type="controls_if" id="4i{fib4*@{OGE!EhkF./">
                 <value name="IF0">
                   <block type="oxocard_button_ispressed" id="]OZB%BR+.]X+*IT./6n-">
-                    <field name="BUTTON">Left</field>
+                    <field name="BUTTON">Right</field>
                   </block>
                 </value>
                 <statement name="DO0">

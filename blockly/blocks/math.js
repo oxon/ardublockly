@@ -116,6 +116,7 @@ Blockly.Blocks['math_arithmetic'] = {
       };
       return TOOLTIPS[mode];
     });
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
   }
   //TODO: a getBlockType based on the two input types following C++ rules
 };
@@ -510,6 +511,7 @@ Blockly.Blocks['math_modulo'] = {
       "tooltip": Blockly.Msg.MATH_MODULO_TOOLTIP,
       "helpUrl": Blockly.Msg.MATH_MODULO_HELPURL
     });
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_VARIABLE);
   },
   /** @return {!string} Type of the block, modulus only works on integers. */
   getBlockType: function() {

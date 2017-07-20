@@ -256,6 +256,12 @@ Blockly.Arduino.oxocard_tone = function() {
 	return 'tone(' + frequency + ',' + duration +');\n';
 };
 
+Blockly.Arduino.oxocard_tone_no_duration = function() {
+	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
+  var frequency = Blockly.Arduino.valueToCode(this, 'FREQUENCY', Blockly.Arduino.ORDER_ATOMIC) || 0;
+	return 'tone(' + frequency +');\n';
+};
+
 Blockly.Arduino.oxocard_no_tone = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
 	return 'noTone();\n';

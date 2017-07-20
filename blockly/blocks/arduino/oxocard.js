@@ -133,7 +133,7 @@ Blockly.Blocks['oxocard_fill_display'] = {
 	this.appendDummyInput()
         .appendField("Fill display");
     this.appendValueInput("BRIGHTNESS", 'Brightness')
-        .appendField("Brightness")
+        .appendField("Brightness:")
         .setCheck('Number');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -154,7 +154,7 @@ Blockly.Blocks['oxocard_draw_image'] = {
 			}
 		}
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			.appendField("Brightness")
+			.appendField("Brightness:")
 			.setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT);
 		this.setPreviousStatement(true, null);
@@ -178,7 +178,7 @@ Blockly.Blocks['oxocard_draw_pixel'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			  .appendField("Brightness")
+			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
     // this.setInputsInline(true);
@@ -211,7 +211,7 @@ Blockly.Blocks['oxocard_draw_line'] = {
           .setCheck('Number')
           .setAlign(Blockly.ALIGN_RIGHT);
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			  .appendField("Brightness")
+			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
     // this.setInputsInline(true);
@@ -244,7 +244,7 @@ Blockly.Blocks['oxocard_draw_rectangle'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			  .appendField("Brightness")
+			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
     // this.setInputsInline(true);
@@ -277,7 +277,7 @@ Blockly.Blocks['oxocard_draw_filled_rectangle'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			  .appendField("Brightness")
+			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
     // this.setInputsInline(true);
@@ -306,7 +306,7 @@ Blockly.Blocks['oxocard_draw_circle'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			  .appendField("Brightness")
+			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
     // this.setInputsInline(true);
@@ -335,7 +335,7 @@ Blockly.Blocks['oxocard_draw_filled_circle'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			  .appendField("Brightness")
+			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
     // this.setInputsInline(true);
@@ -376,7 +376,7 @@ Blockly.Blocks['oxocard_draw_triangle'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			  .appendField("Brightness")
+			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
     // this.setInputsInline(true);
@@ -417,7 +417,7 @@ Blockly.Blocks['oxocard_draw_filled_triangle'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
 		this.appendValueInput("BRIGHTNESS", 'Brightness')
-			  .appendField("Brightness")
+			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
     // this.setInputsInline(true);
@@ -448,7 +448,7 @@ Blockly.Blocks['oxocard_draw_char'] = {
           .setCheck('Number')
           .setAlign(Blockly.ALIGN_RIGHT);
       this.appendValueInput("BRIGHTNESS", 'Brightness')
-          .appendField("Brightness")
+          .appendField("Brightness:")
           .setCheck('Number')
           .setAlign(Blockly.ALIGN_RIGHT);
       // this.setInputsInline(true);
@@ -475,7 +475,7 @@ Blockly.Blocks['oxocard_draw_digit'] = {
           .setCheck('Number')
           .setAlign(Blockly.ALIGN_RIGHT);
       this.appendValueInput("BRIGHTNESS", 'Brightness')
-          .appendField("Brightness")
+          .appendField("Brightness:")
           .setCheck('Number')
           .setAlign(Blockly.ALIGN_RIGHT);
       // this.setInputsInline(true);
@@ -495,7 +495,7 @@ Blockly.Blocks['oxocard_draw_number'] = {
           .appendField("Draw number")
           .setCheck('Number');
       this.appendValueInput("BRIGHTNESS", 'Brightness')
-          .appendField("Brightness")
+          .appendField("Brightness:")
           .setCheck('Number')
           .setAlign(Blockly.ALIGN_RIGHT);
       this.setPreviousStatement(true, null);
@@ -611,6 +611,21 @@ Blockly.Blocks['oxocard_tone'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('Plays a tone for the givern time');
+    this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
+  }
+};
+
+Blockly.Blocks['oxocard_tone_no_duration'] = {
+  helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
+  init: function() {
+    // this.appendDummyInput()
+    //     .appendField("Play tone")
+    this.appendValueInput("FREQUENCY", 'Frequency')
+        .appendField("Play tone")
+        .setCheck('Number');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('Plays a tone');
     this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
   }
 };

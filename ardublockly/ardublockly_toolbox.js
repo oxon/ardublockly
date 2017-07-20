@@ -366,7 +366,25 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="oxocard_find_ibeacon"></block>' +
 '  </category>' +
 '  <category name="SPEAKER">' +
-'    <block type="oxocard_tone"></block>' +
+'    <block type="oxocard_tone_no_duration">' +
+'      <value name="FREQUENCY">' +
+'        <block type="math_number">' +
+'          <field name="NUM">440</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="oxocard_tone">' +
+'      <value name="FREQUENCY">' +
+'        <block type="math_number">' +
+'          <field name="NUM">440</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="DURATION">' +
+'        <block type="math_number">' +
+'          <field name="NUM">1000</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
 '    <block type="oxocard_no_tone"></block>' +
 '  </category>' +
 '  <category name="SHORTCUTS">' +

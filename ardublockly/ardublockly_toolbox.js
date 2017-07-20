@@ -25,7 +25,6 @@ Ardublockly.TOOLBOX_XML =
 '    </block>' +
 '    <block type="controls_flow_statements"></block>' +
 '    <block type="procedures_defnoreturn"></block>' +
-'    <block type="procedures_callnoreturn"></block>' +
 '  </category>' +
 '  <sep></sep>' +
 '  <category   name="VARIABLES">' +

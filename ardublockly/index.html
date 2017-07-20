@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="ardublockly.css" media="screen,projection">
 
   <!-- Ardublockly - These three files contain the compress version -->
-  <!--<script src="../blockly/blockly_compressed.js"></script>
+<!--  <script src="../blockly/blockly_compressed.js"></script>
   <script src="../blockly/blocks_compressed.js"></script>
   <script src="../blockly/arduino_compressed.js"></script>-->
   <!-- To use the uncompressed version comment out the above and comment in the ones below -->
@@ -55,6 +55,7 @@
   <script src="../blockly/generators/arduino/tone.js"></script>
   <script src="../blockly/generators/arduino/variables.js"></script>
   <script src="../blockly/generators/arduino/oxocard.js"></script>
+  <script src="../blockly/generators/arduino/oxocard.js"></script>
 
   <!-- Default language js files, user selection appended to head on load -->
   <script src="../blockly/msg/js/en.js"></script>
@@ -77,7 +78,7 @@
       </a>
       <!-- Horizontal Navbar links only shown on large resolutions -->
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-
+        <li><a href="#" onclick="js:OxocardUploader.compile(Blockly.Arduino.workspaceToCode(Ardublockly.workspace));" id="button_upload"><span class="translatable_upload">Upload</span><i class="mdi-file-file-upload left"></i></a></li>
         <li><a href="#" id="button_load"><span class="translatable_open">Open</span><i class="mdi-file-file-upload left"></i></a></li>
         <li><a href="#" id="button_save"><span class="translatable_save">Save</span><i class="mdi-file-file-download left"></i></a></li>
         <li><a href="#" id="button_copy" data-clipboard-target="#content_arduino"><span class="translate_copy">Copy</span><i class="mdi mdi-content-content-copy left"></i></a></li>
@@ -371,10 +372,12 @@
   <script src="ardublockly_toolbox.js"></script>
   <script src="ardublockly_blockly.js"></script>
   <script src="ardublockly.js"></script>
+  <script src="oxocard_uploader.js"></script>
   <script>
     window.addEventListener('load', function load(event) {
       window.removeEventListener('load', load, false);
       Ardublockly.init();
+      OxocardUploader.init();
     });
   </script>
 </body>

@@ -1,0 +1,63 @@
+<html>
+<head>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+</head>
+<body onload="js:init();">
+<div id="content">
+<ul id="device_list"></ul>
+</div>
+<!--<script type="text/javascript">
+
+var exampleSocket = null;
+var wsQueue = [];
+
+function init(){
+	exampleSocket = new WebSocket("ws://localhost:8991/socket.io/?EIO=3&transport=websocket&sid=7i57N4ahIbogyfOjfJ6Q");
+	exampleSocket.onmessage = function (event) {
+		
+		if(wsQueue.length == 0){
+			console.log("unhandled message.")
+			console.log(event.data)
+			return;
+		}
+
+		if(['list'].indexOf(event.data) != -1){
+			console.log("echo. ignoring.");
+			return;
+		}
+		var caller = wsQueue.shift();
+		response = JSON.parse(event.data);
+
+
+		caller['callback'](response);
+	}
+}
+
+
+function sendCommand(command, callback){
+	wsQueue.push({'cmd': command, 'callback':(callback || function(){})});
+	exampleSocket.send(command);
+}
+
+function updateDeviceList(list){
+	html = '';
+	for(var i=0,l=list['SerialPorts'].length; i<l; i++){
+		var port = list['SerialPorts'][i];
+		html += '<li>' + port['Friendly'] + ' (' + port['Name'] + ')</li>';
+	}
+	document.getElementById('device_list').innerHTML = html;
+	//setTimeout("sendCommand('list', updateDeviceList);",500);
+}
+
+</script>-->
+<script>
+//  var socket = io();
+var socket = io('https://localhost:8992');
+
+socket.on('message', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+</script>
+</body>
+</html>

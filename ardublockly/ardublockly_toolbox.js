@@ -33,6 +33,8 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="variables_get"></block>' +
 '    <block type="variables_set"></block>' +
 '    <block type="oxocard_random"></block>' +
+'    <block type="math_arithmetic"></block>' +
+'    <block type="math_modulo"></block>' +
 '  </category>' +
 '  <sep></sep>' +
 

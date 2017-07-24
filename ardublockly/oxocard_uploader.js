@@ -58,15 +58,15 @@ function OxocardUploader(){
 		http.open("POST", url, true);
 		http.onreadystatechange = function() {
 			if(http.readyState == 4 && http.status == 200) {
-				if(http.responseText){
-					try{
+				//if(http.responseText){
+					////try{
 						callback(JSON.parse(http.responseText));
-					} catch(e) {
+					////} catch(e) {
 						callback(http.responseText);
-					}
-				}else{
-					console.log('Something wrong with response in body of: ' + url);
-				}
+					//}
+				//}else{
+				//	console.log('Something wrong with response in body of: ' + url);
+				//}
 			}else if(http.readyState == 4 ){
 				console.log('Something wrong on the backend?! url: ' + url);
 			}else{

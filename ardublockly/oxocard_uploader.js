@@ -1,10 +1,10 @@
 'use strict';
 
 function OxocardUploader(){
-	this.COMPILE_URL = 'http://localhost:1337/compile';
+	this.COMPILE_URL = 'http://localhost:1337/compile/arduino';
 	this.UPLOAD_URL = 'https://localhost:8992/upload';
 	this.FLASH_COMMAND={
-		"board": "arduino:avr:oxocard",
+		"board": "arduino:avr:duo",
 		"port": "/dev/ttyUSB0",
 		"filename": "sketch_jul11a.hex",
 		"commandline": "\"{runtime.tools.avrdude.path}/bin/avrdude\" \"-C{runtime.tools.avrdude.path}/etc/avrdude.conf\" {upload.verbose}  -patmega328p -carduino -P{serial.port} -b57600 -D \"-Uflash:w:{build.path}/{build.project_name}.hex:i\" -V", // -V nor reading back, half-time flash
@@ -41,7 +41,7 @@ function OxocardUploader(){
 
 	this.compile = function(inoContent, callback){
 		callback = callback || this.callbackCompile;
-		this.httpPostRequest(inoContent, OxocardUploader.COMPILE_URL, callback);
+		this.httpPostRequest(inoContent, this.COMPILE_URL, callback);
 	};
 
 	this.upload = function(hex, callback){
@@ -55,7 +55,7 @@ function OxocardUploader(){
 
 	this.httpPostRequest = function(data, url, callback){
 		var http = new XMLHttpRequest();
-
+		http.open("POST", url, true);
 		http.onreadystatechange = function() {
 			if(http.readyState == 4 && http.status == 200) {
 				if(http.responseText){

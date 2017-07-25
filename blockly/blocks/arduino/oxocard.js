@@ -247,7 +247,7 @@ Blockly.Blocks['oxocard_draw_rectangle'] = {
 			  .appendField("Brightness:")
 			  .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT);
-    // this.setInputsInline(true);
+    this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
 		this.setTooltip('Draw a rectangle');
@@ -583,15 +583,15 @@ Blockly.Blocks['oxocard_setup_as_ibeacon'] = {
 Blockly.Blocks['oxocard_find_ibeacon'] = {
   helpUrl: 'http://www.oxocard.ch/oxocard-befehle/',
   init: function() {
-    this.appendDummyInput()
-        .appendField("Find iBeacon")
     this.appendValueInput("ID", 'Id')
-        .appendField("With the ID")
+        .appendField("Find iBeacon with the ID")
         .setCheck(['String', 'Number', 'Array', 'Text']);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setOutput(true, 'Boolean');
     this.setTooltip('Serach for iBeacons with the given ID');
     this.setColour(Blockly.Blocks.oxocard.COLOUR_METHOD);
+  },
+  getBlockType: function() {
+    return Blockly.Types.BOOLEAN;
   }
 };
 

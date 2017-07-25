@@ -244,7 +244,8 @@ Blockly.Arduino.oxocard_setup_as_ibeacon = function() {
 Blockly.Arduino.oxocard_find_ibeacon = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
   var id = Blockly.Arduino.valueToCode(this, 'ID', Blockly.Arduino.ORDER_ATOMIC) || '';
-	return 'findIBeacon(' + id + ');\n';
+	var code = 'findIBeacon(' + id + ')';
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 
 

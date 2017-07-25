@@ -11,20 +11,21 @@ var Ardublockly = Ardublockly || {};
 
 /** Lookup for names of supported languages. Keys in ISO 639 format. */
 Ardublockly.LANGUAGE_NAME = {
-  'fr': 'Français',
-  'en': 'English',
-  'es': 'Español',
-  'nl': 'Nederlands',
-  'pt': 'Português',
-  'it': 'Italiano',
-  'ru': 'Русский'
+  // 'fr': 'Français',
+  'de': 'Deutsch',
+  'en': 'English'
+  // 'es': 'Español',
+  // 'nl': 'Nederlands',
+  // 'pt': 'Português',
+  // 'it': 'Italiano',
+  // 'ru': 'Русский'
 };
 
 /**
- * Selected language, default English.
+ * Selected language, default German.
  * @type {string}
  */
-Ardublockly.LANG = 'en';
+Ardublockly.LANG = 'de';
 
 /**
  * We keep a local copy of the default language in case translations cannot
@@ -45,11 +46,11 @@ Ardublockly.initLanguage = function() {
 
   Ardublockly.populateLanguageMenu(Ardublockly.LANG);
 
-  if (defaultLang !== Ardublockly.LANG) {
+  //if (defaultLang !== Ardublockly.LANG) {
       Ardublockly.duplicateDefaultLang();
       Ardublockly.injectLanguageJsSources(Ardublockly.LANG);
       Ardublockly.updateLanguageText();
-  }
+  //}
 };
 
 /**

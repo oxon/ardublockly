@@ -42,7 +42,7 @@ Blockly.Arduino.oxocard_get_timer_seconds = function() {
 
 Blockly.Arduino.oxocard_reset_timer = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
-	return 'resetTimer);\n';
+	return 'resetTimer();\n';
 };
 
 Blockly.Arduino.oxocard_print = function() {

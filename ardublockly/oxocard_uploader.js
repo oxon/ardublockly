@@ -1,9 +1,10 @@
 'use strict';
 
-function OxocardUploader(){
+function OxocardUploader(compileUrl, uploadUrl){
 	var self = this;
-	this.COMPILE_URL = 'http://compile.oxocard.ch/compile/arduino';
-	this.UPLOAD_URL = 'https://localhost:8992/upload';
+
+	self.compileUrl = compileUrl;
+	self.uploadUrl = uploadUrl;
 	this.FLASH_COMMAND={
 		"board": "arduino:avr:duo",
 		"port": "/dev/ttyUSB0",
@@ -24,7 +25,7 @@ function OxocardUploader(){
 
 	self.compileAndUploadCurrentWorkspace = function(){
 		var sourceCode = Blockly.Arduino.workspaceToCode(Ardublockly.workspace);
-		this.compileAndUpload(sourceCode);
+		self.compileAndUpload(sourceCode);
 	}
 
 	self.compileAndUpload = function(source){
@@ -37,55 +38,155 @@ function OxocardUploader(){
 		});
 	}
 
-	this.callbackCompile = function(){};
-	this.callbackUpload = function(){};
+	self.callbackCompile = function(){};
+	self.callbackUpload = function(){};
 
-	this.compile = function(inoContent, callback){
+	self.compile = function(inoContent, callback){
 		callback = callback || this.callbackCompile;
-		this.httpPostRequest(inoContent, this.COMPILE_URL, callback);
+		OxocardAgent.httpPostRequest(inoContent, self.compileUrl, callback);
 	};
 
-	this.upload = function(hex, callback){
-		callback = callback || this.callbackUpload;
+	self.upload = function(hex, callback){
+		callback = callback || self.callbackUpload;
 		// hacky way to ensure we have a copy of the object
-		var request = JSON.parse(JSON.stringify(this.FLASH_COMMAND));
+		var request = JSON.parse(JSON.stringify(self.FLASH_COMMAND));
 		request['hex'] = hex;
-		this.httpPostRequest(request, this.UPLOAD_URL, callback)
+		OxocardAgent.httpPostRequest(request, self.uploadUrl, callback)
 	};
 
-	this.httpPostRequest = function(data, url, callback){
-		var http = new XMLHttpRequest();
-		http.open("POST", url, true);
-		http.onreadystatechange = function() {
-			if(http.readyState == 4 && http.status == 200) {
-				if(http.responseText){
-					var parsedResponse = http.responseText;
-					try{
-						parsedResponse= JSON.parse(http.responseText);
-					} catch(e) {
-						console.log("Failed to parse json: " + e);
+
+}
+
+function OxocardSocket(socketUrl){
+	var self = this;
+
+	self.socketUrl = socketUrl;
+	self.socket = null;
+	self.connected = false;
+	self.currentCallback = function(){};
+
+	self.init = function(){
+		self.socket = io(self.socketUrl);
+		self.socket.on('disconnect', function(evt){
+			console.log('Websocket gone!!');
+		});
+		self.socket.on('message', self.onMessage);
+	}
+
+	self.onMessage = function(event){
+		self.currentCallback(event);
+	}
+
+	self.isConnected = function(){
+		return self.socket.connected;
+	}
+
+	self.sendCommand = function(command, callback){
+		self.currentCallback = callback;
+		self.socket.emit('command', command);
+	}
+
+
+
+	self.init();
+}
+
+function OxocardAgent(){
+	var self = this;
+	
+	self.portRangeStart = 8990;
+	self.portRangeEnd = 9000;
+	self.connectUrl = 'http://localhost:{{PORT}}/info';
+
+	self.compileUrl = 'http://compile.oxocard.ch/compile/arduino';
+	self.agentUrl = '';
+	self.oxocardUploader = null;
+	self.oxocardSocket = null;
+
+	
+	self.init = function(){
+		for(var i=self.portRangeStart; i<this.portRangeEnd; i++){
+			OxocardAgent.httpRequest(self.connectUrl.replace('{{PORT}}', i), function(response){
+				self.agentUrl = response['https'];
+				self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
+				self.oxocardSocket = new OxocardSocket(response['wss']);
+			})
+		}
+	}
+
+	self.updatePortList = function(){
+		if(!self.oxocardSocket.isConnected()){
+			console.log("Cannot update list. Not connected.");
+			return;
+		}
+		self.oxocardSocket.sendCommand('list', function(result){
+			try{
+				var ports = JSON.parse(result);
+
+				if(ports['Network'] == false){
+					var list = document.getElementById('serial-port-dropdown');
+					
+					var html = '';
+					for(var i=0, l=ports['Ports'].length; i<l; i++){
+						var port = ports['Ports'][i];
+						console.log(port['Name']);
+						html += '<li><a href="#!">' + port['Name'] + '</a></li><li class="divider"></li>';
 					}
-					callback(parsedResponse);
-				}else{
-					console.log('Something wrong with response in body of: ' + url);
+					list.innerHTML = html;
 				}
-			}else if(http.readyState == 4 ){
-				console.log('Something wrong on the backend?! url: ' + url);
+			}catch(e){}
+		});
+	}
+
+	self.init();
+}
+
+
+
+OxocardAgent.httpPostRequest = function(data, url, callback){
+	OxocardAgent.httpRequest(url, callback, data)
+}
+
+OxocardAgent.httpRequest = function(url, callback, data){
+	var http = new XMLHttpRequest();
+	if(data)
+		http.open("POST", url, true);
+	else
+		http.open("GET", url, true)
+	http.onreadystatechange = function() {
+		if(http.readyState == 4 && http.status > 199 && http.status < 300) {
+			if(http.responseText){
+				var parsedResponse = http.responseText;
+				try{
+					parsedResponse= JSON.parse(http.responseText);
+				} catch(e) {
+					console.log("Failed to parse json: " + e);
+				}
+				callback(parsedResponse);
 			}else{
-				// ignore for now.
+				console.log('Something wrong with response in body of: ' + url);
 			}
+		}else if(http.readyState == 4 ){
+			console.log('Something wrong on the backend?! url: ' + url);
+		}else{
+			// ignore for now.
 		}
+	}
 
-		var contentType = 'text/plain';
+	var contentType = 'text/plain';
 
-		if(typeof data === 'object' || typeof data === 'array'){
-			data = JSON.stringify(data);
-			contentType = 'application/json';
-		}
+	if(typeof data === 'object' || typeof data === 'array'){
+		data = JSON.stringify(data);
+		contentType = 'application/json';
+	}
 
+	if(data){
 		http.setRequestHeader('Content-type',contentType);
 		http.send(data);
+	}else{
+		http.send();
 	}
 }
 
-var oxocardUploader = oxocardUploader || new OxocardUploader();
+var oxocardAgent = oxocardAgent || new OxocardAgent();
+

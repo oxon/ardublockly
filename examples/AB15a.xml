@@ -1,0 +1,41 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="arduino_functions" id="Qws4#9;?]vHG4[wUO6R0" x="88" y="15">
+    <statement name="SETUP_FUNC">
+      <block type="variables_set" id=")Z*)cbf?H{*T~{S+vFy2">
+        <field name="VAR">beaconnr</field>
+        <value name="VALUE">
+          <block type="math_number" id="NZgaGk4SZ[8pI],s+eI`">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <next>
+          <block type="oxocard_setup_as_ibeacon" id="};3i[*|Go`V~(AhSa||*">
+            <value name="ID">
+              <block type="variables_get" id="/D;{Oc_CludQ#bxa_1~4">
+                <field name="VAR">beaconnr</field>
+              </block>
+            </value>
+            <next>
+              <block type="oxocard_clear_display" id="*r,n4JG5=ekp9h]_X~Ai">
+                <next>
+                  <block type="oxocard_draw_number" id="pN[QS(~S3(/mztm;9l`E">
+                    <value name="NUM">
+                      <block type="variables_get" id="5c9mY]*l3tDdn0+|#Gc3">
+                        <field name="VAR">beaconnr</field>
+                      </block>
+                    </value>
+                    <value name="BRIGHTNESS">
+                      <block type="math_number" id="UGZ;UiS7tuW;;{d|VBCD">
+                        <field name="NUM">255</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

@@ -1,0 +1,50 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="arduino_functions" id="vR0xExC4F0@g8TY@bfG5" x="71" y="94">
+    <statement name="LOOP_FUNC">
+      <block type="variables_set" id="QFdRFelyGX[6,*_-}^KW">
+        <field name="VAR">beaconnr</field>
+        <value name="VALUE">
+          <block type="math_number" id="l.28;+f*qRrGC%+e9F56">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <next>
+          <block type="controls_if" id="oEcN)p8:@L1@|Ev!H##y">
+            <value name="IF0">
+              <block type="oxocard_find_ibeacon" id="[grN`1-|~^L4c{[]Fq}T">
+                <value name="ID">
+                  <block type="variables_get" id="g(PaljwFF3aF#WQGJD3p">
+                    <field name="VAR">beaconnr</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="oxocard_tone" id="Uis_HAGl4j?C,AA?T|`d">
+                <value name="FREQUENCY">
+                  <block type="math_number" id="B:J`a~|vswT;G{[C?Bcz">
+                    <field name="NUM">440</field>
+                  </block>
+                </value>
+                <value name="DURATION">
+                  <block type="math_number" id="qq.hbiv_*xX,6!OlRv}P">
+                    <field name="NUM">1000</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="time_delay" id="QbnsZPN/uW0o5P6;f9Dv">
+                    <value name="DELAY_TIME_MILI">
+                      <block type="math_number" id="ZOb++luAK^cOKMt9!=PH">
+                        <field name="NUM">1000</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

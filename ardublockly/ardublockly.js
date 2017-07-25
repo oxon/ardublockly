@@ -80,6 +80,14 @@ Ardublockly.bindActionFunctions = function() {
     Ardublockly.loadServerXmlFile('../examples/AB14.xml');
     $('.button-collapse').sideNav('hide');
   });
+  Ardublockly.bindClick_('button_example_AB15a', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB15a.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB15b', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
+    $('.button-collapse').sideNav('hide');
+  });
 
   //Ardublockly.bindClick_('button_delete', Ardublockly.discardAllBlocks);
 
@@ -803,5 +811,3 @@ Ardublockly.bindClick_ = function(el, func) {
   el.addEventListener('ontouchend', propagateOnce);
   el.addEventListener('click', propagateOnce);
 };
-
-

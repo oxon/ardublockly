@@ -80,7 +80,34 @@ Ardublockly.bindActionFunctions = function() {
     Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
     $('.button-collapse').sideNav('hide');
   });
-
+  Ardublockly.bindClick_('button_example_AB16a', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB16b', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB16c', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB16d', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB16e', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB16e.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB17a', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+  Ardublockly.bindClick_('button_example_AB17b', function() {
+    Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
+    $('.button-collapse').sideNav('hide');
+  });
 
   Ardublockly.bindClick_('button_load_xml', Ardublockly.XmlTextareaToBlocks);
 

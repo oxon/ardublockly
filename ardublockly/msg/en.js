@@ -61,7 +61,7 @@ Ardublockly.LOCALISED_TEXT = {
   arduinoOpErrorUnknown: "Unexpected error",
   /* Modals */
   noServerTitle: "Ardublockly app not running",
-  noServerTitleBody: "<p>For all the Ardublockly features to be enabled, the Ardublockly desktop application must be running locally on your computer.</p>" +
+  noServerBody: "<p>For all the Ardublockly features to be enabled, the Ardublockly desktop application must be running locally on your computer.</p>" +
                      "<p>If you are using an online version you will not be able to configure the settings nor load the blocks code into an Arduino.</p>" +
                      "<p>Installation instruction can be found in the <a href=\"https://github.com/carlosperate/ardublockly\">Ardublockly repository</a>.</p>" +
                      "<p>If you have Ardublockly already installed, make sure the application is running correctly.</p>",

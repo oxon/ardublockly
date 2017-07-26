@@ -26,14 +26,6 @@ Ardublockly.init = function() {
   Ardublockly.bindActionFunctions();
   Ardublockly.bindBlocklyEventListeners();
 
-  // Hackish way to check if not running locally
-/*  if (document.location.hostname != 'localhost') {
-    Ardublockly.openNotConnectedModal();
-    console.log('Offline app modal opened as non localhost host name found: ' +
-                document.location.hostname)
-  }
-*/
-
   Ardublockly.clipboard = new Clipboard(document.getElementById('button_copy'));
 
 };
@@ -89,58 +81,9 @@ Ardublockly.bindActionFunctions = function() {
     $('.button-collapse').sideNav('hide');
   });
 
-  //Ardublockly.bindClick_('button_delete', Ardublockly.discardAllBlocks);
 
-  // Side menu buttons, they also close the side menu
-  /*Ardublockly.bindClick_('menu_load', function() {
-    Ardublockly.loadUserXmlFile();
-    $('.button-collapse').sideNav('hide');
-  });
-  Ardublockly.bindClick_('menu_save', function() {
-    Ardublockly.saveXmlFile();
-    $('.button-collapse').sideNav('hide');
-  });*/
-  /*Ardublockly.bindClick_('menu_delete', function() {
-    Ardublockly.discardAllBlocks();
-    $('.button-collapse').sideNav('hide');
-  });*/
-  Ardublockly.bindClick_('menu_settings', function() {
-    Ardublockly.openSettings();
-    $('.button-collapse').sideNav('hide');
-  });
-  /*Ardublockly.bindClick_('menu_example_1', function() {
-    Ardublockly.loadServerXmlFile('../examples/blink.xml');
-    $('.button-collapse').sideNav('hide');
-  });
-  Ardublockly.bindClick_('menu_example_2', function() {
-    Ardublockly.loadServerXmlFile('../examples/serial_print_ascii.xml');
-    $('.button-collapse').sideNav('hide');
-  });
-  Ardublockly.bindClick_('menu_example_3', function() {
-    Ardublockly.loadServerXmlFile('../examples/serial_repeat_game.xml');
-    $('.button-collapse').sideNav('hide');
-  });
-  Ardublockly.bindClick_('menu_example_4', function() {
-    Ardublockly.loadServerXmlFile('../examples/servo_knob.xml');
-    $('.button-collapse').sideNav('hide');
-  });
-  Ardublockly.bindClick_('menu_example_5', function() {
-    Ardublockly.loadServerXmlFile('../examples/stepper_knob.xml');
-    $('.button-collapse').sideNav('hide');
-  });*/
-
-  // Floating buttons
-  /*Ardublockly.bindClick_('button_ide_large', function() {
-    Ardublockly.ideButtonLargeAction();
-  });
-  Ardublockly.bindClick_('button_ide_middle', function() {
-      Ardublockly.ideButtonMiddleAction();
-  });
-  Ardublockly.bindClick_('button_ide_left', function() {
-    Ardublockly.ideButtonLeftAction();
-  });*/
   Ardublockly.bindClick_('button_load_xml', Ardublockly.XmlTextareaToBlocks);
-  //Ardublockly.bindClick_('button_toggle_toolbox', Ardublockly.toogleToolbox);
+
 
   // Settings modal input field listeners only if they can be edited
   var settingsPathInputListeners = function(elId, setValFunc, setHtmlCallback) {

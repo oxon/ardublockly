@@ -60,11 +60,8 @@ Ardublockly.LOCALISED_TEXT = {
   arduinoOpErrorIdContext_64: "d Unable to parse sent JSON.",
   arduinoOpErrorUnknown: "d Unexpected error",
   /* Modals */
-  noServerTitle: "d Ardublockly app not running",
-  noServerBody: "<p>d For all the Ardublockly features to be enabled, the Ardublockly desktop application must be running locally on your computer.</p>" +
-                     "<p>d If you are using an online version you will not be able to configure the settings nor load the blocks code into an Arduino.</p>" +
-                     "<p>d Installation instruction can be found in the <a href=\"https://github.com/carlosperate/ardublockly\">Ardublockly repository</a>.</p>" +
-                     "<p>d If you have Ardublockly already installed, make sure the application is running correctly.</p>",
+  noServerTitle: "OXOcard-app läuft nicht",
+  noServerBody: "<p>\"Herunterladen und Ausführen\"-Instruktionen</p>",
   noServerNoLangBody: "d If the Ardublockly application is not running the language cannot be fully changed.",
   addBlocksTitle: "d Additional Blocks",
   /* Alerts */

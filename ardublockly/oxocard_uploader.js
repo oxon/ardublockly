@@ -99,12 +99,31 @@ function OxocardAgent(){
 	self.connectUrl = 'http://localhost:{{PORT}}/info';
 
 	self.compileUrl = 'http://compile.oxocard.ch/compile/arduino';
-	self.agentUrl = '';
+	self.agentUrl = null;
 	self.oxocardUploader = null;
 	self.oxocardSocket = null;
-
+	
+	self.connectedPorts = new Array();
+	self.shouldShowNotConnected = true;
 	
 	self.init = function(){
+		self.connect();
+		setInterval(self.updatePortList,200);
+
+	}
+
+	self.checkConnection = function(){
+		if(self.oxocardSocket == null){
+			self.connect();
+		}else{
+			setTimeout(self.checkConnection,1000);
+		}
+		/*if(self.oxocardSocket != null && self.oxocardSocket.isConnected())
+			self.shouldShowNotConnected = true;*/
+	}
+
+	self.connect = function(){
+		console.log("connecting to agent");
 		for(var i=self.portRangeStart; i<this.portRangeEnd; i++){
 			OxocardAgent.httpRequest(self.connectUrl.replace('{{PORT}}', i), function(response){
 				self.agentUrl = response['https'];
@@ -112,6 +131,7 @@ function OxocardAgent(){
 				self.oxocardSocket = new OxocardSocket(response['wss']);
 			})
 		}
+		setTimeout(self.checkConnection, 1000);
 	}
 
 	self.updatePortList = function(){
@@ -122,22 +142,36 @@ function OxocardAgent(){
 		self.oxocardSocket.sendCommand('list', function(result){
 			try{
 				var ports = JSON.parse(result);
-
 				if(ports['Network'] == false){
+					self.connectedPorts = new Array();
 					var list = document.getElementById('serial-port-dropdown');
-					
 					var html = '';
 					for(var i=0, l=ports['Ports'].length; i<l; i++){
 						var port = ports['Ports'][i];
-						console.log(port['Name']);
+						if(port['VendorID'] != '0x1a86' || port['ProductID'] != '0x7523') continue;
+						self.connectedPorts.push(port['Name']);
 						html += '<li><a href="#!">' + port['Name'] + '</a></li><li class="divider"></li>';
 					}
 					list.innerHTML = html;
+
+					if(self.connectedPorts.length == 0 && self.shouldShowNotConnected){
+						$('#not_connected_dialog').openModal({
+							dismissible: true,
+							opacity: .5,
+							in_duration: 200,
+							out_duration: 250
+						});
+						self.shouldShowNotConnected = false;
+					}
+					if(self.connectedPorts.length > 0 && !self.shouldShowNotConnected){
+
+						$('#not_connected_dialog').closeModal();
+						self.shouldShowNotConnected = true;
+					}
 				}
 			}catch(e){}
 		});
 	}
-
 	self.init();
 }
 
@@ -155,17 +189,13 @@ OxocardAgent.httpRequest = function(url, callback, data){
 		http.open("GET", url, true)
 	http.onreadystatechange = function() {
 		if(http.readyState == 4 && http.status > 199 && http.status < 300) {
-			if(http.responseText){
-				var parsedResponse = http.responseText;
-				try{
-					parsedResponse= JSON.parse(http.responseText);
-				} catch(e) {
-					console.log("Failed to parse json: " + e);
-				}
-				callback(parsedResponse);
-			}else{
-				console.log('Something wrong with response in body of: ' + url);
+			var parsedResponse = http.responseText;
+			try{
+				parsedResponse= JSON.parse(http.responseText);
+			} catch(e) {
+				console.log("Failed to parse json: " + e);
 			}
+			callback(parsedResponse);
 		}else if(http.readyState == 4 ){
 			console.log('Something wrong on the backend?! url: ' + url);
 		}else{

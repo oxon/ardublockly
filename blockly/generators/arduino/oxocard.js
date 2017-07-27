@@ -185,8 +185,6 @@ Blockly.Arduino.oxocard_draw_char = function() {
 	Blockly.Arduino.includes_['oxocard_runner'] = '#include "OXOcardRunner.h"\n';
   // var char = this.getFieldValue('CHAR').substring(0,1).toUpperCase();
   var char = Blockly.Arduino.valueToCode(this, 'CHAR', Blockly.Arduino.ORDER_NONE).replace(/(['"])/g,'').substring(0,1).toUpperCase();
-  console.log("Char: " +char);
-  console.log("RAW: " +Blockly.Arduino.valueToCode(this, 'CHAR', Blockly.Arduino.ORDER_NONE));
   var pattern = new RegExp('[A-Z0-9]{1}');
   if (!char.match(pattern))
     char = ' ';

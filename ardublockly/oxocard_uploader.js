@@ -137,13 +137,13 @@ function OxocardAgent(){
 
 	self.connect = function(){
 		console.log("connecting to agent");
-		for(var i=self.portRangeStart; i<this.portRangeEnd; i++){
+		for(var i=self.portRangeStart; i<self.portRangeEnd; i++){
 			OxocardAgent.httpRequest(self.connectUrl.replace('{{PORT}}', i), function(response){
 				self.agentUrl = response['https'];
 				self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
 				self.oxocardSocket = new OxocardSocket(response['wss']);
 				$('#not_running_dialog').closeModal();
-				this.shouldShowNotRunning = true;
+				self.shouldShowNotRunning = true;
 			})
 		}
 		setTimeout(self.checkConnection, 1000);
@@ -163,7 +163,7 @@ function OxocardAgent(){
 					var html = '';
 					for(var i=0, l=ports['Ports'].length; i<l; i++){
 						var port = ports['Ports'][i];
-						if(port['VendorID'] != '0x1a86' || port['ProductID'] != '0x7523') continue;
+						if(port['VendorID'].toUpperCase() != '0X1A86' || port['ProductID'].toUpperCase() != '0X7523') continue;
 						self.connectedPorts.push(port['Name']);
 						html += '<li><a href="#!">' + port['Name'] + '</a></li><li class="divider"></li>';
 					}
@@ -200,9 +200,11 @@ function OxocardAgent(){
 	self.compileAndUpload = function(){
 		if(self.connectedPorts.length != 1){
 			console.log('Not unique port. Skipping compile&upload.');
+			return;
 		}
 		self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[0]);
 	}
+
 	self.init();
 }
 

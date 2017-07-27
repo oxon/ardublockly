@@ -86,8 +86,6 @@ function OxocardSocket(socketUrl){
 		self.socket.emit('command', command);
 	}
 
-
-
 	self.init();
 }
 
@@ -103,23 +101,24 @@ function OxocardAgent(){
 	self.oxocardUploader = null;
 	self.oxocardSocket = null;
 	
-	self.connectionRetries = 0;
+
 	self.connectedPorts = new Array();
 	self.shouldShowNotRunning = true;
 	self.shouldShowNotConnected = true;
-	
+	self.updatePortInterval = false;
+
 	self.init = function(){
 		self.connect();
-		setInterval(self.updatePortList,200);
-
 	}
 
 	self.checkConnection = function(){
 		if(self.oxocardSocket == null){
 			self.connect();
-			self.connectionRetries ++;
-			if(self.shouldShowNotRunning && self.connectionRetries > 4){
-				this.shouldShowNotRunning = false;
+		}
+		if(self.oxocardSocket == null || !self.oxocardSocket.isConnected()){
+			console.log("count retry");
+			if(self.shouldShowNotRunning){
+				self.shouldShowNotRunning = false;
 				$('#not_running_dialog').openModal({
 					dismissible: true,
 					opacity: .5,
@@ -127,24 +126,39 @@ function OxocardAgent(){
 					out_duration: 250
 				});
 			}
-		}else{
 			setTimeout(self.checkConnection,1000);
-			self.connectionRetries = 0;
+		}else{
+			if(self.updatePortInterval === false){
+				self.updatePortInterval = setInterval(self.updatePortList,500);
+				console.log("setting interval");
+			}
+			setTimeout(self.checkConnection,1000);
+			if(!self.shouldShowNotRunning){
+				$('#not_running_dialog').closeModal();
+				self.shouldShowNotRunning = true;
+			}
 		}
-		/*if(self.oxocardSocket != null && self.oxocardSocket.isConnected())
-			self.shouldShowNotConnected = true;*/
+		
 	}
 
 	self.connect = function(){
-		console.log("connecting to agent");
+		OxocardAgent.httpRequest(self.connectUrl.replace('{{PORT}}', 8991), function(response){
+			self.agentUrl = response['https'];
+			self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
+			self.oxocardSocket = new OxocardSocket(response['wss']);
+			$('#not_running_dialog').closeModal();
+		});
+		setTimeout(self.checkConnection, 1000);
+	}
+
+	self.connectTryPorts = function(){
 		for(var i=self.portRangeStart; i<self.portRangeEnd; i++){
 			OxocardAgent.httpRequest(self.connectUrl.replace('{{PORT}}', i), function(response){
 				self.agentUrl = response['https'];
 				self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
 				self.oxocardSocket = new OxocardSocket(response['wss']);
 				$('#not_running_dialog').closeModal();
-				self.shouldShowNotRunning = true;
-			})
+			});
 		}
 		setTimeout(self.checkConnection, 1000);
 	}

@@ -1,7 +1,7 @@
 
 'use strict';
 
-goog.provide('Blockly.Arduino.oxocard');
+//goog.provide('Blockly.Arduino.oxocard');
 
 goog.require('Blockly.Arduino');
 

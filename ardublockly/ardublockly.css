@@ -858,6 +858,8 @@ ul.side-nav li ul li ul li {
 .nav-fixed, #button_load > i, #button_save > i, #button_copy > i, #button_upload > i, #button_dropdown > i, i.mdi-image-edit.sketch_name_icon{
   height:128px;
   line-height:128px;
+  margin-right:12px;
+  float:left;
 }
 
 #oxopus{
@@ -867,4 +869,9 @@ ul.side-nav li ul li ul li {
   margin-right:20px;
   height:128px;
   width:128px;
+}
+
+nav ul a.disabled{
+  cursor: not-allowed;
+  color:grey;
 }

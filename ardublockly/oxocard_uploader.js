@@ -108,8 +108,11 @@ function OxocardAgent(){
 	self.updatePortInterval = false;
 	self.shouldTryPorts = false;
 
+	self.canUpload = false;
+
 	self.init = function(){
 		self.connect();
+		self.disableUpload();
 	}
 
 	self.checkConnection = function(){
@@ -195,11 +198,14 @@ function OxocardAgent(){
 							out_duration: 250
 						});
 						self.shouldShowNotConnected = false;
+						self.disableUpload();
 					}
 					if(self.connectedPorts.length > 0 && !self.shouldShowNotConnected){
-
 						$('#not_connected_dialog').closeModal();
 						self.shouldShowNotConnected = true;
+					}
+					if(self.connectedPorts.length > 0 && !self.canUpload){
+						self.enableUpload();
 					}
 				}
 			}catch(e){}
@@ -216,11 +222,27 @@ function OxocardAgent(){
 	}*/
 
 	self.compileAndUpload = function(){
-		if(self.connectedPorts.length != 1){
-			console.log('Not unique port. Skipping compile&upload.');
+		if(self.connectedPorts.length == 0){
+			console.log('No ports. Skipping compile&upload.');
 			return;
 		}
-		self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[0]);
+		if(!self.canUpload){
+			console.log('Uplaod disabled. Skipping compile&upload.');
+			return;
+		}
+		for(var i=0, l=self.connectedPorts.length; i<l; i++)
+			self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[i]);
+
+	}
+
+	self.disableUpload = function(){
+		this.canUpload = false;
+		$('#button_upload').addClass('disabled');
+	}
+
+	self.enableUpload = function(){
+		this.canUpload = true;
+		$('#button_upload').removeClass('disabled');
 	}
 
 	self.init();

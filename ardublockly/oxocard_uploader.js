@@ -103,7 +103,9 @@ function OxocardAgent(){
 	self.oxocardUploader = null;
 	self.oxocardSocket = null;
 	
+	self.connectionRetries = 0;
 	self.connectedPorts = new Array();
+	self.shouldShowNotRunning = true;
 	self.shouldShowNotConnected = true;
 	
 	self.init = function(){
@@ -115,8 +117,21 @@ function OxocardAgent(){
 	self.checkConnection = function(){
 		if(self.oxocardSocket == null){
 			self.connect();
+			self.connectionRetries ++;
+
+			if(self.shouldShowNotRunning && self.connectionRetries > 4){
+				console.log("YEES");
+				this.shouldShowNotRunning = false;
+				$('#not_running_dialog').openModal({
+					dismissible: true,
+					opacity: .5,
+					in_duration: 200,
+					out_duration: 250
+				});
+			}
 		}else{
 			setTimeout(self.checkConnection,1000);
+			self.connectionRetries = 0;
 		}
 		/*if(self.oxocardSocket != null && self.oxocardSocket.isConnected())
 			self.shouldShowNotConnected = true;*/
@@ -129,13 +144,15 @@ function OxocardAgent(){
 				self.agentUrl = response['https'];
 				self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
 				self.oxocardSocket = new OxocardSocket(response['wss']);
+				$('#not_running_dialog').closeModal();
+				this.shouldShowNotRunning = true;
 			})
 		}
 		setTimeout(self.checkConnection, 1000);
 	}
 
 	self.updatePortList = function(){
-		if(!self.oxocardSocket.isConnected()){
+		if(self.oxocardSocket == null || !self.oxocardSocket.isConnected()){
 			console.log("Cannot update list. Not connected.");
 			return;
 		}
@@ -172,6 +189,15 @@ function OxocardAgent(){
 			}catch(e){}
 		});
 	}
+
+	/*self.connectToSerialPort = function(){
+		self.oxocardSocket.sendCommand('connect /dev/ttyUSB0 ', function(result){
+		'<span class="arduino_dialog_out"></span>'
+	}
+
+	self.disconnectFromSerialPort = function(){
+
+	}*/
 	self.init();
 }
 

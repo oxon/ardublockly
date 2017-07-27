@@ -7,7 +7,6 @@ function OxocardUploader(compileUrl, uploadUrl){
 	self.uploadUrl = uploadUrl;
 	this.FLASH_COMMAND={
 		"board": "arduino:avr:duo",
-		"port": "/dev/ttyUSB0",
 		"filename": "sketch_jul11a.hex",
 		"commandline": "\"{runtime.tools.avrdude.path}/bin/avrdude\" \"-C{runtime.tools.avrdude.path}/etc/avrdude.conf\" {upload.verbose}  -patmega328p -carduino -P{serial.port} -b57600 -D \"-Uflash:w:{build.path}/{build.project_name}.hex:i\" -V", // -V nor reading back, half-time flash
 		"extra": {
@@ -23,15 +22,15 @@ function OxocardUploader(compileUrl, uploadUrl){
 		}
 	};
 
-	self.compileAndUploadCurrentWorkspace = function(){
+	self.compileAndUploadCurrentWorkspace = function(port){
 		var sourceCode = Blockly.Arduino.workspaceToCode(Ardublockly.workspace);
-		self.compileAndUpload(sourceCode);
+		self.compileAndUpload(sourceCode, port);
 	}
 
-	self.compileAndUpload = function(source){
+	self.compileAndUpload = function(source, port){
 		self.compile(source, function(response){
 			if('hex' in response){
-				self.upload(response['hex'], function(innerResponse){
+				self.upload(response['hex'], port, function(innerResponse){
 					console.log(innerResponse);
 				});
 			}
@@ -46,11 +45,12 @@ function OxocardUploader(compileUrl, uploadUrl){
 		OxocardAgent.httpPostRequest(inoContent, self.compileUrl, callback);
 	};
 
-	self.upload = function(hex, callback){
+	self.upload = function(hex, port, callback){
 		callback = callback || self.callbackUpload;
 		// hacky way to ensure we have a copy of the object
 		var request = JSON.parse(JSON.stringify(self.FLASH_COMMAND));
 		request['hex'] = hex;
+		request['port'] = port;
 		OxocardAgent.httpPostRequest(request, self.uploadUrl, callback)
 	};
 
@@ -118,9 +118,7 @@ function OxocardAgent(){
 		if(self.oxocardSocket == null){
 			self.connect();
 			self.connectionRetries ++;
-
 			if(self.shouldShowNotRunning && self.connectionRetries > 4){
-				console.log("YEES");
 				this.shouldShowNotRunning = false;
 				$('#not_running_dialog').openModal({
 					dismissible: true,
@@ -198,6 +196,13 @@ function OxocardAgent(){
 	self.disconnectFromSerialPort = function(){
 
 	}*/
+
+	self.compileAndUpload = function(){
+		if(self.connectedPorts.length != 1){
+			console.log('Not unique port. Skipping compile&upload.');
+		}
+		self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[0]);
+	}
 	self.init();
 }
 

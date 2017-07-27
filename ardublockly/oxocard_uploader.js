@@ -114,7 +114,7 @@ function OxocardAgent(){
 
 	self.checkConnection = function(){
 		if(self.oxocardSocket == null){
-			if(shouldTryPorts){
+			if(self.shouldTryPorts){
 				self.connectTryPorts();
 			}else{
 				self.connect();
@@ -122,7 +122,6 @@ function OxocardAgent(){
 			}
 		}
 		if(self.oxocardSocket == null || !self.oxocardSocket.isConnected()){
-			console.log("count retry");
 			if(self.shouldShowNotRunning){
 				self.shouldShowNotRunning = false;
 				$('#not_running_dialog').openModal({
@@ -163,9 +162,9 @@ function OxocardAgent(){
 				self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
 				self.oxocardSocket = new OxocardSocket(response['wss']);
 				$('#not_running_dialog').closeModal();
+				setTimeout(self.checkConnection, 1000);
 			});
 		}
-		setTimeout(self.checkConnection, 1000);
 	}
 
 	self.updatePortList = function(){

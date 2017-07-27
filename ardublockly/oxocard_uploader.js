@@ -106,6 +106,7 @@ function OxocardAgent(){
 	self.shouldShowNotRunning = true;
 	self.shouldShowNotConnected = true;
 	self.updatePortInterval = false;
+	self.shouldTryPorts = false;
 
 	self.init = function(){
 		self.connect();
@@ -113,7 +114,12 @@ function OxocardAgent(){
 
 	self.checkConnection = function(){
 		if(self.oxocardSocket == null){
-			self.connect();
+			if(shouldTryPorts){
+				self.connectTryPorts();
+			}else{
+				self.connect();
+				self.shouldTryPorts = true;
+			}
 		}
 		if(self.oxocardSocket == null || !self.oxocardSocket.isConnected()){
 			console.log("count retry");
@@ -130,7 +136,6 @@ function OxocardAgent(){
 		}else{
 			if(self.updatePortInterval === false){
 				self.updatePortInterval = setInterval(self.updatePortList,500);
-				console.log("setting interval");
 			}
 			setTimeout(self.checkConnection,1000);
 			if(!self.shouldShowNotRunning){

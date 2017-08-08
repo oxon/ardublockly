@@ -150,9 +150,9 @@ function OxocardAgent(){
 
 	self.connect = function(){
 		OxocardAgent.httpRequest(self.connectUrl.replace('{{PORT}}', 8991), function(response){
-			self.agentUrl = response['https'];
+			self.agentUrl = response['http'];
 			self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
-			self.oxocardSocket = new OxocardSocket(response['wss']);
+			self.oxocardSocket = new OxocardSocket(response['ws']);
 			$('#not_running_dialog').closeModal();
 		});
 		setTimeout(self.checkConnection, 1000);
@@ -163,7 +163,7 @@ function OxocardAgent(){
 			OxocardAgent.httpRequest(self.connectUrl.replace('{{PORT}}', i), function(response){
 				self.agentUrl = response['https'];
 				self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
-				self.oxocardSocket = new OxocardSocket(response['wss']);
+				self.oxocardSocket = new OxocardSocket(response['ws']);
 				$('#not_running_dialog').closeModal();
 				setTimeout(self.checkConnection, 1000);
 			});
@@ -184,7 +184,7 @@ function OxocardAgent(){
 					var html = '';
 					for(var i=0, l=ports['Ports'].length; i<l; i++){
 						var port = ports['Ports'][i];
-						if(port['VendorID'].toUpperCase() != '0X1A86' || port['ProductID'].toUpperCase() != '0X7523') continue;
+						if(port['VendorID'].toLowerCase() != '0x1a86' || port['ProductID'].toLowerCase() != '0x7523') continue;
 						self.connectedPorts.push(port['Name']);
 						html += '<li><a href="#!">' + port['Name'] + '</a></li><li class="divider"></li>';
 					}
@@ -230,8 +230,11 @@ function OxocardAgent(){
 			console.log('Uplaod disabled. Skipping compile&upload.');
 			return;
 		}
+		self.oxocardSocket.sendCommand('downloadtool avrdude', function(result){
+			
+		});
 		for(var i=0, l=self.connectedPorts.length; i<l; i++)
-			self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[i]);
+				self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[i]);
 
 	}
 

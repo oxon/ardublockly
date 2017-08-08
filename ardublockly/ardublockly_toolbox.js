@@ -23,8 +23,24 @@ Ardublockly.TOOLBOX_XML =
 '        </block>' +
 '      </value>' +
 '    </block>' +
+'    <block type="controls_for">' +
+'      <value name="FROM">' +
+'        <block type="math_number">' +
+'          <field name="NUM">1</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="TO">' +
+'        <block type="math_number">' +
+'          <field name="NUM">10</field>' +
+'        </block>' +
+'      </value>' +
+'      <value name="BY">' +
+'        <block type="math_number">' +
+'          <field name="NUM">1</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
 '    <block type="controls_flow_statements"></block>' +
-'    <block type="procedures_defnoreturn"></block>' +
 '  </category>' +
 '  <sep></sep>' +
 '  <category id="catVariables">' +
@@ -37,7 +53,8 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="math_modulo"></block>' +
 '  </category>' +
 '  <sep></sep>' +
-
+'  <category id="catFunctions" name="Functions" custom="PROCEDURE"></category>' +
+'  <sep></sep>' +
 '  <category id="catTime">' +
 '    <block type="time_delay">' +
 '      <value name="DELAY_TIME_MILI">' +
@@ -51,7 +68,6 @@ Ardublockly.TOOLBOX_XML =
 '  </category>' +
 '  <sep></sep>' +
 '  <category id="catOXOcard">' +
-'    <block type="arduino_functions"></block>' +
 '    <block type="oxocard_print"></block>' +
 '    <block type="oxocard_println"></block>' +
 '    <block type="oxocard_handle_autoturnoff_wp"></block>' +

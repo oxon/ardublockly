@@ -197,7 +197,7 @@
 	"OXOCARD_TONE_NO_DURATION_TIP": "Spielt einen ton ab",
 	"OXOCARD_NO_TONE_TITLE": "Stoppe Ton",
 	"OXOCARD_NO_TONE_TIP": "Stoppt den Ton",
-	"OXOCARD_RANDOM_TITLE": "Random 0 bis ",
+	"OXOCARD_RANDOM_TITLE": "Zufallszahl 0 bis ",
 	"OXOCARD_RANDOM_TIP": "Liefert eine zufällige Zahl zwischen 0 und dem angegebenen Wert",
 	"NEW_INSTANCE": "New instance...",
 	"RENAME_INSTANCE": "Rename instance...",

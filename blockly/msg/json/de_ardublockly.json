@@ -187,7 +187,7 @@
 	"OXOCARD_SETUP_AS_IBEACON_TITLE": "Starte als iBeacon",
 	"OXOCARD_SETUP_AS_IBEACON_ID_FIELD": "mit der ID",
 	"OXOCARD_SETUP_AS_IBEACON_TIP": "Startet die OXOcard als iBeacon mit der angegebenen ID",
-	"OXOCARD_FIND_IBEACON_TITLE": "Fine iBeacon mit ID",
+	"OXOCARD_FIND_IBEACON_TITLE": "Finde iBeacon mit ID",
 	"OXOCARD_FIND_IBEACON_TIP": "Sucht nach iBeacons mit der angegebenen ID",
 	"OXOCARD_TONE_TITLE": "Spiele Ton",
 	"OXOCARD_TONE_FREQUENCY_FIELD": "mit Frequenz",

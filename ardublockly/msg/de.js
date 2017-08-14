@@ -95,7 +95,6 @@ Ardublockly.LOCALISED_TEXT = {
   catLoops: "LOOPS",
   catMath: "MATH",
   catText: "TEXT",
-  catFunctions: "FUNKTIONEN",
   catInputOutput: "Input/Output",
   catAudio: "Audio",
   catMotors: "Motors",
@@ -103,6 +102,7 @@ Ardublockly.LOCALISED_TEXT = {
 
   catLogic: "LOGIK",
   catVariables: "VARIABLEN ",
+  catFunctions: "FUNKTIONEN",
   catTime: "ZEIT",
   catOXOcard: "OXOCARD",
   catDisplay: "DISPLAY",

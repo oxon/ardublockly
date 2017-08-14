@@ -414,10 +414,22 @@ Blockly.Msg.MATH_CHANGE_HELPURL = 'https://en.wikipedia.org/wiki/Programming_idi
 /// - As in: ''change'' [the value of variable] ''item'' ''by'' 1 (e.g., if the variable named 'item' had the value 5, change it to 6).
 /// %1 is a variable name.
 /// %2 is the amount of change.
-Blockly.Msg.MATH_CHANGE_TITLE = 'change %1 by %2';
+Blockly.Msg.MATH_CHANGE_TITLE = 'Increment %1 by %2';
 Blockly.Msg.MATH_CHANGE_TITLE_ITEM = Blockly.Msg.VARIABLES_DEFAULT_NAME;
 /// tooltip - This updates the value of the variable by adding to it the following numeric input.\n\nParameters:\n* %1 - the name of the variable whose value should be increased.
 Blockly.Msg.MATH_CHANGE_TOOLTIP = 'Add a number to variable "%1".';
+
+/// url - Information about incrementing (increasing the value of) a variable.
+/// For other languages, just use the translation of the Wikipedia page about
+/// addition ([https://en.wikipedia.org/wiki/Addition https://en.wikipedia.org/wiki/Addition]).
+Blockly.Msg.MATH_DECREMENT_HELPURL = 'https://en.wikipedia.org/wiki/Programming_idiom#Incrementing_a_counter';
+/// - As in: ''change'' [the value of variable] ''item'' ''by'' 1 (e.g., if the variable named 'item' had the value 5, change it to 6).
+/// %1 is a variable name.
+/// %2 is the amount of change.
+Blockly.Msg.MATH_DECREMENT_TITLE = 'Decrement %1 by %2';
+Blockly.Msg.MATH_DECREMENT_TITLE_ITEM = Blockly.Msg.VARIABLES_DEFAULT_NAME;
+/// tooltip - This updates the value of the variable by adding to it the following numeric input.\n\nParameters:\n* %1 - the name of the variable whose value should be increased.
+Blockly.Msg.MATH_DECREMENT_TOOLTIP = 'Subtract a number from variable "%1".';
 
 /// url - Information about how numbers are rounded to the nearest integer
 Blockly.Msg.MATH_ROUND_HELPURL = 'https://en.wikipedia.org/wiki/Rounding';

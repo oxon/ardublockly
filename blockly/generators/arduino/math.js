@@ -254,6 +254,22 @@ Blockly.Arduino['math_change'] = function(block) {
   return varName + ' += ' + argument0 + ';\n';
 };
 
+/**
+ * Generator to add (Y) to a variable (X).
+ * If variable X has not been declared before this block it will be declared as
+ * a (not initialised) global int, however globals are 0 initialised in C/C++.
+ * Arduino code: loop { X += Y; }
+ * @param {!Blockly.Block} block Block to generate the code from.
+ * @return {array} Completed code with order of operation.
+ */
+Blockly.Arduino['math_decrement'] = function(block) {
+  var argument0 = Blockly.Arduino.valueToCode(block, 'DELTA',
+      Blockly.Arduino.ORDER_ADDITIVE) || '0';
+  var varName = Blockly.Arduino.variableDB_.getName(
+      block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+  return varName + ' -= ' + argument0 + ';\n';
+};
+
 /** Rounding functions have a single operand. */
 Blockly.Arduino['math_round'] = Blockly.Arduino['math_single'];
 

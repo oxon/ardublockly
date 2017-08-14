@@ -48,6 +48,20 @@ Ardublockly.TOOLBOX_XML =
 '    <block type="text"></block>' +
 '    <block type="variables_get"></block>' +
 '    <block type="variables_set"></block>' +
+'    <block type="math_change">'+
+'      <value name="DELTA">' +
+'        <block type="math_number">' +
+'          <field name="NUM">1</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
+'    <block type="math_decrement">'+
+'      <value name="DELTA">' +
+'        <block type="math_number">' +
+'          <field name="NUM">1</field>' +
+'        </block>' +
+'      </value>' +
+'    </block>' +
 '    <block type="oxocard_random"></block>' +
 '    <block type="math_arithmetic"></block>' +
 '    <block type="math_modulo"></block>' +

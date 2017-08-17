@@ -30,9 +30,7 @@ function OxocardUploader(compileUrl, uploadUrl){
 	self.compileAndUpload = function(source, port){
 		self.compile(source, function(response){
 			if('hex' in response){
-				self.upload(response['hex'], port, function(innerResponse){
-					console.log(innerResponse);
-				});
+				self.upload(response['hex'], port);
 			}
 		});
 	}
@@ -63,9 +61,11 @@ function OxocardSocket(socketUrl){
 	self.socketUrl = socketUrl;
 	self.socket = null;
 	self.connected = false;
-	self.currentCallback = function(){};
+	self.currentCallbackTTL = 0;
+	self.currentCallback = null;
 
 	self.init = function(){
+		self.currentCallback =  self.defaultCallback;
 		self.socket = io(self.socketUrl);
 		self.socket.on('disconnect', function(evt){
 			console.log('Websocket gone!!');
@@ -74,16 +74,36 @@ function OxocardSocket(socketUrl){
 	}
 
 	self.onMessage = function(event){
-		self.currentCallback(event);
+		if(self.currentCallbackTTL > 0){
+
+			self.currentCallbackTTL -= 1;
+			self.currentCallback(event);
+		}else{
+			self.defaultCallback(event);
+		}
 	}
 
 	self.isConnected = function(){
 		return self.socket.connected;
 	}
 
-	self.sendCommand = function(command, callback){
+	self.sendCommand = function(command, ttl, callback){
+		self.currentCallbackTTL = ttl;
 		self.currentCallback = callback;
 		self.socket.emit('command', command);
+	}
+
+	self.defaultCallback = function(event){
+		try{
+			var result = JSON.parse(event);
+			if('Flash' in result && result['Flash'] == 'Ok'){
+				console.log("We have detected successful upload!!")
+				oxocardAgent.disableLoading();
+			}
+		} catch(e) {
+			console.log(event);
+			console.log("Failed to parse json: " + e);
+		}
 	}
 
 	self.init();
@@ -109,6 +129,8 @@ function OxocardAgent(){
 	self.shouldTryPorts = false;
 
 	self.canUpload = false;
+	self.toolsDownloaded = false;
+	self.isUploading = false;
 
 	self.init = function(){
 		self.connect();
@@ -175,7 +197,7 @@ function OxocardAgent(){
 			console.log("Cannot update list. Not connected.");
 			return;
 		}
-		self.oxocardSocket.sendCommand('list', function(result){
+		self.oxocardSocket.sendCommand('list', 3, function(result){
 			try{
 				var ports = JSON.parse(result);
 				if(ports['Network'] == false){
@@ -189,7 +211,6 @@ function OxocardAgent(){
 						html += '<li><a href="#!">' + port['Name'] + '</a></li><li class="divider"></li>';
 					}
 					list.innerHTML = html;
-
 					if(self.connectedPorts.length == 0 && self.shouldShowNotConnected){
 						$('#not_connected_dialog').openModal({
 							dismissible: true,
@@ -227,25 +248,67 @@ function OxocardAgent(){
 			return;
 		}
 		if(!self.canUpload){
-			console.log('Uplaod disabled. Skipping compile&upload.');
+			console.log('Uplaod disabled because no connectivity to agent. Skipping compile&upload.');
 			return;
 		}
-		self.oxocardSocket.sendCommand('downloadtool avrdude', function(result){
-			
-		});
-		for(var i=0, l=self.connectedPorts.length; i<l; i++)
+		if(self.isUploading){
+			console.log('Uplaod disabled because no already uploading. Skipping compile&upload.');
+			return;
+		}
+		if(self.toolsDownloaded){
+			//self.oxocardUploader.callbackUpload = self.disableLoading;
+			self.enableLoading();
+			for(var i=0, l=self.connectedPorts.length; i<l; i++)
 				self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[i]);
+		}else{
+			self.downloadToolsIfNeeded(self.compileAndUpload)
+		}
+		
+	}
 
+
+	self.downloadToolsIfNeeded = function(callback){
+		if(self.toolsDownloaded){
+			callback();
+			return;
+		}
+		self.oxocardSocket.sendCommand('downloadtool avrdude', 2, function(result){
+			if(result == 'downloadtool avrdude') return;
+			var result = JSON.parse(result);
+			if(result['DownloadStatus'] == 'Success'){
+				self.toolsDownloaded = true;
+				callback();
+			}else{
+				console.log('NOT HANDLED! BUT AVRDUDE WAS NOT INSTALLED!');
+			}
+
+		});
 	}
 
 	self.disableUpload = function(){
-		this.canUpload = false;
+		self.canUpload = false;
 		$('#button_upload').addClass('disabled');
 	}
 
 	self.enableUpload = function(){
-		this.canUpload = true;
+		self.canUpload = true;
 		$('#button_upload').removeClass('disabled');
+	}
+
+	self.enableLoading = function(){
+		self.isUploading = true;
+		$('#button_upload').addClass('disabled');
+		$('#loading_icon_upload').css('display', 'inline');
+		$('#upload_icon_upload').css('display', 'none');
+	}
+
+	self.disableLoading = function(){
+		console.log("disabling loading");
+		console.log(self);
+		self.isUploading = false;
+		$('#button_upload').removeClass('disabled');
+		$('#loading_icon_upload').css('display', 'none');
+		$('#upload_icon_upload').css('display', 'inline');
 	}
 
 	self.init();
@@ -264,14 +327,20 @@ OxocardAgent.httpRequest = function(url, callback, data){
 	else
 		http.open("GET", url, true)
 	http.onreadystatechange = function() {
-		if(http.readyState == 4 && http.status > 199 && http.status < 300) {
+		if(http.readyState == 4 && (http.status==200 || http.status==202) ) {
+			console.log(http.responseJSON);
 			var parsedResponse = http.responseText;
+			//console.log(parsedResponse);
+			//parsedResponse = parsedResponse.replace(/\\/, /\\\\/);
+			console.log(parsedResponse);
 			try{
-				parsedResponse= JSON.parse(http.responseText);
+				parsedResponse = JSON.parse(parsedResponse);
 			} catch(e) {
 				console.log("Failed to parse json: " + e);
 			}
 			callback(parsedResponse);
+		}else if(http.readyState == 4 && http.status > 199 && http.status < 300){
+			// we can ignore...
 		}else if(http.readyState == 4 ){
 			console.log('Something wrong on the backend?! url: ' + url);
 		}else{

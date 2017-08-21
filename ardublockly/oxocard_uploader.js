@@ -32,6 +32,12 @@ function OxocardUploader(compileUrl, uploadUrl){
 			if('hex' in response){
 				self.upload(response['hex'], port);
 			}
+			if('output' in response){
+				var outputElement = document.getElementById('content_ide_output');
+				var outputWithNewlines = response['output'].replace("\n", '<br />').replace(new RegExp(/\s\|\|\|\s/, 'g'), '<br />');
+				outputElement.innerHTML = outputWithNewlines;
+				outputElement.scrollTop = outputElement.scrollHeight;
+			}
 		});
 	}
 

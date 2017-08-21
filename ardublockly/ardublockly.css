@@ -129,10 +129,10 @@ ul.side-nav li.side-menu-end {
   min-height: 480px;
 }
 .blocks_panel_large {
-  height: -moz-calc(100vh - 190px);     /* Firefox  */
-  height: -webkit-calc(100vh - 190px);  /* WebKit   */
-  height: -o-calc(100vh - 190px);       /* Opera    */
-  height: calc(100vh - 190px);          /* Standard */
+  height: -moz-calc(100vh - 215px);     /* Firefox  */
+  height: -webkit-calc(100vh - 215px);  /* WebKit   */
+  height: -o-calc(100vh - 215px);       /* Opera    */
+  height: calc(100vh - 215px);          /* Standard */
 }
 .blocks_panel_small {
   height: -moz-calc(100vh - 350px);     /* Firefox  */
@@ -144,10 +144,10 @@ ul.side-nav li.side-menu-end {
   margin: 0;
   padding: 0;
   min-height: 480px;
-  height: -moz-calc(100vh - 190px);     /* Firefox  */
-  height: -webkit-calc(100vh - 190px);  /* WebKit   */
-  height: -o-calc(100vh - 190px);       /* Opera    */
-  height: calc(100vh - 190px);          /* Standard */
+  height: -moz-calc(100vh - 215px);     /* Firefox  */
+  height: -webkit-calc(100vh - 215px);  /* WebKit   */
+  height: -o-calc(100vh - 215px);       /* Opera    */
+  height: calc(100vh - 215px);          /* Standard */
 }
 
 #content_xml {
@@ -192,10 +192,10 @@ ul.side-nav li.side-menu-end {
   min-height: 388px;
 }
 .content_arduino_large {
-  height: -moz-calc(100vh - 376px);     /* Firefox  */
-  height: -webkit-calc(100vh - 376px);  /* WebKit   */
-  height: -o-calc(100vh - 376px);       /* Opera    */
-  height: calc(100vh - 376px);          /* Standard */
+  height: -moz-calc(100vh - 400px);     /* Firefox  */
+  height: -webkit-calc(100vh - 400px);  /* WebKit   */
+  height: -o-calc(100vh - 400px);       /* Opera    */
+  height: calc(100vh - 400px);          /* Standard */
 }
 .content_arduino_small {
   height: -moz-calc(100vh - 440px);     /* Firefox  */
@@ -892,4 +892,8 @@ nav ul a.disabled{
 .loading_corner_2{ animation: hideshow_loading 2s 1.5s linear infinite; }
 .loading_corner_3{ animation: hideshow_loading 2s 1s linear infinite; }
 .loading_corner_4{ animation: hideshow_loading 2s 0.5s linear infinite; }
+
+.ide_output_header_normal{
+  background-color:#24A5A7;
+}
 

@@ -30,7 +30,7 @@ Ardublockly.LOCALISED_TEXT = {
   languageDefault: "Language unknown",
   sketchName: "Sketch Name",
   /* Arduino console output */
-  arduinoOpMainTitle: "Arduino IDE output",
+  arduinoOpMainTitle: "Details of compilation",
   arduinoOpWaiting: "Waiting for the IDE output...",
   arduinoOpUploadedTitle: "Successfully Uploaded Sketch",
   arduinoOpVerifiedTitle: "Successfully Verified Sketch",

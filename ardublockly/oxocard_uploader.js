@@ -49,6 +49,7 @@ function OxocardUploader(compileUrl, uploadUrl){
 		var request = JSON.parse(JSON.stringify(self.FLASH_COMMAND));
 		request['hex'] = hex;
 		request['port'] = port;
+		oxocardAgent.setUploadButtonText(Ardublockly.LOCALISED_TEXT.flashing);
 		OxocardAgent.httpPostRequest(request, self.uploadUrl, callback)
 	};
 
@@ -291,24 +292,29 @@ function OxocardAgent(){
 	}
 
 	self.enableUpload = function(){
+		self.setUploadButtonText(Ardublockly.LOCALISED_TEXT.upload);
 		self.canUpload = true;
 		$('#button_upload').removeClass('disabled');
 	}
 
+	self.setUploadButtonText = function(text){
+		document.getElementById('upload_button_text').innerHTML = text;
+	}
+
 	self.enableLoading = function(){
 		self.isUploading = true;
+		self.setUploadButtonText(Ardublockly.LOCALISED_TEXT.compiling);
 		$('#button_upload').addClass('disabled');
 		$('#loading_icon_upload').css('display', 'inline');
 		$('#upload_icon_upload').css('display', 'none');
 	}
 
 	self.disableLoading = function(){
-		console.log("disabling loading");
-		console.log(self);
 		self.isUploading = false;
 		$('#button_upload').removeClass('disabled');
 		$('#loading_icon_upload').css('display', 'none');
 		$('#upload_icon_upload').css('display', 'inline');
+		self.setUploadButtonText(Ardublockly.LOCALISED_TEXT.upload);
 	}
 
 	self.init();

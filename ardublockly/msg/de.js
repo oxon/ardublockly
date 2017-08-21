@@ -4,6 +4,8 @@ Ardublockly.LOCALISED_TEXT = {
   title: "OXOcard Blockly",
   blocks: "Blocks",
   /* Menu */
+  compiling: "Kompilieren",
+  flashing: "Übertragen",
   upload: "Programmieren",
   open: "Öffnen",
   save: "Speichern",

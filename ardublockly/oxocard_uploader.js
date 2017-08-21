@@ -298,7 +298,7 @@ function OxocardAgent(){
 	}
 
 	self.setUploadButtonText = function(text){
-		document.getElementById('upload_button_text').innerHTML = text;
+		document.getElementById('button_upload_text').innerHTML = text;
 	}
 
 	self.enableLoading = function(){

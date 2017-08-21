@@ -862,6 +862,12 @@ ul.side-nav li ul li ul li {
   float:left;
 }
 
+#button_upload_text{
+  width:105px;
+  display:block;
+  float:right;
+}
+
 #oxopus{
   float:left;
   background:url('img/oxopus.png') no-repeat;

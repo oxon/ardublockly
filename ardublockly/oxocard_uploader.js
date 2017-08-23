@@ -34,7 +34,7 @@ function OxocardUploader(compileUrl, uploadUrl){
 			}
 			if('output' in response){
 				var outputElement = document.getElementById('content_ide_output');
-				var outputWithNewlines = response['output'].replace("\n", '<br />').replace(new RegExp(/\s\|\|\|\s/, 'g'), '<br />');
+				var outputWithNewlines = response['output'].replace(/(?:\r\n|\r|\n)/g, '<br />').replace(new RegExp(/\s\|\|\|\s/, 'g'), '<br />');
 				outputElement.innerHTML = outputWithNewlines;
 				outputElement.scrollTop = outputElement.scrollHeight;
 			}

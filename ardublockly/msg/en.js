@@ -62,8 +62,10 @@ Ardublockly.LOCALISED_TEXT = {
   arduinoOpErrorIdContext_64: "Unable to parse sent JSON.",
   arduinoOpErrorUnknown: "Unexpected error",
   /* Modals */
-  noServerTitle: "OXOcard-app not running",
-  noServerBody: "<p>Download and run instructinos.</p>",
+  noServerTitle: "OXOcard-App not running",
+  noServerBody: "<p>Please start the OXOcard-App.<br>If you have not installed the app yep you can download the installer under the following link. </p><p><a href=\"http:\/\/www.oxocard.ch/Arduino/Downloads/OxocardAgent-Installer.dmg\" target=\"_blank\" rel=\"noopener\">OXOcard-App Installer Mac OSX</a></p> <p>Windows Installer (will follow soon)</p><p>After the installation restart the browser and plug in the OXOcard.<br>If it’s not working, try the following steps:</p> <ul><li>- Restart your computer</li><li>- Try to connect the OXOcard to another USB port</li><li>- Make sure that only one window with Blockly is open</li><li>- Close all programs, that are using the serial interface</li></ul>",
+  noOxocardTitle: "OXOcard not connected",
+  noOxocardBody: "No OXOcard detected. Please make sure the card is connected properly.",
   noServerNoLangBody: "If the Ardublockly application is not running the language cannot be fully changed.",
   addBlocksTitle: "Additional Blocks",
   /* Alerts */

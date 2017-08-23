@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "carlosperate",
-		"lastupdated": "2017-07-27 16:21:21.145318",
+		"lastupdated": "2017-08-22 13:59:34.306209",
 		"locale": "en",
 		"messagedocumentation" : "qqq_ardublockly"
 	},
@@ -39,9 +39,9 @@
 	"ARD_MAP": "Map",
 	"ARD_MAP_VAL": "value to [0-",
 	"ARD_MAP_TIP": "Re-maps a number from [0-1024] to another.",
-	"ARD_FUN_RUN_SETUP": "Arduino run first:",
-	"ARD_FUN_RUN_LOOP": "Arduino loop forever:",
-	"ARD_FUN_RUN_TIP": "Defines the Arduino setup() and loop() functions.",
+	"ARD_FUN_RUN_SETUP": "Run first:",
+	"ARD_FUN_RUN_LOOP": "Loop forever:",
+	"ARD_FUN_RUN_TIP": "Defines the OXOcard setup() and loop() functions.",
 	"ARD_PIN_WARN1": "Pin %1 is needed for %2 as pin %3. Already used as %4.",
 	"ARD_SERIAL_SETUP": "Setup",
 	"ARD_SERIAL_SPEED": ":  speed to",

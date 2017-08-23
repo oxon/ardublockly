@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Ellen Spertus <ellen.spertus@gmail.com>",
-		"lastupdated": "2017-07-06 16:33:50.289505",
+		"lastupdated": "2017-08-22 13:59:33.529850",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -156,11 +156,11 @@
 	"MATH_IS_DIVISIBLE_BY": "is divisible by",
 	"MATH_IS_TOOLTIP": "Check if a number is an even, odd, prime, whole, positive, negative, or if it is divisible by certain number. Returns true or false.",
 	"MATH_CHANGE_HELPURL": "https://en.wikipedia.org/wiki/Programming_idiom#Incrementing_a_counter",
-	"MATH_CHANGE_TITLE": "change %1 by %2",
+	"MATH_CHANGE_TITLE": "Increment %1 by %2",
 	"MATH_CHANGE_TOOLTIP": "Add a number to variable '%1'.",
-  "MATH_DECREMENT_HELPURL": "https://de.wikipedia.org/wiki/Inkrement_und_Dekrement",
-  "MATH_DECREMENT_TITLE": "Decrement %1 by %2",
-  "MATH_DECREMENT_TOOLTIP": "Subtract a number from variable '%1'.",
+	"MATH_DECREMENT_HELPURL": "https://en.wikipedia.org/wiki/Programming_idiom#Incrementing_a_counter",
+	"MATH_DECREMENT_TITLE": "Decrement %1 by %2",
+	"MATH_DECREMENT_TOOLTIP": "Subtract a number from variable '%1'.",
 	"MATH_ROUND_HELPURL": "https://en.wikipedia.org/wiki/Rounding",
 	"MATH_ROUND_TOOLTIP": "Round a number up or down.",
 	"MATH_ROUND_OPERATOR_ROUND": "round",

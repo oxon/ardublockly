@@ -82,7 +82,6 @@ function OxocardSocket(socketUrl){
 
 	self.onMessage = function(event){
 		if(self.currentCallbackTTL > 0){
-
 			self.currentCallbackTTL -= 1;
 			self.currentCallback(event);
 		}else{
@@ -104,12 +103,10 @@ function OxocardSocket(socketUrl){
 		try{
 			var result = JSON.parse(event);
 			if('Flash' in result && result['Flash'] == 'Ok'){
-				console.log("We have detected successful upload!!")
 				oxocardAgent.disableLoading();
 			}
 		} catch(e) {
-			console.log(event);
-			console.log("Failed to parse json: " + e);
+			//ignore
 		}
 	}
 
@@ -130,7 +127,7 @@ function OxocardAgent(){
 	
 
 	self.connectedPorts = new Array();
-	self.shouldShowNotRunning = true;
+	self.shouldShowNotRunning = false;
 	self.shouldShowNotConnected = true;
 	self.updatePortInterval = false;
 	self.shouldTryPorts = false;
@@ -340,15 +337,11 @@ OxocardAgent.httpRequest = function(url, callback, data){
 		http.open("GET", url, true)
 	http.onreadystatechange = function() {
 		if(http.readyState == 4 && (http.status==200 || http.status==202) ) {
-			console.log(http.responseJSON);
 			var parsedResponse = http.responseText;
-			//console.log(parsedResponse);
-			//parsedResponse = parsedResponse.replace(/\\/, /\\\\/);
-			console.log(parsedResponse);
 			try{
 				parsedResponse = JSON.parse(parsedResponse);
 			} catch(e) {
-				console.log("Failed to parse json: " + e);
+				// ignore
 			}
 			callback(parsedResponse);
 		}else if(http.readyState == 4 && http.status > 199 && http.status < 300){

@@ -26,7 +26,7 @@ Ardublockly.init = function() {
   Ardublockly.bindActionFunctions();
   Ardublockly.bindBlocklyEventListeners();
 
-  Ardublockly.clipboard = new Clipboard(document.getElementById('button_copy'));
+  //Ardublockly.clipboard = new Clipboard(document.getElementById('button_copy'));
 
 };
 

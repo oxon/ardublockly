@@ -21,11 +21,11 @@
   <link rel="stylesheet" href="ardublockly.css" media="screen,projection">
 
   <!-- Ardublockly - These three files contain the compress version -->
-  <!--<script src="../blockly/blockly_compressed.js"></script>
+  <script src="../blockly/blockly_compressed.js"></script>
   <script src="../blockly/blocks_compressed.js"></script>
-  <script src="../blockly/arduino_compressed.js"></script>-->
+  <script src="../blockly/arduino_compressed.js"></script>
   <!-- To use the uncompressed version comment out the above and comment in the ones below -->
-  <script src="../blockly/blockly_uncompressed.js"></script>
+<!--  <script src="../blockly/blockly_uncompressed.js"></script>
   <script src="../blockly/blocks/logic.js"></script>
   <script src="../blockly/blocks/loops.js"></script>
   <script src="../blockly/blocks/math.js"></script>
@@ -63,7 +63,7 @@
   <script src="../blockly/generators/arduino/tone.js"></script>
   <script src="../blockly/generators/arduino/variables.js"></script>
   <script src="../blockly/generators/arduino/oxocard.js"></script>
-  <script src="../blockly/generators/arduino/oxocard.js"></script>
+  <script src="../blockly/generators/arduino/oxocard.js"></script>-->
 
   <!-- Default language js files, user selection appended to head on load -->
   <script src="../blockly/msg/js/en.js"></script>
@@ -77,7 +77,8 @@
       <!--<a class="show-on-large button-collapse" href="#" data-activates="slide-out" id="button-collapse"><i class="mdi-navigation-menu"></i></a>-->
       <a href="http://www.oxocard.ch/"><div id="oxopus"></div></a>
       <a id="logo-container" class="brand-logo">
-        <span class="app_title translatable_title">Name:</span>
+        <span class="app_title translatable_title">OXOcard Blockly</span>
+        <span class="in_beta_title translatable_in_beta">[ BETA ]</span>
         <!-- Sketch name editable text field -->
         <span class="sketch_name_wrapper">
           <i class="mdi-image-edit sketch_name_icon"></i>
@@ -121,13 +122,47 @@
       <div class="col s12 m12 l4" id="content_wrapper_source">
         <ul class="collapsible z-depth-1" data-collapsible="accordion">
           <li>
-            <div class="collapsible-header">
+            <div class="collapsible-header active">
               <span class="collapsible_logo">?!</span>
               <span class="translatable_howto">How to</span>
             </div>
             <div class="collapsible-body content_arduino_large">
               <div id="content_howto" class="content" style="padding:0 20px 0 20px;">
-                <ul class="collection"><li class="collection-item">Following soon.</li></ul>
+                <ul class="collection"><li class="collection-item">
+<p><b>Wie benutze ich das neue OXOcard-Blockly<sup>BETA</sup>?</b></p>
+<!--<p>Du kannst dank dem Button "Programmieren" deinen Blockly-Code direkt auf deine OXOcard schreiben. Diese Funktionalität kannst du mit folgendem Beispiel testen: <a href="#" onclick="Ardublockly.loadServerXmlFile('../examples/smile.xml');">OXOcard Smile</a>. Sobald der Button Weiss ist, wurde die OXOcard korrekt erkennt und kann programmiert werden.</p>
+<p>Doch wenn der Button Grau ist, brauchst Du unseren OXOcardAgent. Dieser ist herunterzuladen und einzurichten. Nachfolgen findest du eine Liste der nötigen Schritten.</p>-->
+<p>Du kannst dank dem Button "Programmieren" deinen Blockly-Code direkt auf deine OXOcard schreiben.</p>
+
+<p>Bevor wir damit arbeiten können, müssen wir einmalig einen Treiber installieren. Du findest hier die Anleitungen für Mac und Windows:</p>
+<p><b>Einrichtung des Agents unter macOS</b></p>
+<ul>
+<li>- DMG-Datei herunterladen: <a href="http://oxocard.ch/download/OxocardAgent.dmg">OxocardAgent.dmg</a></li>
+<li>- DMG ausführen mit Doppelklick</li>
+<li>- Den Agent in die Applikationen verschieben</li>
+<li>- Mittels Doppelklick den Treiber installieren</li>
+<li>- Starte nun Deinen Computer neu</li>
+<li>- Suche nun das Programm OxocardAgent im Programme-Ordner</li>
+<li><img src="img/app_icon_macos.png" style="padding:3px; border:2px solid #969696; margin:3px 10px;"/></li>
+<li>- und drücke die rechte Maustaste über dem Icon und wähle „öffnen“. Bestätige die Sicherheitsfrage (dies musst Du nur das erste Mal machen)</li>
+<li>- wenn das Programm korrekt läuft, sollte ein kleiner OXOpus oben rechts in der Taskliste erscheinen</li>
+<li><img src="img/trayicon_macos.png" style="border:2px solid #969696; margin:3px 10px; width:400px;"/></li>
+</ul>
+
+<p><b>Einrichtung des Agents unter Windows</b></p>
+<ul>
+<li>- ZIP-Datei herunterladen: <a href="http://oxocard.ch/download/OxocardAgent.zip">OxocardAgent.zip</a></li>
+<li>- ZIP entpacken mittels Doppelklick</li>
+<li>- Mittels Doppelklick auf "OxocardTreiber" den Treiber installieren</li>
+<li>- Nach einem Neustart kannst du den Agent ausführen</li>
+<li>- Bei erfolgreicher Ausführung erscheint ein OXOpus unten rechts</li>
+</ul>
+
+<p><b>Erstes Beispiel</b></p>
+<p>Wenn alles korrekt installiert ist, sollte nun der „Programmieren“-Button in der obersten Leiste weiss sein. Jetzt kannst Du rechts unter „Beispiele“ z.B. <a href="#" onclick="Ardublockly.loadServerXmlFile('../examples/smile.xml');">OXOcard-Smile</a> wählen. Drücke anschliessend „programmieren“. Nach eine Weile erscheint das Bild auf der Karte:</p>
+
+<p><img src="img/oxocard_smile.png" style="width:400px; border:2px solid #969696;margin:4px 10px;"/></p>
+                 </li></ul>
               </div>
             </div>
           </li>
@@ -139,6 +174,7 @@
             <div class="collapsible-body content_arduino_large">
               <div id="content_examples" class="content" style="padding:0 20px 0 20px;">
                 <ul class="collection">
+                  <li class="collection-item" id="button_example_smile"><a href="#!">OXOcard - Smile</a></li>
                   <li class="collection-item" id="button_example_AB04"><a href="#!">AB04</a></li>
                   <li class="collection-item" id="button_example_AB05"><a href="#!">AB05</a></li>
                   <li class="collection-item" id="button_example_AB06"><a href="#!">AB06</a></li>
@@ -162,7 +198,7 @@
             </div>
           </li>
           <li>
-            <div class="collapsible-header active">
+            <div class="collapsible-header">
               <span class="collapsible_logo">{ }</span>
               <span class="translatable_arduinoSourceCode">Arduino Source Code</span>
             </div>
@@ -334,6 +370,16 @@
       window.removeEventListener('load', load, false);
       Ardublockly.init();
     });
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43794603-2', 'auto');
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview');
   </script>
 </body>
 </html>

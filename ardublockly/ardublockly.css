@@ -196,6 +196,7 @@ ul.side-nav li.side-menu-end {
   height: -webkit-calc(100vh - 400px);  /* WebKit   */
   height: -o-calc(100vh - 400px);       /* Opera    */
   height: calc(100vh - 400px);          /* Standard */
+  overflow-y: auto;
 }
 .content_arduino_small {
   height: -moz-calc(100vh - 440px);     /* Firefox  */
@@ -896,4 +897,31 @@ nav ul a.disabled{
 .ide_output_header_normal{
   background-color:#24A5A7;
 }
+
+.app_title{
+  height:128px;
+  line-height:128px;
+  display:block;
+  float:left;
+}
+
+.in_beta_title{
+  color:#7AB41D;
+  font-weight:bold;
+  font-size:16px;
+  height:128px;
+  display:block;
+  line-height:105px;
+  float:left;
+  margin:0 20px 0 10px;
+}
+
+#content_howto{
+  padding:0 10px;
+}
+
+#content_howto p, #content_howto ul{
+  padding:15px 0px 0px 0px;
+}
+
 

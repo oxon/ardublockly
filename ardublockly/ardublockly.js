@@ -36,6 +36,11 @@ Ardublockly.bindActionFunctions = function() {
   Ardublockly.bindClick_('button_load', Ardublockly.loadUserXmlFile);
   Ardublockly.bindClick_('button_save', Ardublockly.saveXmlFile);
 
+  Ardublockly.bindClick_('button_example_smile', function() {
+    Ardublockly.loadServerXmlFile('../examples/smile.xml');
+    $('.button-collapse').sideNav('hide');
+  });
+
   Ardublockly.bindClick_('button_example_AB04', function() {
     Ardublockly.loadServerXmlFile('../examples/AB04.xml');
     $('.button-collapse').sideNav('hide');

@@ -201,6 +201,9 @@ function OxocardAgent(){
 			console.log("Cannot update list. Not connected.");
 			return;
 		}
+		if(self.isUploading){
+			return;
+		}
 		self.oxocardSocket.sendCommand('list', 3, function(result){
 			try{
 				var ports = JSON.parse(result);
@@ -260,12 +263,16 @@ function OxocardAgent(){
 			return;
 		}
 		if(self.toolsDownloaded){
-			//self.oxocardUploader.callbackUpload = self.disableLoading;
 			self.enableLoading();
+			//self.oxocardUploader.callbackUpload = self.disableLoading;
 			for(var i=0, l=self.connectedPorts.length; i<l; i++)
 				self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[i]);
 		}else{
-			self.downloadToolsIfNeeded(self.compileAndUpload)
+			self.enableLoading();
+			self.downloadToolsIfNeeded(function(){
+				for(var i=0, l=self.connectedPorts.length; i<l; i++)
+					self.oxocardUploader.compileAndUploadCurrentWorkspace(self.connectedPorts[i]);
+			});
 		}
 		
 	}

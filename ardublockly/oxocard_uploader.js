@@ -8,7 +8,7 @@ function OxocardUploader(compileUrl, uploadUrl){
 	this.FLASH_COMMAND={
 		"board": "arduino:avr:duo",
 		"filename": "sketch_jul11a.hex",
-		"commandline": "\"{runtime.tools.avrdude.path}/bin/avrdude\" \"-C{runtime.tools.avrdude.path}/etc/avrdude.conf\" {upload.verbose}  -patmega328p -carduino -P{serial.port} -b57600 -D \"-Uflash:w:{build.path}/{build.project_name}.hex:i\" -V", // -V nor reading back, half-time flash
+		"commandline": "\"{runtime.tools.avrdude.path}/bin/avrdude\" \"-C{runtime.tools.avrdude.path}/etc/avrdude.conf\" {upload.verbose}  -patmega328p -carduino -P{serial.port} -b57600 -V -D \"-Uflash:w:{build.path}/{build.project_name}.hex:i\"", // -V nor reading back, half-time flash
 		"extra": {
 			"auth": {
 				"password": null
@@ -127,7 +127,7 @@ function OxocardAgent(){
 	
 
 	self.connectedPorts = new Array();
-	self.shouldShowNotRunning = false;
+	self.shouldShowNotRunning = true;
 	self.shouldShowNotConnected = true;
 	self.updatePortInterval = false;
 	self.shouldTryPorts = false;
@@ -375,5 +375,11 @@ OxocardAgent.httpRequest = function(url, callback, data){
 	}
 }
 
-var oxocardAgent = oxocardAgent || new OxocardAgent();
+var oxocardAgent = oxocardAgent || null;
+document.addEventListener("DOMContentLoaded", function() {
+	var oxocardAgent = oxocardAgent || new OxocardAgent();
+	console.log('Startup: ' + (new Date()).getTime());
+});
+
+
 

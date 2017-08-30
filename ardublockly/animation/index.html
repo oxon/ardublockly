@@ -1,0 +1,460 @@
+<html>
+<head>
+<style type="text/css">
+.oxocard_simulation_wrapper{
+	background:#f6f6f6;
+	border:2px solid #969696;
+}
+
+.oxocard_simulation_status_wrapper, .oxocard_simulation_display_wrapper{
+	box-sizing: border-box;
+	width: 100%;
+	overflow:auto;
+	margin:40px auto;
+	padding:0px auto;
+	text-align: center;
+}
+
+.oxocard_simulation_status_led{
+	height:25px;
+	width:25px;
+	background:#fff;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	float:left;
+	margin:3px;
+	overflow:hidden;
+}
+</style>
+</head>
+<body>
+
+<div id="card_one" />
+<div id="card_two" />
+
+</div>
+
+<script>
+
+var OXOcard = OXOcard || {};
+
+OXOcard.SimulationManager = function(config){
+	var self = this;
+	
+	config = config || {};
+	self.containerId = config['containerId'] || null;
+	self.containerElement = null;
+	self.height = config['height'] || 500;
+	self.width = config['width'] || 340;
+
+	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_display_wrapper');
+	self.display = null;
+
+	self.statusId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status_wrapper');
+	self.status = null;
+
+	self.init = function(){
+		if(self.containerId == null)
+			throw "No element ID provided!";
+		self.containerElement = document.getElementById(self.containerId);
+		if(self.containerElement == null)
+			throw "No valid element ID provided!"
+		self.initStructure();
+
+		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId});
+		self.status = new OXOcard.SimulationStatus({'containerId':self.statusId});
+	}
+	
+	self.initStructure = function(){
+		var html = '<div class="oxocard_simulation_wrapper" style="';
+		html += 'width:' + self.width +'px; height:' + self.height + 'px;">';
+		html += '<div class="oxocard_simulation_status_wrapper" id="' + self.statusId + '"></div>';
+		html += '<div class="oxocard_simulation_display_wrapper" id="' + self.displayId + '"></div>';
+
+		html += '</div>';
+		self.containerElement.insertAdjacentHTML('afterbegin',html);
+	}
+	
+	self.updateUI = function(){
+		self.status.updateUI();
+		self.display.updateUI();
+	}
+	
+	self.init();
+}
+
+OXOcard.SimulationStatus = function(config){
+	var self = this;
+
+	config = config || {};
+	self.containerId = config['containerId'] || null;
+	self.containerElement = null;
+	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status');
+
+	self.powerLedId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status_led_power');
+	self.powerLed = null;
+
+	self.chargingLedId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status_led_charging');
+	self.chargingLed = null;
+
+	self.serialLedId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status_led_serial');
+	self.serialLed = null;
+
+	self.bluetoothLedId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status_led_bluetooth');
+	self.bluetoothLed = null;
+
+	self.init = function(){
+		if(self.containerId == null)
+			throw "No element ID provided!";
+		self.containerElement = document.getElementById(self.containerId);
+		if(self.containerElement == null)
+			throw "No valid element ID provided!"
+
+		self.initStructure();
+		
+		self.powerLed = new OXOcard.SimulationLed({'containerId':self.powerLedId, 'height':25, 'width':25});
+		self.chargingLed = new OXOcard.SimulationLed({'containerId':self.chargingLedId, 'height':25, 'width':25, color:'#7AB41D'});
+		self.serialLed = new OXOcard.SimulationLed({'containerId':self.serialLedId, 'height':25, 'width':25, color:'#7AB41D'});
+		self.bluetoothLed = new OXOcard.SimulationLed({'containerId':self.bluetoothLedId, 'height':25, 'width':25, color:'#00f'});
+
+		self.powerLed.setValue(255);
+		self.chargingLed.setValue(255);
+	}
+
+	self.initStructure = function(){
+
+		var html = '<div style="width:124px;margin: 0 auto;">';
+		html += '<div class="oxocard_simulation_status_led" id="' + self.powerLedId + '" ></div>';
+		html += '<div class="oxocard_simulation_status_led" id="' + self.chargingLedId + '"></div>';
+		html += '<div class="oxocard_simulation_status_led" id="' + self.serialLedId + '"></div>';
+		html += '<div class="oxocard_simulation_status_led" id="' + self.bluetoothLedId + '"></div>';
+		html += '</div>';
+
+		self.containerElement.insertAdjacentHTML('beforeend', html);
+	}
+
+	self.updateUI = function(){
+		self.powerLed.updateUI();
+		self.chargingLed.updateUI();
+		self.serialLed.updateUI();
+		self.bluetoothLed.updateUI();
+	}
+
+	self.init();
+}
+
+OXOcard.SimulationDisplay = function(config){
+	var self = this;
+
+	config = config || {};
+	self.containerId = config['containerId'] || null;
+	self.containerElement = null;
+	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_display');
+	self.ledRows = config['ledRows'] || 8;
+	self.ledColumns = config['ledColumns'] || 8;
+	self.ledIds = new Array();
+	self.leds = null;
+
+	self.init = function(){
+		if(self.containerId == null)
+			throw "No element ID provided!";
+		self.containerElement = document.getElementById(self.containerId);
+		if(self.containerElement == null)
+			throw "No valid element ID provided!"
+
+		self.initStructure();
+		self.leds = new Array();
+		for(i=0; i<self.ledRows*self.ledColumns; i++){
+			self.leds.push(new OXOcard.SimulationLed({'containerId':self.ledIds[i]}));
+		}
+
+	}
+
+	self.initStructure = function(){
+		var html = '<table id="' + self.displayId + '" style="margin:0 auto;"><tbody>';
+		for(var y=0; y<self.ledRows; y++){
+			html += '<tr>';
+			for(var x=0; x<self.ledColumns; x++){
+				var id = OXOcard.helper.findFreeHTMLId('oxocard_simulation_display_led');
+				self.ledIds.push(id);
+				html += '<td id="' + id + '" style="background:#fff;"></td>'
+			}
+			html += '</tr>';
+		}
+		html += '</tbody></table>';
+		self.containerElement.insertAdjacentHTML('beforeend', html);
+	}
+
+	self.updateUI = function(){
+		for(var i=0, l=self.leds.length; i<l; i++){
+			self.leds[i].updateUI();
+		}
+	}
+
+	self.init();
+}
+
+OXOcard.SimulationLed = function(config){
+	var self = this;
+
+	config = config || {};
+
+	self.containerId = config['containerId'] || null;
+	self.containerElement = null;
+
+	self.color = config['color'] || '#e42e87';
+	self.value = 0;
+
+	self.ledId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_led');
+	self.ledElement = null;
+	self.height = config['height'] || 20;
+	self.width = config['width'] || 20;
+
+	self.init = function(){
+		if(self.containerId == null)
+			throw "No element ID provided!";
+		self.containerElement = document.getElementById(self.containerId);
+		if(self.containerElement == null)
+			throw "No valid element ID provided!"
+		self.initStructure();
+	}
+
+	self.initStructure = function(){
+		var html = '<div id="' + self.ledId + '" />';
+		self.containerElement.insertAdjacentHTML('beforeend', html);
+		self.ledElement = document.getElementById(self.ledId);
+	}
+
+	self.setValue = function(value){
+		self.value = value;
+	}
+
+	self.updateUI = function(){
+		self.ledElement.style.height = self.height + 'px';
+		self.ledElement.style.width = self.width + 'px';
+		self.ledElement.style.backgroundColor = self.color;
+		self.ledElement.style.opacity = self.value/255;
+		
+	}
+
+	self.init();
+}
+
+OXOcard.SimulationHelper = function(){
+	var self = this;
+
+	self.usedIds = new Array();
+
+	self.findFreeHTMLId = function(prefix){
+		prefix = prefix || 'id';
+		for(var i=0; i<10000; i++){
+			if(document.getElementById(prefix + '_' + i) == null && self.usedIds.indexOf(prefix + '_' + i) == -1){
+				self.usedIds.push(prefix + '_' + i);
+				return prefix + '_' + i;
+			}
+		}
+		return false;
+	}
+}
+
+OXOcard.helper = new OXOcard.SimulationHelper();
+
+OXOcard.DisplayHelper = function(simulation){
+	var self = this;
+
+	self.simulation = simulation;
+
+	self.init = function(){
+
+	}
+
+	self.drawImage = function(values){
+		for(var y=0, l=values.length; y<l; y++){
+			for(var x=0, ll=values[y].length; x<ll; x++){
+				self.getPixel(x, y).setValue(self.getValue(values[y][x])*255);
+			}
+		}
+		self.simulation.updateUI();
+	}
+
+	self.drawRect = function(x, y, x2, y2, value){
+		value = self.getValue(value);
+		if(x2<x){
+			var tempX = x;
+			x = x2;
+			x2 = tempX;
+		}
+		if(y2<y){
+			var tempY = y;
+			y = y2;
+			y2 = tempY;
+		}
+		for(var posY=y; posY<=y2; posY++){
+			for(var posX=x; posX<=x2; posX++){
+				self.getPixel(posX, posY).setValue(value);
+			}
+		}
+		self.simulation.updateUI();
+	}
+
+	self.drawPixel = function(x, y, value){
+		var pixel = self.getPixel(x, y);
+		pixel.setValue(value);
+		pixel.updateUI();
+	}
+
+	self.getPixel = function(x, y){
+		var translatedX = x;
+		var translatedY = y;
+		var index = translatedY*self.simulation.display.ledRows + translatedX;
+		return self.simulation.display.leds[index];
+	}
+
+	self.getValue = function(value){
+		if(typeof value === 'undefined' || value > 255){
+			return 255;
+		}
+		if(value < 0)
+			return 0;
+		return value;
+	}
+
+	self.init();
+}
+
+OXOcard.AnimationHelper = function(simulation){
+	var self = this;
+
+	self.simulation = simulation;
+	self.displayHelper = null;
+	self.animation = null;
+	self.currentFrame = null;
+
+	self.init = function(){
+		self.displayHelper = new OXOcard.DisplayHelper(self.simulation);
+	}
+
+	self.playAnimation = function(animation){
+		console.log("Play animation");
+		self.animation = animation;
+		self.playFrame();
+	}
+
+	self.playFrame = function(){
+		self.currentFrame = self.animation.getNextFrame()
+		if(self.currentFrame == null){
+			self.stopAnimation();
+			return;
+		}
+		self.displayHelper.drawImage(self.currentFrame.values);
+		setTimeout(self.playOffFrame, self.currentFrame.onTime);
+	}
+
+	self.playOffFrame = function(){
+		if(self.currentFrame == null){
+			console.log("Empty Frame. NOT GOOD!");
+			return;
+		}
+		setTimeout(self.playFrame, self.currentFrame.offTime);
+	}
+
+	self.stopAnimation = function(){
+		console.log("Stopped animation.");
+	}
+
+	self.init();
+}
+
+OXOcard.Animation = function(){
+	var self = this;
+
+	self.frames = new Array();
+	self.animationIndex = -1;
+	self.loop = true;
+
+	self.init = function(){
+		
+	}
+
+	self.registerFrame = function(frame){
+		self.frames.push(frame);
+	}
+
+	self.getNextFrame = function(){
+		self.animationIndex++;
+		if(self.frames.length <= self.animationIndex){
+			if(self.loop)
+				self.animationIndex = 0;
+			else
+				return null;
+		}
+		return self.frames[self.animationIndex];
+	}
+
+	self.init();
+}
+
+OXOcard.AnimationFrame = function(values){
+	self = this;
+	
+	self.height = 8;
+	self.width = 8;
+	self.onTime = 33;
+	self.offTime = 0;
+
+	self.values = values || null;
+
+	self.init = function(){
+		if(self.values == null){
+			self.values = self.generateArray();
+		}
+	}
+
+	self.drawPixel = function(x,y, value){
+		self.values[y][x] = value;
+	}
+
+	self.generateArray = function(){
+		var array = new Array();
+		for(var y=0; y<self.height; y++){
+			array.push(new Array())
+			for(var x=0; x<self.width; x++){
+				array[y].push(0);
+			}
+		}
+		return array;
+	}
+	self.init();
+}
+
+var oxocardSimulation = null;
+var helper = null;
+var animation = null;
+
+document.addEventListener("DOMContentLoaded", function() {
+	var config = {
+		'containerId': 'card_one'
+	};
+	oxocardSimulation = new OXOcard.SimulationManager(config);
+
+
+	animation = new OXOcard.Animation();
+
+	for(var i=0; i<8; i++){
+		for(var j=0; j<8; j++){
+			var frame = new OXOcard.AnimationFrame();
+			frame.drawPixel(j,i, 1);
+			animation.registerFrame(frame);
+		}
+	}
+
+
+	helper = new OXOcard.AnimationHelper(oxocardSimulation);
+	helper.playAnimation(animation);
+
+});
+
+</script>
+</body>
+</html>

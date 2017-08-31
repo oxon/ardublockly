@@ -2,35 +2,28 @@
 <head>
 <style type="text/css">
 .oxocard_simulation_wrapper{
-	background:#f6f6f6;
-	border:2px solid #969696;
+	background-color:#f6f6f6;
+	border:0px solid #969696;
+	padding:1px;
+	margin:-1px;
+	background-image:url('on_oxocard_logo.png');
+	background-repeat:no-repeat;
+	background-position:88% 95.5%;
+	background-size:35%;
 }
 
 .oxocard_simulation_status_wrapper, .oxocard_simulation_display_wrapper{
 	box-sizing: border-box;
 	width: 100%;
 	overflow:auto;
-	margin:40px auto;
-	padding:0px auto;
-	text-align: center;
+	margin:15% auto 10px auto;
 }
 
-.oxocard_simulation_status_led{
-	height:25px;
-	width:25px;
-	background:#fff;
-	-webkit-border-radius: 25px;
-	-moz-border-radius: 25px;
-	border-radius: 25px;
-	float:left;
-	margin:3px;
-	overflow:hidden;
-}
 </style>
 </head>
-<body>
+<body style="background:hsl(0, 0%, 24%)">
 
-<div id="card_one" />
+<div id="card_one" style="width:538px; height:768px; margin:269px auto auto 429px;"/>
 <div id="card_two" />
 
 </div>
@@ -46,7 +39,7 @@ OXOcard.SimulationManager = function(config){
 	self.containerId = config['containerId'] || null;
 	self.containerElement = null;
 	self.height = config['height'] || 500;
-	self.width = config['width'] || 340;
+	self.width = self.height * 0.68;
 
 	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_display_wrapper');
 	self.display = null;
@@ -62,8 +55,8 @@ OXOcard.SimulationManager = function(config){
 			throw "No valid element ID provided!"
 		self.initStructure();
 
-		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId, 'width':(self.height*.3), 'height':self.height*.3});
-		self.status = new OXOcard.SimulationStatus({'containerId':self.statusId});
+		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId, 'width':(self.height*.26), 'height':self.height*.26});
+		self.status = new OXOcard.SimulationStatus({'containerId':self.statusId, 'size':self.height*0.035});
 	}
 	
 	self.initStructure = function(){
@@ -91,6 +84,7 @@ OXOcard.SimulationStatus = function(config){
 	self.containerId = config['containerId'] || null;
 	self.containerElement = null;
 	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status');
+	self.size = config['size'] || 25;
 
 	self.powerLedId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status_led_power');
 	self.powerLed = null;
@@ -113,10 +107,10 @@ OXOcard.SimulationStatus = function(config){
 
 		self.initStructure();
 		
-		self.powerLed = new OXOcard.SimulationLed({'containerId':self.powerLedId, 'height':25, 'width':25});
-		self.chargingLed = new OXOcard.SimulationLed({'containerId':self.chargingLedId, 'height':25, 'width':25, color:'#7AB41D'});
-		self.serialLed = new OXOcard.SimulationLed({'containerId':self.serialLedId, 'height':25, 'width':25, color:'#7AB41D'});
-		self.bluetoothLed = new OXOcard.SimulationLed({'containerId':self.bluetoothLedId, 'height':25, 'width':25, color:'#00f'});
+		self.powerLed = new OXOcard.SimulationLed({'containerId':self.powerLedId, 'height':self.size, 'width':self.size});
+		self.chargingLed = new OXOcard.SimulationLed({'containerId':self.chargingLedId, 'height':self.size, 'width':self.size, color:'#7AB41D'});
+		self.serialLed = new OXOcard.SimulationLed({'containerId':self.serialLedId, 'height':self.size, 'width':self.size, color:'#7AB41D'});
+		self.bluetoothLed = new OXOcard.SimulationLed({'containerId':self.bluetoothLedId, 'height':self.size, 'width':self.size, color:'#00f'});
 
 		self.powerLed.setValue(255);
 		self.chargingLed.setValue(255);
@@ -124,11 +118,23 @@ OXOcard.SimulationStatus = function(config){
 
 	self.initStructure = function(){
 
-		var html = '<div style="width:124px;margin: 0 auto;">';
-		html += '<div class="oxocard_simulation_status_led" id="' + self.powerLedId + '" ></div>';
-		html += '<div class="oxocard_simulation_status_led" id="' + self.chargingLedId + '"></div>';
-		html += '<div class="oxocard_simulation_status_led" id="' + self.serialLedId + '"></div>';
-		html += '<div class="oxocard_simulation_status_led" id="' + self.bluetoothLedId + '"></div>';
+		var style = [
+			'height:' + self.size + 'px',
+			'width:' + self.size + 'px',
+			'-webkit-border-radius:' + self.size + 'px',
+			'-moz-border-radius:' + self.size + 'px',
+			'border-radius:' + self.size + 'px',
+			'margin:0 ' + (self.size/8) + 'px',
+			'background:#fff',
+			'float:left',
+			'overflow:hidden'
+		].join('; ');
+
+		var html = '<div style="width:' + (self.size*5) + 'px;margin: 0 auto;">';
+		html += '<div style="' + style + '" id="' + self.powerLedId + '" ></div>';
+		html += '<div style="' + style + '" id="' + self.chargingLedId + '"></div>';
+		html += '<div style="' + style + '" id="' + self.serialLedId + '"></div>';
+		html += '<div style="' + style + '" id="' + self.bluetoothLedId + '"></div>';
 		html += '</div>';
 
 		self.containerElement.insertAdjacentHTML('beforeend', html);
@@ -174,7 +180,7 @@ OXOcard.SimulationDisplay = function(config){
 	}
 
 	self.initStructure = function(){
-		var html = '<table id="' + self.displayId + '" style="margin:0 auto;"><tbody>';
+		var html = '<table id="' + self.displayId + '" style="margin:0 auto; border-collapse:seperate; border-spacing:' + (self.width/self.ledColumns)/20 + 'px;"><tbody>';
 		for(var y=0; y<self.ledRows; y++){
 			html += '<tr>';
 			for(var x=0; x<self.ledColumns; x++){
@@ -243,7 +249,7 @@ OXOcard.SimulationLed = function(config){
 	self.init();
 }
 
-OXOcard.SimulationHelper = function(){
+OXOcard.Helper = function(){
 	var self = this;
 
 	self.usedIds = new Array();
@@ -260,7 +266,7 @@ OXOcard.SimulationHelper = function(){
 	}
 }
 
-OXOcard.helper = new OXOcard.SimulationHelper();
+OXOcard.helper = new OXOcard.Helper();
 
 OXOcard.DisplayHelper = function(simulation){
 	var self = this;
@@ -402,7 +408,7 @@ OXOcard.AnimationFrame = function(values){
 	
 	self.height = 8;
 	self.width = 8;
-	self.onTime = 33;
+	self.onTime = 250;
 	self.offTime = 0;
 
 	self.values = values || null;
@@ -437,8 +443,7 @@ var animation = null;
 document.addEventListener("DOMContentLoaded", function() {
 	var config = {
 		'containerId': 'card_one',
-		'height':1000,
-		'width':700
+		'height':1000
 	};
 	oxocardSimulation = new OXOcard.SimulationManager(config);
 
@@ -454,8 +459,420 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 
+var maze_game = new OXOcard.Animation();
+
+// FRAME 1
+var maze_game_frame_1 = new OXOcard.AnimationFrame([
+	[1, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_1.onTime=200;
+maze_game_frame_1.offTime=0;
+maze_game.registerFrame(maze_game_frame_1);
+
+// FRAME 2
+var maze_game_frame_2 = new OXOcard.AnimationFrame([
+	[0, 1, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_2.onTime=200;
+maze_game_frame_2.offTime=0;
+maze_game.registerFrame(maze_game_frame_2);
+
+// FRAME 3
+var maze_game_frame_3 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 1, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_3.onTime=200;
+maze_game_frame_3.offTime=0;
+maze_game.registerFrame(maze_game_frame_3);
+
+// FRAME 4
+var maze_game_frame_4 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 1, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_4.onTime=200;
+maze_game_frame_4.offTime=0;
+maze_game.registerFrame(maze_game_frame_4);
+
+// FRAME 5
+var maze_game_frame_5 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 1, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_5.onTime=200;
+maze_game_frame_5.offTime=0;
+maze_game.registerFrame(maze_game_frame_5);
+
+// FRAME 6
+var maze_game_frame_6 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 1, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_6.onTime=200;
+maze_game_frame_6.offTime=0;
+maze_game.registerFrame(maze_game_frame_6);
+
+// FRAME 7
+var maze_game_frame_7 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 1, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_7.onTime=200;
+maze_game_frame_7.offTime=0;
+maze_game.registerFrame(maze_game_frame_7);
+
+// FRAME 8
+var maze_game_frame_8 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 1, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_8.onTime=200;
+maze_game_frame_8.offTime=0;
+maze_game.registerFrame(maze_game_frame_8);
+
+// FRAME 9
+var maze_game_frame_9 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 1, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_9.onTime=200;
+maze_game_frame_9.offTime=0;
+maze_game.registerFrame(maze_game_frame_9);
+
+// FRAME 10
+var maze_game_frame_10 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 1, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_10.onTime=200;
+maze_game_frame_10.offTime=0;
+maze_game.registerFrame(maze_game_frame_10);
+
+// FRAME 11
+var maze_game_frame_11 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 1, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_11.onTime=200;
+maze_game_frame_11.offTime=0;
+maze_game.registerFrame(maze_game_frame_11);
+
+// FRAME 12
+var maze_game_frame_12 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 1],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_12.onTime=200;
+maze_game_frame_12.offTime=0;
+maze_game.registerFrame(maze_game_frame_12);
+
+// FRAME 13
+var maze_game_frame_13 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 1],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_13.onTime=200;
+maze_game_frame_13.offTime=0;
+maze_game.registerFrame(maze_game_frame_13);
+
+// FRAME 14
+var maze_game_frame_14 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 1],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_14.onTime=200;
+maze_game_frame_14.offTime=0;
+maze_game.registerFrame(maze_game_frame_14);
+
+// FRAME 15
+var maze_game_frame_15 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 1],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_15.onTime=200;
+maze_game_frame_15.offTime=0;
+maze_game.registerFrame(maze_game_frame_15);
+
+// FRAME 16
+var maze_game_frame_16 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 1, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_16.onTime=200;
+maze_game_frame_16.offTime=0;
+maze_game.registerFrame(maze_game_frame_16);
+
+// FRAME 17
+var maze_game_frame_17 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 1, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_17.onTime=200;
+maze_game_frame_17.offTime=0;
+maze_game.registerFrame(maze_game_frame_17);
+
+// FRAME 18
+var maze_game_frame_18 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 1, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_18.onTime=200;
+maze_game_frame_18.offTime=0;
+maze_game.registerFrame(maze_game_frame_18);
+
+// FRAME 19
+var maze_game_frame_19 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 1, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_19.onTime=200;
+maze_game_frame_19.offTime=0;
+maze_game.registerFrame(maze_game_frame_19);
+
+// FRAME 20
+var maze_game_frame_20 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 1, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_20.onTime=200;
+maze_game_frame_20.offTime=0;
+maze_game.registerFrame(maze_game_frame_20);
+
+// FRAME 21
+var maze_game_frame_21 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 1, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_21.onTime=200;
+maze_game_frame_21.offTime=0;
+maze_game.registerFrame(maze_game_frame_21);
+
+// FRAME 22
+var maze_game_frame_22 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 1, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_22.onTime=200;
+maze_game_frame_22.offTime=0;
+maze_game.registerFrame(maze_game_frame_22);
+
+// FRAME 23
+var maze_game_frame_23 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 1, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_23.onTime=200;
+maze_game_frame_23.offTime=0;
+maze_game.registerFrame(maze_game_frame_23);
+
+// FRAME 24
+var maze_game_frame_24 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 1, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_24.onTime=200;
+maze_game_frame_24.offTime=0;
+maze_game.registerFrame(maze_game_frame_24);
+
+// FRAME 25
+var maze_game_frame_25 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 1, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_25.onTime=200;
+maze_game_frame_25.offTime=0;
+maze_game.registerFrame(maze_game_frame_25);
+
+// FRAME 26
+var maze_game_frame_26 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 1, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 0, 0]
+]);
+maze_game_frame_26.onTime=200;
+maze_game_frame_26.offTime=0;
+maze_game.registerFrame(maze_game_frame_26);
+
+// FRAME 27
+var maze_game_frame_27 = new OXOcard.AnimationFrame([
+	[0, 0, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0, 0, 0.71, 0, 0, 0, 0.71, 0],
+	[0.71, 0, 0, 0, 0.71, 0.71, 0.71, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0, 0, 0],
+	[0.71, 0.71, 0, 0, 0, 0, 0.71, 0.71],
+	[0.71, 0.71, 0, 0.71, 0.71, 0.71, 0.71, 0.71],
+	[0.71, 0.71, 0, 0, 0, 0, 0, 0],
+	[0.71, 0.71, 0.71, 0.71, 0.71, 0.71, 1, 0]
+]);
+maze_game_frame_27.onTime=200;
+maze_game_frame_27.offTime=0;
+maze_game.registerFrame(maze_game_frame_27);
+
+
+
+
+
+
 	helper = new OXOcard.AnimationHelper(oxocardSimulation);
-	helper.playAnimation(animation);
+	helper.playAnimation(maze_game);
 
 });
 

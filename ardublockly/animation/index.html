@@ -41,7 +41,7 @@ var OXOcard = OXOcard || {};
 
 OXOcard.SimulationManager = function(config){
 	var self = this;
-	
+	console.log(config);
 	config = config || {};
 	self.containerId = config['containerId'] || null;
 	self.containerElement = null;
@@ -62,7 +62,7 @@ OXOcard.SimulationManager = function(config){
 			throw "No valid element ID provided!"
 		self.initStructure();
 
-		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId});
+		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId, 'width':(self.height*.3), 'height':self.height*.3});
 		self.status = new OXOcard.SimulationStatus({'containerId':self.statusId});
 	}
 	
@@ -153,6 +153,8 @@ OXOcard.SimulationDisplay = function(config){
 	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_display');
 	self.ledRows = config['ledRows'] || 8;
 	self.ledColumns = config['ledColumns'] || 8;
+	self.width = config['width'] || 160;
+	self.height = config['height'] || 160;
 	self.ledIds = new Array();
 	self.leds = null;
 
@@ -166,7 +168,7 @@ OXOcard.SimulationDisplay = function(config){
 		self.initStructure();
 		self.leds = new Array();
 		for(i=0; i<self.ledRows*self.ledColumns; i++){
-			self.leds.push(new OXOcard.SimulationLed({'containerId':self.ledIds[i]}));
+			self.leds.push(new OXOcard.SimulationLed({'containerId':self.ledIds[i], 'height':(self.height/self.ledRows), 'width':(self.width/self.ledColumns)}));
 		}
 
 	}
@@ -434,7 +436,9 @@ var animation = null;
 
 document.addEventListener("DOMContentLoaded", function() {
 	var config = {
-		'containerId': 'card_one'
+		'containerId': 'card_one',
+		'height':1000,
+		'width':700
 	};
 	oxocardSimulation = new OXOcard.SimulationManager(config);
 

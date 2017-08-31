@@ -377,7 +377,7 @@ OxocardAgent.httpRequest = function(url, callback, data){
 
 var oxocardAgent = oxocardAgent || null;
 document.addEventListener("DOMContentLoaded", function() {
-	var oxocardAgent = oxocardAgent || new OxocardAgent();
+	oxocardAgent = oxocardAgent || new OxocardAgent();
 	console.log('Startup: ' + (new Date()).getTime());
 });
 

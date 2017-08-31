@@ -114,7 +114,7 @@ Ardublockly.bindActionFunctions = function() {
     $('.button-collapse').sideNav('hide');
   });*/
 
-  Ardublockly.bindClick_('button_load_xml', Ardublockly.XmlTextareaToBlocks);
+  //Ardublockly.bindClick_('button_load_xml', Ardublockly.XmlTextareaToBlocks);
 
 
   // Settings modal input field listeners only if they can be edited

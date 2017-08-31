@@ -91,7 +91,7 @@ Ardublockly.LOCALISED_TEXT = {
   cancel: "Abbrechen",
   return: "Zurück",
   /* Cards */
-  howto: "How To",
+  howto: "Anleitung",
   examples: "Beispiele",
   arduinoSourceCode: "Arduino Source Code",
   blocksXml: "Block XML",

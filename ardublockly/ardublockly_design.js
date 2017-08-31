@@ -50,8 +50,8 @@ Ardublockly.bindDesignEventListeners = function() {
   window.addEventListener(
       'resize', Ardublockly.resizeBlocklyWorkspace, false);
   // Display/hide the XML load button when the XML collapsible header is clicked
-  document.getElementById('xml_collapsible_header').addEventListener(
-      'click', Ardublockly.buttonLoadXmlCodeDisplay);
+  /*document.getElementById('xml_collapsible_header').addEventListener(
+      'click', Ardublockly.buttonLoadXmlCodeDisplay);*/
   // Toggle the content height on click to the IDE output collapsible header
   /*document.getElementById('ide_output_collapsible_header').addEventListener(
       'click', function() {

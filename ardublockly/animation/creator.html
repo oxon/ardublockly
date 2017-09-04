@@ -40,7 +40,10 @@ textarea{
 <br />
 <b>CODE:</b><button onclick="generateCode();" type="button">Generate!</button>Name:<input type="text" id="animation_name" value="animation"><br />
 <textarea id="code_output"></textarea>
-
+<br />
+<br />
+<b>EXPORT:</b><button onclick="generateExport();" type"button">Export!</button><br />
+<textarea id="export_output"></textarea>
 
 <script>
 
@@ -186,6 +189,33 @@ function generateCode(){
 		frameIndex++;
 	}
 	document.getElementById('code_output').value = code;
+}
+
+function generateExport(){
+	var exportData = {'f':[], 't':[]};
+	var finished = false;
+	var frameIndex = 1;
+	while(!finished){
+		if(document.getElementById('frame_' + frameIndex) == null){
+			finished= true; continue;
+		}
+		var frame = new Array();
+		for(var i=0; i<8*8; i++){
+			if(i%4==0) frame.push(0>>>0);
+			frame[frame.length-1] |= (parseInt(document.getElementById(frameIndex + '_' + (i%8) + '_' + Math.floor(i/8)).value)>>>0) << (8*(3-i%4));
+		}
+		for(var i=0, l=frame.length; i<l; i++)
+			frame[i] = frame[i] >>> 0;
+
+		exportData['f'].push(frame);
+		var times = {
+			'on': parseInt(document.getElementById(frameIndex + '_onTime').value),
+			'off': parseInt(document.getElementById(frameIndex + '_offTime').value)
+		};
+		exportData['t'].push(times);
+		frameIndex++;
+	}
+	document.getElementById('export_output').value = JSON.stringify(exportData);
 }
 </script>
 </body>

@@ -18,6 +18,9 @@ OXOcard.SimulationManager = function(config){
 	self.buttonRowId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button_row_wrapper');
 	self.buttonRow = null;
 
+	self.resetButtonId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_reset_button_wrapper');
+	self.resetButton = null;
+
 	self.init = function(){
 		if(self.containerId == null)
 			throw "No element ID provided!";
@@ -29,6 +32,7 @@ OXOcard.SimulationManager = function(config){
 		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId, 'width':(self.height*.26), 'height':self.height*.26});
 		self.status = new OXOcard.SimulationStatus({'containerId':self.statusId, 'size':self.height*0.035});
 		self.buttonRow = new OXOcard.SimulationButtonRow({'containerId':self.buttonRowId, 'size':self.height*0.07});
+		self.resetButton = new OXOcard.SimulationButton({'containerId':self.resetButtonId, 'size':self.height*0.08});
 	}
 	
 	self.initStructure = function(){
@@ -37,7 +41,7 @@ OXOcard.SimulationManager = function(config){
 		html += '<div class="oxocard_simulation_status_wrapper" id="' + self.statusId + '"></div>';
 		html += '<div class="oxocard_simulation_display_wrapper" id="' + self.displayId + '"></div>';
 		html += '<div class="oxocard_simulation_button_wrapper" id="' + self.buttonRowId + '"></div>';
-
+		html += '<div class="oxocard_simulation_button_wrapper" id="' + self.resetButtonId + '"></div>';
 		html += '</div>';
 		self.containerElement.insertAdjacentHTML('afterbegin',html);
 	}
@@ -46,6 +50,7 @@ OXOcard.SimulationManager = function(config){
 		self.status.updateUI();
 		self.display.updateUI();
 		self.buttonRow.updateUI();
+		self.resetButton.updateUI();
 	}
 	
 	self.init();

@@ -3,7 +3,6 @@ var OXOcard = OXOcard || {};
 
 OXOcard.SimulationManager = function(config){
 	var self = this;
-	console.log(config);
 	config = config || {};
 	self.containerId = config['containerId'] || null;
 	self.containerElement = null;
@@ -16,6 +15,9 @@ OXOcard.SimulationManager = function(config){
 	self.statusId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status_wrapper');
 	self.status = null;
 
+	self.buttonRowId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button_row_wrapper');
+	self.buttonRow = null;
+
 	self.init = function(){
 		if(self.containerId == null)
 			throw "No element ID provided!";
@@ -26,6 +28,7 @@ OXOcard.SimulationManager = function(config){
 
 		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId, 'width':(self.height*.26), 'height':self.height*.26});
 		self.status = new OXOcard.SimulationStatus({'containerId':self.statusId, 'size':self.height*0.035});
+		self.buttonRow = new OXOcard.SimulationButtonRow({'containerId':self.buttonRowId, 'size':self.height*0.07});
 	}
 	
 	self.initStructure = function(){
@@ -33,6 +36,7 @@ OXOcard.SimulationManager = function(config){
 		html += 'width:' + self.width +'px; height:' + self.height + 'px;">';
 		html += '<div class="oxocard_simulation_status_wrapper" id="' + self.statusId + '"></div>';
 		html += '<div class="oxocard_simulation_display_wrapper" id="' + self.displayId + '"></div>';
+		html += '<div class="oxocard_simulation_button_wrapper" id="' + self.buttonRowId + '"></div>';
 
 		html += '</div>';
 		self.containerElement.insertAdjacentHTML('afterbegin',html);
@@ -41,6 +45,7 @@ OXOcard.SimulationManager = function(config){
 	self.updateUI = function(){
 		self.status.updateUI();
 		self.display.updateUI();
+		self.buttonRow.updateUI();
 	}
 	
 	self.init();
@@ -218,6 +223,102 @@ OXOcard.SimulationLed = function(config){
 	self.init();
 }
 
+OXOcard.SimulationButtonRow = function(config){
+	var self = this;
+
+	config = config || {};
+	self.containerId = config['containerId'] || null;
+	self.containerElement = null;
+	self.buttonRowId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button_row');
+	self.size = config['size'] || 50;
+
+	self.leftButtonId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button_row_left_button');
+	self.ledButton = null;
+
+	self.middleButtonId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button_row_middle_button');
+	self.middleButton = null;
+
+	self.rightButtonId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button_row_right_button');
+	self.rightButton = null;
+
+	self.init = function(){
+		if(self.containerId == null)
+			throw "No element ID provided!";
+		self.containerElement = document.getElementById(self.containerId);
+		if(self.containerElement == null)
+			throw "No valid element ID provided!"
+
+		self.initStructure();
+		
+		self.leftButton = new OXOcard.SimulationButton({'containerId':self.leftButtonId, 'height':self.size, 'width':self.size});
+		self.middleButton = new OXOcard.SimulationButton({'containerId':self.middleButtonId, 'height':self.size, 'width':self.size});
+		self.rightButton = new OXOcard.SimulationButton({'containerId':self.rightButtonId, 'height':self.size, 'width':self.size});
+
+	}
+
+	self.initStructure = function(){
+
+		var style = [
+			'float:left;',
+			'margin:40px 7px 0 7px;'
+		].join('');
+
+		var html = '<div style="width:' + (self.size*4) + 'px;margin: 0 auto;">';
+		html += '<div style="' + style + '" id="' + self.leftButtonId + '" ></div>';
+		html += '<div style="' + style + '" id="' + self.middleButtonId + '"></div>';
+		html += '<div style="' + style + '" id="' + self.rightButtonId + '"></div>';
+		html += '</div>';
+
+		self.containerElement.insertAdjacentHTML('beforeend', html);
+	}
+
+	self.updateUI = function(){
+		self.leftButton.updateUI();
+		self.middleButton.updateUI();
+		self.rightButton.updateUI();
+	}
+
+	self.init();
+}
+
+OXOcard.SimulationButton = function(config){
+	var self = this;
+
+	config = config || {};
+
+	self.containerId = config['containerId'] || null;
+	self.containerElement = null;
+
+
+	self.buttonId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button');
+	self.buttonElement = null;
+	self.height = config['height'] || 50;
+	self.width = config['width'] || 50;
+
+	self.init = function(){
+		if(self.containerId == null)
+			throw "No element ID provided!";
+		self.containerElement = document.getElementById(self.containerId);
+		if(self.containerElement == null)
+			throw "No valid element ID provided!"
+		self.initStructure();
+	}
+
+	self.initStructure = function(){
+		var radiusSize = (self.height > self.width) ? self.width : self.height;
+		var html = '<div style="border:2px solid #969696; cursor:pointer;border-radius:' + radiusSize + 'px" id="' + self.buttonId + '" />';
+		self.containerElement.insertAdjacentHTML('beforeend', html);
+		self.buttonElement = document.getElementById(self.buttonId);
+	}
+
+	self.updateUI = function(){
+		self.buttonElement.style.height = self.height + 'px';
+		self.buttonElement.style.width = self.width + 'px';
+	}
+
+	self.init();
+}
+
 OXOcard.Helper = function(){
 	var self = this;
 
@@ -356,7 +457,6 @@ OXOcard.AnimationPlayer = function(simulation){
 	}
 
 	self.playAnimation = function(animation){
-		console.log("Play animation");
 		self.animation = animation;
 		self.playFrame();
 	}
@@ -380,7 +480,7 @@ OXOcard.AnimationPlayer = function(simulation){
 	}
 
 	self.stopAnimation = function(){
-		console.log("Stopped animation.");
+		
 	}
 
 	self.init();
@@ -496,7 +596,7 @@ OXOcard.AnimationHelper = function(containerId, size, url){
 			for(var x=0; x<8; x++){
 				var index = Math.floor((y*8+x)/4);
 				var value = origValues[index];
-				value = (256+((value>>>0)<<(x%4*8)>>24>>>0))%256;
+				value = (256+((value)<<(x%4*8)>>24))%256;
 				value = value/255;
 				line.push(value);
 			}

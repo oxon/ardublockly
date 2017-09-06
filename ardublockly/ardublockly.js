@@ -85,6 +85,43 @@ Ardublockly.bindActionFunctions = function() {
     Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
     $('.button-collapse').sideNav('hide');
   });
+
+
+  Ardublockly.bindClick_('button_exercise_01_template', function() {
+    Ardublockly.loadServerXmlFile('../examples/exercise_01_template.xml');
+  });
+  Ardublockly.bindClick_('button_exercise_01_solution', function() {
+    Ardublockly.loadServerXmlFile('../examples/exervise_01_solution.xml');
+  });
+
+  Ardublockly.bindClick_('button_exercise_02_template', function() {
+    Ardublockly.loadServerXmlFile('../examples/exercise_02_template.xml');
+  });
+  Ardublockly.bindClick_('button_exercise_02_solution', function() {
+    Ardublockly.loadServerXmlFile('../examples/exervise_02_solution.xml');
+  });
+
+  Ardublockly.bindClick_('button_exercise_03_template', function() {
+    Ardublockly.loadServerXmlFile('../examples/exercise_03_template.xml');
+  });
+  Ardublockly.bindClick_('button_exercise_03_solution', function() {
+    Ardublockly.loadServerXmlFile('../examples/exervise_03_solution.xml');
+  });
+
+  Ardublockly.bindClick_('button_exercise_04_template', function() {
+    Ardublockly.loadServerXmlFile('../examples/exercise_04_template.xml');
+  });
+  Ardublockly.bindClick_('button_exercise_04_solution', function() {
+    Ardublockly.loadServerXmlFile('../examples/exervise_04_solution.xml');
+  });
+
+  Ardublockly.bindClick_('button_exercise_05_template', function() {
+    Ardublockly.loadServerXmlFile('../examples/exercise_05_template.xml');
+  });
+  Ardublockly.bindClick_('button_exercise_05_solution', function() {
+    Ardublockly.loadServerXmlFile('../examples/exervise_05_solution.xml');
+  });
+
   /*Ardublockly.bindClick_('button_example_AB16a', function() {
     Ardublockly.loadServerXmlFile('../examples/AB15b.xml');
     $('.button-collapse').sideNav('hide');
@@ -605,7 +642,7 @@ Ardublockly.renderContent = function() {
   }
 
   // Generate plain XML into element
-  document.getElementById('content_xml').value = Ardublockly.generateXml();
+  //document.getElementById('content_xml').value = Ardublockly.generateXml();
 };
 
 /**

@@ -1,0 +1,175 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="oxocard_clear_display" id="_KL_^:03WUHAAw?c?#ig" x="214" y="109">
+    <next>
+      <block type="oxocard_draw_image" id="F(0CF5L,+fls#n8p+vo*">
+        <field name="00">FALSE</field>
+        <field name="01">FALSE</field>
+        <field name="02">FALSE</field>
+        <field name="03">FALSE</field>
+        <field name="04">FALSE</field>
+        <field name="05">FALSE</field>
+        <field name="06">FALSE</field>
+        <field name="07">FALSE</field>
+        <field name="10">FALSE</field>
+        <field name="11">FALSE</field>
+        <field name="12">TRUE</field>
+        <field name="13">FALSE</field>
+        <field name="14">FALSE</field>
+        <field name="15">TRUE</field>
+        <field name="16">FALSE</field>
+        <field name="17">FALSE</field>
+        <field name="20">FALSE</field>
+        <field name="21">FALSE</field>
+        <field name="22">TRUE</field>
+        <field name="23">FALSE</field>
+        <field name="24">FALSE</field>
+        <field name="25">TRUE</field>
+        <field name="26">FALSE</field>
+        <field name="27">FALSE</field>
+        <field name="30">FALSE</field>
+        <field name="31">FALSE</field>
+        <field name="32">FALSE</field>
+        <field name="33">FALSE</field>
+        <field name="34">FALSE</field>
+        <field name="35">FALSE</field>
+        <field name="36">FALSE</field>
+        <field name="37">FALSE</field>
+        <field name="40">FALSE</field>
+        <field name="41">TRUE</field>
+        <field name="42">FALSE</field>
+        <field name="43">FALSE</field>
+        <field name="44">FALSE</field>
+        <field name="45">FALSE</field>
+        <field name="46">TRUE</field>
+        <field name="47">FALSE</field>
+        <field name="50">FALSE</field>
+        <field name="51">FALSE</field>
+        <field name="52">TRUE</field>
+        <field name="53">TRUE</field>
+        <field name="54">TRUE</field>
+        <field name="55">TRUE</field>
+        <field name="56">FALSE</field>
+        <field name="57">FALSE</field>
+        <field name="60">FALSE</field>
+        <field name="61">FALSE</field>
+        <field name="62">FALSE</field>
+        <field name="63">FALSE</field>
+        <field name="64">FALSE</field>
+        <field name="65">FALSE</field>
+        <field name="66">FALSE</field>
+        <field name="67">FALSE</field>
+        <field name="70">FALSE</field>
+        <field name="71">FALSE</field>
+        <field name="72">FALSE</field>
+        <field name="73">FALSE</field>
+        <field name="74">FALSE</field>
+        <field name="75">FALSE</field>
+        <field name="76">FALSE</field>
+        <field name="77">FALSE</field>
+        <value name="BRIGHTNESS">
+          <block type="math_number" id="rlX54Ud^uYEDK-WdtzK{">
+            <field name="NUM">255</field>
+          </block>
+        </value>
+        <next>
+          <block type="time_delay" id="GGSd[5*ln}u)cGWd#hMp">
+            <value name="DELAY_TIME_MILI">
+              <block type="math_number" id="}^1G[`.KxLha(jjM^hky">
+                <field name="NUM">1000</field>
+              </block>
+            </value>
+            <next>
+              <block type="oxocard_clear_display" id="ed+Z4JWmUyBz8;XaeyC|">
+                <next>
+                  <block type="oxocard_draw_image" id="*aV73U`5s.JSMo@W^i1p">
+                    <field name="00">FALSE</field>
+                    <field name="01">FALSE</field>
+                    <field name="02">FALSE</field>
+                    <field name="03">FALSE</field>
+                    <field name="04">FALSE</field>
+                    <field name="05">FALSE</field>
+                    <field name="06">FALSE</field>
+                    <field name="07">FALSE</field>
+                    <field name="10">FALSE</field>
+                    <field name="11">FALSE</field>
+                    <field name="12">TRUE</field>
+                    <field name="13">FALSE</field>
+                    <field name="14">FALSE</field>
+                    <field name="15">FALSE</field>
+                    <field name="16">FALSE</field>
+                    <field name="17">FALSE</field>
+                    <field name="20">FALSE</field>
+                    <field name="21">FALSE</field>
+                    <field name="22">TRUE</field>
+                    <field name="23">FALSE</field>
+                    <field name="24">FALSE</field>
+                    <field name="25">TRUE</field>
+                    <field name="26">FALSE</field>
+                    <field name="27">FALSE</field>
+                    <field name="30">FALSE</field>
+                    <field name="31">FALSE</field>
+                    <field name="32">FALSE</field>
+                    <field name="33">FALSE</field>
+                    <field name="34">FALSE</field>
+                    <field name="35">FALSE</field>
+                    <field name="36">FALSE</field>
+                    <field name="37">FALSE</field>
+                    <field name="40">FALSE</field>
+                    <field name="41">FALSE</field>
+                    <field name="42">FALSE</field>
+                    <field name="43">FALSE</field>
+                    <field name="44">FALSE</field>
+                    <field name="45">FALSE</field>
+                    <field name="46">TRUE</field>
+                    <field name="47">FALSE</field>
+                    <field name="50">FALSE</field>
+                    <field name="51">FALSE</field>
+                    <field name="52">TRUE</field>
+                    <field name="53">TRUE</field>
+                    <field name="54">TRUE</field>
+                    <field name="55">TRUE</field>
+                    <field name="56">FALSE</field>
+                    <field name="57">FALSE</field>
+                    <field name="60">FALSE</field>
+                    <field name="61">FALSE</field>
+                    <field name="62">FALSE</field>
+                    <field name="63">FALSE</field>
+                    <field name="64">FALSE</field>
+                    <field name="65">FALSE</field>
+                    <field name="66">FALSE</field>
+                    <field name="67">FALSE</field>
+                    <field name="70">FALSE</field>
+                    <field name="71">FALSE</field>
+                    <field name="72">FALSE</field>
+                    <field name="73">FALSE</field>
+                    <field name="74">FALSE</field>
+                    <field name="75">FALSE</field>
+                    <field name="76">FALSE</field>
+                    <field name="77">FALSE</field>
+                    <value name="BRIGHTNESS">
+                      <block type="math_number" id="t%VSpwH}fVnMZHey/LNi">
+                        <field name="NUM">255</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="time_delay" id="kUmkGm!14#fOrgx5:m^[">
+                        <value name="DELAY_TIME_MILI">
+                          <block type="math_number" id="9=t?y[~!OP)w5|K4=QjU">
+                            <field name="NUM">1000</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="oxocard_turn_off" id="Knw~4tP_rRAd2MIBKE}`"></block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

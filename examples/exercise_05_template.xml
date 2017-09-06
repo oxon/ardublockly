@@ -1,0 +1,48 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="time_delay" id=",i-_k~Y:HT=S+`e8*-{3" x="133" y="80">
+    <value name="DELAY_TIME_MILI">
+      <block type="math_number" id="H%#R8J_WcL)@.|_)hYJ(">
+        <field name="NUM">2000</field>
+      </block>
+    </value>
+  </block>
+  <block type="time_delay" id="D_Qw2FEwJLLmew9=:WnF" x="134" y="145">
+    <value name="DELAY_TIME_MILI">
+      <block type="math_number" id="vhOCv16%@XXW`i1un~?-">
+        <field name="NUM">5000</field>
+      </block>
+    </value>
+  </block>
+  <block type="oxocard_clear_display" id="0Gu)cGu(Zatn(u*9IZd[" x="135" y="214"></block>
+  <block type="oxocard_draw_number" id="g;,`6LRykZ@{+Q8p5{Pl" x="134" y="271">
+    <value name="NUM">
+      <block type="variables_get" id="6P].kH97i.o^g@)Z!WkY">
+        <field name="VAR">i</field>
+      </block>
+    </value>
+    <value name="BRIGHTNESS">
+      <block type="math_number" id=".RKYO(cTGY9q3zPQnxJn">
+        <field name="NUM">255</field>
+      </block>
+    </value>
+  </block>
+  <block type="controls_for" id="vL#`ra#sS}=yp{l[Qy,]" x="135" y="343">
+    <field name="VAR">i</field>
+    <value name="FROM">
+      <block type="math_number" id="{)@wUW4ZYT|w7?ebaN33">
+        <field name="NUM">10</field>
+      </block>
+    </value>
+    <value name="TO">
+      <block type="math_number" id="XcF^o+3Xy{RXODOuOvN|">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <value name="BY">
+      <block type="math_number" id="j?uRj;n/DG[BPN-[}HIQ">
+        <field name="NUM">-1</field>
+      </block>
+    </value>
+  </block>
+  <block type="oxocard_handle_autoturnoff_wp" id="31ci.6K!y?[`;ax{mkm9" x="136" y="450"></block>
+</xml>

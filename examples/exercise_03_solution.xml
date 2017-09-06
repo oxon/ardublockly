@@ -1,0 +1,127 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="oxocard_clear_display" id="tqPUh*0WVF@}72pln:HC" x="33" y="196">
+    <next>
+      <block type="oxocard_draw_circle" id="VHNfxI9f9B1KipiYE0jG">
+        <value name="X">
+          <block type="math_number" id="03@PxeO(I*|Sm[W)pK0y">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="Y">
+          <block type="math_number" id=":a;HQwuJdvKu/88@dT9-">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="R">
+          <block type="math_number" id="(_F[LBZusb+675oZ:2c*">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="BRIGHTNESS">
+          <block type="math_number" id="|uDXWeaY3bc3Q?|cI#H,">
+            <field name="NUM">255</field>
+          </block>
+        </value>
+        <next>
+          <block type="oxocard_draw_rectangle" id="=b:g?P{a9J41Uh8LCcmh">
+            <value name="X">
+              <block type="math_number" id="yuuo*k`GQ_sX/S54TrLf">
+                <field name="NUM">4</field>
+              </block>
+            </value>
+            <value name="Y">
+              <block type="math_number" id="82FS%G[*K0V*I?=SDP-~">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <value name="W">
+              <block type="math_number" id="P=JeH3gBW;z/WJ8H%}`5">
+                <field name="NUM">3</field>
+              </block>
+            </value>
+            <value name="H">
+              <block type="math_number" id="4H(SV-z|G?`CU`p+5esR">
+                <field name="NUM">3</field>
+              </block>
+            </value>
+            <value name="BRIGHTNESS">
+              <block type="math_number" id="?GbL{igtGyq,F9hB+ryG">
+                <field name="NUM">255</field>
+              </block>
+            </value>
+            <next>
+              <block type="oxocard_draw_pixel" id="Qkp_C^Sq[c39jt%i6z=.">
+                <value name="X">
+                  <block type="math_number" id="s9LDN~:d87`+rbpnBul=">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <value name="Y">
+                  <block type="math_number" id="b0lXuErJcx9Zm96gSR9D">
+                    <field name="NUM">5</field>
+                  </block>
+                </value>
+                <value name="BRIGHTNESS">
+                  <block type="math_number" id="~`0#RRJc7D|*K(rk@mve">
+                    <field name="NUM">255</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="oxocard_draw_triangle" id="MWu6)TsR[W5k@x6P!Z~U">
+                    <value name="X_ONE">
+                      <block type="math_number" id="J192h!p=?TF|]9P+{bZI">
+                        <field name="NUM">7</field>
+                      </block>
+                    </value>
+                    <value name="Y_ONE">
+                      <block type="math_number" id="MlmMO;#FaZf8.^G)+nm{">
+                        <field name="NUM">3</field>
+                      </block>
+                    </value>
+                    <value name="X_TWO">
+                      <block type="math_number" id="LkSBHM0:[+qip:gyH)LH">
+                        <field name="NUM">7</field>
+                      </block>
+                    </value>
+                    <value name="Y_TWO">
+                      <block type="math_number" id="Ir|RPy1`N,KU|gOEo.q4">
+                        <field name="NUM">7</field>
+                      </block>
+                    </value>
+                    <value name="X_THREE">
+                      <block type="math_number" id="%6Tw/i%6+]:b{7NUvuO@">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <value name="Y_THREE">
+                      <block type="math_number" id="wXO?uBv#@}9I|5BK=B:0">
+                        <field name="NUM">7</field>
+                      </block>
+                    </value>
+                    <value name="BRIGHTNESS">
+                      <block type="math_number" id="Z[*(gf:RJqYR)Zxy|:?L">
+                        <field name="NUM">255</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="time_delay" id="=l%Y]C[XG|yc0stDy~5Y">
+                        <value name="DELAY_TIME_MILI">
+                          <block type="math_number" id="N!:yor6w-XGykS36U;p#">
+                            <field name="NUM">1000</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="oxocard_handle_autoturnoff_wp" id="I%h^(H,^Qhqi*oX3D`3f"></block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

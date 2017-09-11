@@ -1,6 +1,9 @@
 
 var OXOcard = OXOcard || {};
 
+OXOcard.VENDOR_ID = '0x1a86';
+OXOcard.PRODUCT_ID = '0x7523';
+
 OXOcard.SimulationManager = function(config){
 	var self = this;
 	config = config || {};
@@ -627,50 +630,43 @@ OXOcard.AnimationHelper = function(containerId, size, url){
 	self.init();
 }
 
-OXOcard.ArduinoCompiler = function(config){
+OXOcard.DeviceManager = function(config){
 	var self = this;
 
 	config = config || {};
 
-	self.compileURL = config['compileURL'] || 'http://compile.oxocard.ch/compile/arduino';
-	self.callback = config['callback'] || null;
-	self.mainSource = '';
+	self.agentFoundCallback = config['agentFoundCallback'] || function(agent){ console.log("found agent!"); console.log(agent); };
+	self.agentDisconnectedCallback = config['agentDisconnectedCallback'] || function(event){ console.log("disconnected from agent!"); console.log(event); };
+	self.agentConnectedCallback = config['agentConnectedCallback'] || function(event){ console.log("connected to agent!"); console.log(event); };
 
-	self.started = false;
-	self.finished = false;
-	self.success = false;
-	self.binary = null;
-	self.output = null;
+	self.deviceFoundCallback = config['cardFoundCallback'] || function(device){ console.log("found card!"); console.log(device); };
+	self.deviceLostCallback = config['cardLostCallback'] || function(device){ console.log("lost card!"); console.log(device); };
+
+	self.agentFinder = null;
+	self.agentSocket = null;
+	self.serialList = null;
 
 	self.init = function(){
-		if(self.callback == null)
-			self.callback = self.defaultCallback;
+		self.agentFinder = new OXOcard.AgentFinder({'callback':self.agentFound});
+		self.agentFinder.find();
 	}
 
-	self.setMainFileContent = function(mainSource){
-		self.mainSource = mainSource;
-		// For now we only support "mainSource", so lets compile.
-		if(!self.started)
-			self.compile();
+	self.agentFound = function(agent){
+		self.agentSocket = new OXOcard.AgentSocket({
+			'url':self.agentFinder.foundAgentWS,
+			'connectCallback':self.agentConnected,
+			'disconnectCallback':self.agentDisconnectedCallback,
+		});
+		self.agentFoundCallback(agent);
 	}
 
-	self.compile = function(){
-		self.started = true;
-		OXOcard.helper.httpPostRequest(self.mainSource, self.compileURL, self.compileCallback);
-	}
-
-	self.compileCallback = function(data){
-		self.finished = true;
-		if(data && 'hex' in data && 'id' in data){
-			self.binary = data['hex'];
-			self.output = data['output'] || '';
-			self.success = true;
-		}
-		self.callback(self);
-	}
-
-	self.defaultCallback = function(result){
-		console.log(result);
+	self.agentConnected = function(event){
+		self.serialList = new OXOcard.AgentSerialList({
+			'socket':self.agentSocket,
+			'addedDeviceCallback':self.deviceFoundCallback,
+			'removeDeviceCallback':self.deviceLostCallback,
+		});
+		self.agentConnectedCallback(event);
 	}
 
 	self.init();
@@ -749,14 +745,19 @@ OXOcard.AgentSerialList = function(config){
 	var self = this;
 
 	config = config || {};
+
 	self.socket = config['socket'] || null;
-	self.last_update = 0;
 	self.interval = config['interval'] || 500;
+	self.last_update = 0;
 	self.running = true;
 
-	self.deviceList = [];
+	self.devices = {};
+
+	self.addedDeviceCallback = config['addedDeviceCallback'] || function(device){ console.log('New device.'); console.log(device); };
+	self.removedDeviceCallback = config['removedDeviceCallback'] || function(device){ console.log('Lost device.'); console.log(device); };
 
 	self.init = function(){
+
 		if(self.socket == null)
 			throw 'No socket provided! We can\'t initialize SerialList';
 		self.socket.registerCallback('message', self.handleResponse);
@@ -764,6 +765,7 @@ OXOcard.AgentSerialList = function(config){
 	}
 
 	self.start = function(){
+
 		self.running = true;
 		self.updateList();
 	}
@@ -777,7 +779,6 @@ OXOcard.AgentSerialList = function(config){
 			setTimeout(self.updateList, 200);
 			return;
 		}
-		
 		if((new Date()).getTime() - self.lastUpdate > self.interval)
 			self.socket.sendCommand('list');
 		if(self.running)
@@ -786,9 +787,24 @@ OXOcard.AgentSerialList = function(config){
 
 	self.handleResponse = function(response){
 		if(typeof response !== 'object') return;
+		var currentPorts = new Array();
 		if('Ports' in response && 'Network' in response && response['Network'] == false){
 			self.last_update = (new Date()).getTime();
-			console.log(response['Ports']);
+			for(var i=0, l=response['Ports'].length; i<l; i++){
+				var port = response['Ports'][i];
+				if(port['VendorID'].toLowerCase() != OXOcard.VENDOR_ID) continue;
+				if(port['ProductID'].toLowerCase() != OXOcard.PRODUCT_ID) continue;
+				if(!port['Name'] in self.devices)
+					self.addedDeviceCallback(port);
+				currentPorts.push(port['Name']);
+				self.devices[port['Name']] = port;
+			}
+		}
+		for(var i=0, l=self.devices.keys().length; i<l; i++){
+			if(currentPorts.indexOf(self.devices.keys()[i]) === -1){
+				self.removedDeviceCallBack(self.devices[self.devices.keys()[i]]);
+				delete self.devices[self.devices.keys()[i]];
+			}
 		}
 	}
 
@@ -804,10 +820,12 @@ OXOcard.AgentSocket = function(config){
 	self.isConnected = false;
 
 	self.callbacks = {
-		'connect': [],
-		'message':[],
-		'disconnect':[],
+		'connect': new Array(config['connectCallback'] || function(){}),
+		'message': [],
+		'disconnect':  new Array(config['disconnectCallback'] || function(){})
 	};
+
+	console.log(self.callbacks);
 
 	self.init = function(){
 		if(self.socketUrl == null)
@@ -848,6 +866,104 @@ OXOcard.AgentSocket = function(config){
 
 	self.sendCommand = function(command){
 		self.socket.emit('command', command);
+	}
+
+	self.init();
+}
+
+OXOcard.ArduinoCompiler = function(config){
+	var self = this;
+
+	config = config || {};
+
+	self.compileURL = config['compileURL'] || 'http://compile.oxocard.ch/compile/arduino';
+	self.callback = config['callback'] || null;
+	self.mainSource = '';
+
+	self.started = false;
+	self.finished = false;
+	self.success = false;
+	self.binary = null;
+	self.output = null;
+
+	self.init = function(){
+		if(self.callback == null)
+			self.callback = self.defaultCallback;
+	}
+
+	self.setMainFileContent = function(mainSource){
+		self.mainSource = mainSource;
+		// For now we only support "mainSource", so lets compile.
+		if(!self.started)
+			self.compile();
+	}
+
+	self.compile = function(){
+		self.started = true;
+		OXOcard.helper.httpPostRequest(self.mainSource, self.compileURL, self.compileCallback);
+	}
+
+	self.compileCallback = function(data){
+		self.finished = true;
+		if(data && 'hex' in data && 'id' in data){
+			self.binary = data['hex'];
+			self.output = data['output'] || '';
+			self.success = true;
+		}
+		self.callback(self);
+	}
+
+	self.defaultCallback = function(result){
+		console.log(result);
+	}
+
+	self.init();
+}
+
+OXOcard.AgentUploader = function(config){
+	var self = this;
+
+	config = config || {}
+
+	self.socket = config['socket'] || null;
+	self.uploadURL = config['uploadURL'] || null;
+	self.port = config['port'] || null;
+
+	self.FLASH_COMMAND={
+		"board": "arduino:avr:duo",
+		"filename": "sketch_jul11a.hex",
+		"commandline": "\"{runtime.tools.avrdude.path}/bin/avrdude\" \"-C{runtime.tools.avrdude.path}/etc/avrdude.conf\" {upload.verbose}  -patmega328p -carduino -P{serial.port} -b57600 -V -D \"-Uflash:w:{build.path}/{build.project_name}.hex:i\"", // -V nor reading back, half-time flash
+		"extra": {
+			"auth": {
+				"password": null
+			},
+			"wait_for_upload_port": false,
+			"use_1200bps_touch": false,
+			"network": false,
+			"params_verbose": "-v",
+			"params_quiet": "-q -q",
+			"verbose": false
+		}
+	};
+
+	self.init = function(){
+		if(self.socket == null)
+			throw 'No socket provided! We can\'t upload!';
+		if(self.uploadURL == null)
+			throw 'No upload-URL provided! We can\'t upload!';
+		if(self.port == null)
+			throw 'No port provided! We can\'t upload!';
+	}
+
+	self.upload = function(binary){
+		var request = JSON.parse(JSON.stringify(self.FLASH_COMMAND));
+		request['hex'] = binary;
+		request['port'] = self.port;
+		OXOcard.helper.httpPostRequest(request, self.uploadURL, self.uploadCallback)
+	}
+
+	self.uploadCallback = function(data){
+		console.log(data);
 	}
 
 	self.init();

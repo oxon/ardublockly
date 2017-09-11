@@ -42,21 +42,41 @@ void loop() {
 </textarea>
 
 <script>
-
+/*
 var s = null;
+var list = null;
+var us = [];
 
 function foundAgent(agent){
+	console.log(agent);
 	s =  new OXOcard.AgentSocket({'url':agent.foundAgentWS});
-	new OXOcard.AgentSerialList({'socket':s});
-	new OXOcard.AgentSerialList({'socket':s});
-	new OXOcard.AgentSerialList({'socket':s});
+	list = new OXOcard.AgentSerialList({'socket':s});
+	console.log(list.devices);
+	for(var i=0, l=list.devices.length; i<l; i++){
+		console.log("whoop");
+		us.push(new OXOcard.AgentUploader({
+			'socket': s,
+			'port':list.devices[i]['Name'],
+			'uploadURL':agent.foundAgentURL + '/upload'
+		}));
+	}
 }
 
 //  var socket = io();
 var c = new OXOcard.ArduinoCompiler();
 
 var f = new OXOcard.AgentFinder({'callback':foundAgent});
-f.find();
+f.find();*/
+
+var dm = null;
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+
+	dm = new OXOcard.DeviceManager();
+
+});
 </script>
 </body>
 </html>

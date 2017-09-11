@@ -32,7 +32,7 @@ OXOcard.SimulationManager = function(config){
 		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId, 'width':(self.height*.26), 'height':self.height*.26});
 		self.status = new OXOcard.SimulationStatus({'containerId':self.statusId, 'size':self.height*0.035});
 		self.buttonRow = new OXOcard.SimulationButtonRow({'containerId':self.buttonRowId, 'size':self.height*0.07});
-		self.resetButton = new OXOcard.SimulationButton({'containerId':self.resetButtonId, 'size':self.height*0.08});
+		self.resetButton = new OXOcard.SimulationButton({'containerId':self.resetButtonId, 'height':self.height*0.07,'width':self.height*0.07});
 	}
 	
 	self.initStructure = function(){
@@ -41,7 +41,7 @@ OXOcard.SimulationManager = function(config){
 		html += '<div class="oxocard_simulation_status_wrapper" id="' + self.statusId + '"></div>';
 		html += '<div class="oxocard_simulation_display_wrapper" id="' + self.displayId + '"></div>';
 		html += '<div class="oxocard_simulation_button_wrapper" id="' + self.buttonRowId + '"></div>';
-		html += '<div class="oxocard_simulation_button_wrapper" id="' + self.resetButtonId + '"></div>';
+		html += '<div class="oxocard_simulation_button_wrapper" style="margin:50% 0 0 30%" id="' + self.resetButtonId + '"></div>';
 		html += '</div>';
 		self.containerElement.insertAdjacentHTML('afterbegin',html);
 	}
@@ -262,13 +262,13 @@ OXOcard.SimulationButtonRow = function(config){
 	}
 
 	self.initStructure = function(){
-
+		var margin = Math.floor(self.size/7)-2;
 		var style = [
 			'float:left;',
-			'margin:40px 7px 0 7px;'
+			'margin:0px ' + margin + 'px 0 ' + margin + 'px;'
 		].join('');
 
-		var html = '<div style="width:' + (self.size*4) + 'px;margin: 0 auto;">';
+		var html = '<div style="width:' + (self.size*4) + 'px;margin: ' + self.size + 'px auto;">';
 		html += '<div style="' + style + '" id="' + self.leftButtonId + '" ></div>';
 		html += '<div style="' + style + '" id="' + self.middleButtonId + '"></div>';
 		html += '<div style="' + style + '" id="' + self.rightButtonId + '"></div>';

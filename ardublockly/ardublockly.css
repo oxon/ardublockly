@@ -928,4 +928,12 @@ nav ul a.disabled{
   padding:15px 0px 0px 0px;
 }
 
+a{
+  color:#25A7AC;
+}
+
+a:hover{
+  color:#EB6923;
+}
+
 

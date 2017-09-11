@@ -187,7 +187,7 @@ function OxocardAgent(){
 	self.connectTryPorts = function(){
 		for(var i=self.portRangeStart; i<self.portRangeEnd; i++){
 			OxocardAgent.httpRequest(self.connectUrl.replace('{{PORT}}', i), function(response){
-				self.agentUrl = response['https'];
+				self.agentUrl = response['http'];
 				self.oxocardUploader = new OxocardUploader(self.compileUrl, self.agentUrl + '/upload');
 				self.oxocardSocket = new OxocardSocket(response['ws']);
 				$('#not_running_dialog').closeModal();

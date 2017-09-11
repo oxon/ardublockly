@@ -1,63 +1,49 @@
 <html>
 <head>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script type="text/javascript" src="oxocard.js"></script>
 </head>
-<body onload="js:init();">
+<body>
 <div id="content">
 <ul id="device_list"></ul>
 </div>
-<!--<script type="text/javascript">
 
-var exampleSocket = null;
-var wsQueue = [];
+<textarea id="sourcecode" rows="50" cols="100">
+#include "OXOcardRunner.h"
 
-function init(){
-	exampleSocket = new WebSocket("ws://localhost:8991/socket.io/?EIO=3&transport=websocket&sid=7i57N4ahIbogyfOjfJ6Q");
-	exampleSocket.onmessage = function (event) {
-		
-		if(wsQueue.length == 0){
-			console.log("unhandled message.")
-			console.log(event.data)
-			return;
-		}
-
-		if(['list'].indexOf(event.data) != -1){
-			console.log("echo. ignoring.");
-			return;
-		}
-		var caller = wsQueue.shift();
-		response = JSON.parse(event.data);
-
-
-		caller['callback'](response);
-	}
+void setup() {
+  clearDisplay();
 }
 
-
-function sendCommand(command, callback){
-	wsQueue.push({'cmd': command, 'callback':(callback || function(){})});
-	exampleSocket.send(command);
+void loop() {
+  handleAutoTurnOff();
+  clearDisplay();
+  drawImage(0b00000000,
+            0b01100110,
+            0b01100110,
+            0b00000000,
+            0b00000000,
+            0b01000010,
+            0b00111100,
+            0b00000000, 255);
+  delay(1000);
+  clearDisplay();
+  drawImage(0b00000000,
+            0b01100000,
+            0b01100110,
+            0b00000000,
+            0b00000000,
+            0b01000010,
+            0b00111100,
+            0b00011000, 255);
+  delay(1000);
 }
+</textarea>
 
-function updateDeviceList(list){
-	html = '';
-	for(var i=0,l=list['SerialPorts'].length; i<l; i++){
-		var port = list['SerialPorts'][i];
-		html += '<li>' + port['Friendly'] + ' (' + port['Name'] + ')</li>';
-	}
-	document.getElementById('device_list').innerHTML = html;
-	//setTimeout("sendCommand('list', updateDeviceList);",500);
-}
-
-</script>-->
 <script>
 //  var socket = io();
-var socket = io('https://localhost:8992');
+var c = new OXOcard.ArduinoCompiler();
 
-socket.on('message', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
+var f = new OXOcard.AgentFinder();
 </script>
 </body>
 </html>

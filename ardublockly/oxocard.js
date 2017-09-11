@@ -341,7 +341,7 @@ OXOcard.Helper = function(){
 	}
 
 	self.httpPostRequest = function(data, url, callback){
-		OxocardAgent.httpRequest(url, callback, data)
+		OXOcard.helper.httpRequest(url, callback, data)
 	}
 
 	self.httpRequest = function(url, callback, data){
@@ -362,7 +362,7 @@ OXOcard.Helper = function(){
 			}else if(http.readyState == 4 && http.status > 199 && http.status < 300){
 				// we can ignore...
 			}else if(http.readyState == 4 ){
-				console.log('Something wrong on the backend?! url: ' + url);
+				console.log('Something wrong on the backend?! url: ' + url + ' / status: ' + http.status);
 			}else{
 				// ignore for now.
 			}
@@ -622,6 +622,118 @@ OXOcard.AnimationHelper = function(containerId, size, url){
 			self.isProcessed = true;
 			callback(self.animation);
 		});
+	}
+
+	self.init();
+}
+
+OXOcard.ArduinoCompiler = function(config){
+	var self = this;
+
+	config = config || {};
+
+	self.compileURL = config['compileURL'] || 'http://compile.oxocard.ch/compile/arduino';
+	self.callback = config['callback'] || null;
+	self.mainSource = '';
+
+	self.started = false;
+	self.finished = false;
+	self.success = false;
+	self.binary = null;
+	self.output = null;
+
+	self.init = function(){
+		if(self.callback == null)
+			self.callback = self.defaultCallback;
+	}
+
+	self.setMainFileContent = function(mainSource){
+		self.mainSource = mainSource;
+		// For now we only support "mainSource", so lets compile.
+		if(!self.started)
+			self.compile();
+	}
+
+	self.compile = function(){
+		self.started = true;
+		OXOcard.helper.httpPostRequest(self.mainSource, self.compileURL, self.compileCallback);
+	}
+
+	self.compileCallback = function(data){
+		self.finished = true;
+		if(data && 'hex' in data && 'id' in data){
+			self.binary = data['hex'];
+			self.output = data['output'] || '';
+			self.success = true;
+		}
+		self.callback(self);
+	}
+
+	self.defaultCallback = function(result){
+		console.log(result);
+	}
+
+	self.init();
+}
+
+OXOcard.AgentFinder = function(config){
+	var self = this;
+
+	config = config || {};
+
+	self.interval = config['interval'] || 1000;
+	self.callback = config['callback'] || null;
+
+	self.portRangeStart = 8990;
+	self.portRangeEnd = 9000;
+	self.defaultPort = 8991;
+	self.baseURL = 'http://localhost:{{PORT}}/info'
+
+	self.triedDefault = false;
+	self.currentPort = null;
+	self.foundAgent = null;
+
+	self.init = function(){
+		if(self.callback == null)
+			self.callback = self.defaultCallback;
+	}
+
+	self.getURL = function(port){
+		port = port || self.currentPort;
+		return self.baseURL.replace('{{PORT}}', port);
+	}
+
+	self.find = function(){
+		self.triedDefault = false;
+		self.currentPort = null;
+		self.foundAgent = null;
+		self.tryPorts();
+	}
+
+	self.tryPorts = function(){
+		if(self.currentPort != null) return;
+		if(!self.triedDefault){
+			self.triedDefault = true;
+			self.tryPort(self.defaultPort);
+			console.log(self.interval);
+			setTimeout(self.tryPorts, self.interval);
+			return;
+		}
+		for(var port=self.portRangeStart; port<=self.portRangeEnd; port++)
+			self.tryPort(port);
+		setTimeout(self.tryPorts, self.interval);
+	}
+
+	self.tryPort = function(port){
+		OXOcard.helper.httpRequest(self.getURL(port), function(response){
+			self.foundAgent = response['http'];
+			self.currentPort = port;
+			self.callback(self);
+		});
+	}
+
+	self.defaultCallback = function(){
+		console.log(self);
 	}
 
 	self.init();

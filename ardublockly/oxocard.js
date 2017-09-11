@@ -690,8 +690,10 @@ OXOcard.AgentFinder = function(config){
 	self.baseURL = 'http://localhost:{{PORT}}/info'
 
 	self.triedDefault = false;
-	self.currentPort = null;
-	self.foundAgent = null;
+	self.foundPort = null;
+	self.found = false,
+	self.foundAgentURL = null;
+	self.foundAgentWS = null;
 
 	self.init = function(){
 		if(self.callback == null)
@@ -706,16 +708,17 @@ OXOcard.AgentFinder = function(config){
 	self.find = function(){
 		self.triedDefault = false;
 		self.currentPort = null;
-		self.foundAgent = null;
+		self.found = false;
+		self.foundAgentURL = null;
+		self.foundAgentWS = null;
 		self.tryPorts();
 	}
 
 	self.tryPorts = function(){
-		if(self.currentPort != null) return;
+		if(self.found) return;
 		if(!self.triedDefault){
 			self.triedDefault = true;
 			self.tryPort(self.defaultPort);
-			console.log(self.interval);
 			setTimeout(self.tryPorts, self.interval);
 			return;
 		}
@@ -726,14 +729,125 @@ OXOcard.AgentFinder = function(config){
 
 	self.tryPort = function(port){
 		OXOcard.helper.httpRequest(self.getURL(port), function(response){
-			self.foundAgent = response['http'];
-			self.currentPort = port;
+			if(!'ws' in response || !'http' in response) return;
+			self.foundAgentURL = response['http'];
+			self.foundAgentWS = response['ws'];
+			self.foundPort = port;
+			self.found = true;
 			self.callback(self);
 		});
 	}
 
 	self.defaultCallback = function(){
 		console.log(self);
+	}
+
+	self.init();
+}
+
+OXOcard.AgentSerialList = function(config){
+	var self = this;
+
+	config = config || {};
+	self.socket = config['socket'] || null;
+	self.last_update = 0;
+	self.interval = config['interval'] || 500;
+	self.running = true;
+
+	self.deviceList = [];
+
+	self.init = function(){
+		if(self.socket == null)
+			throw 'No socket provided! We can\'t initialize SerialList';
+		self.socket.registerCallback('message', self.handleResponse);
+		self.start();
+	}
+
+	self.start = function(){
+		self.running = true;
+		self.updateList();
+	}
+
+	self.stop = function(){
+		self.running = false;
+	}
+
+	self.updateList = function(){
+		if(!self.socket.isConnected){
+			setTimeout(self.updateList, 200);
+			return;
+		}
+		
+		if((new Date()).getTime() - self.lastUpdate > self.interval)
+			self.socket.sendCommand('list');
+		if(self.running)
+			setTimeout(self.updateList, self.interval);
+	}
+
+	self.handleResponse = function(response){
+		if(typeof response !== 'object') return;
+		if('Ports' in response && 'Network' in response && response['Network'] == false){
+			self.last_update = (new Date()).getTime();
+			console.log(response['Ports']);
+		}
+	}
+
+	self.init();
+}
+
+OXOcard.AgentSocket = function(config){
+	var self = this;
+
+	config = config || {};
+	self.socketUrl = config['url'] || null;
+	self.socket = null;
+	self.isConnected = false;
+
+	self.callbacks = {
+		'connect': [],
+		'message':[],
+		'disconnect':[],
+	};
+
+	self.init = function(){
+		if(self.socketUrl == null)
+			throw 'No socket-URL provided! We can\'t connect in AgentSocket.init()';
+		self.socket = io(self.socketUrl);
+		self.socket.on('connect', self.onConnect);
+		self.socket.on('disconnect', self.onDisconnect);
+		self.socket.on('message', self.onMessage);
+	}
+
+	self.onMessage = function(result){
+		try{
+			var result = JSON.parse(result);
+		}catch(e){ /* ignore */ }
+		self.multiplexEvent('message', result);
+	}
+
+	self.onConnect = function(event){
+		self.isConnected = true;
+		self.multiplexEvent('connect', event);
+	}
+
+	self.onDisconnect = function(event){
+		self.isConnected = false;
+		self.multiplexEvent('disconnect', event);
+	}
+
+	self.registerCallback = function(type, callback){
+		if(! type in self.callbacks) return false;
+		self.callbacks[type].push(callback);
+		return true;
+	}
+
+	self.multiplexEvent = function(type, event){
+		for(var i=0, l=self.callbacks[type].length; i<l; i++)
+			self.callbacks[type][i](event);
+	}
+
+	self.sendCommand = function(command){
+		self.socket.emit('command', command);
 	}
 
 	self.init();

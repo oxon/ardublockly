@@ -1,5 +1,7 @@
 <html>
 <head>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script type="text/javascript" src="oxocard.js"></script>
 </head>
 <body>
@@ -40,10 +42,21 @@ void loop() {
 </textarea>
 
 <script>
+
+var s = null;
+
+function foundAgent(agent){
+	s =  new OXOcard.AgentSocket({'url':agent.foundAgentWS});
+	new OXOcard.AgentSerialList({'socket':s});
+	new OXOcard.AgentSerialList({'socket':s});
+	new OXOcard.AgentSerialList({'socket':s});
+}
+
 //  var socket = io();
 var c = new OXOcard.ArduinoCompiler();
 
-var f = new OXOcard.AgentFinder();
+var f = new OXOcard.AgentFinder({'callback':foundAgent});
+f.find();
 </script>
 </body>
 </html>

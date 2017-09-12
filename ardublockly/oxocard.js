@@ -639,6 +639,8 @@ OXOcard.OXOcard = function(config){
 	self.socket = config['socket'] || null;
 	self.uploader = config['uploader'] || null;
 
+	self.outputCallback = config['outputCallback'] || function(message){console.log(message);}
+	self.serialOutputCallback = config['serialOutputCallback'] || function(message){console.warn(message);}
 	self.compiledCallback  = null;
 
 	self.portOpen = false;
@@ -646,21 +648,22 @@ OXOcard.OXOcard = function(config){
 	self.init = function(){
 		console.log("I AM: " + self.device['Name']);
 		self.socket.registerCallback('message', self.serialMessage);
+		self.openPort();
 	}
 
 	self.serialMessage = function(message){
-		
-		self.filterSerialStatus(message);
-	}
-
-	self.filterSerialStatus = function(message){
-		if(typeof response !== 'object') return;
-		if('Ports' in response && 'Network' in response && response['Network'] == false){
-			for(var i=0, l=response['Ports'].length; i<l; i++){
-				var port = response['Ports'][i];
+		if(typeof message !== 'object') return;
+		if('Ports' in message && 'Network' in message && message['Network'] == false){
+			for(var i=0, l=message['Ports'].length; i<l; i++){
+				var port = message['Ports'][i];
 				if(!'Name' in port || port['Name'] != self.device['Name']) continue;
-				if('isOpen' in port) self.portOpen = port['isOpen'];
+				
+				if('IsOpen' in port) self.portOpen = port['IsOpen'];
 			}
+		}
+
+		if(self.portOpen && 'D' in message){
+			self.serialOutputCallback(message['D']);
 		}
 	}
 
@@ -678,15 +681,23 @@ OXOcard.OXOcard = function(config){
 		if(!compiler.success){
 			console.warn("Compilation failed."); return;
 		}
-		console.log(compiler);
+		self.outputCallback(compiler.output);
 		self.compiledCallback(compiler.binary);
 	}
 
 	self.upload = function(binary){
-		console.log('Uploading');
+		self.closePort();
 		self.uploader.upload(binary)
 	}
 	
+	self.closePort = function(){
+		self.socket.sendCommand('close ' + self.device['Name']);
+	}
+
+	self.openPort = function(){
+		self.socket.sendCommand('open ' + self.device['Name'] + ' 115200');
+	}
+
 	self.init();
 }
 
@@ -1010,8 +1021,15 @@ OXOcard.AgentSocket = function(config){
 	}
 
 	self.registerCallback = function(type, callback){
-		if(! type in self.callbacks) return false;
+		if(! type in self.callbacks) return -1;
 		self.callbacks[type].push(callback);
+		return (self.callbacks[type].length-1);
+	}
+
+	self.unregisterCallback = function(type, index){
+		if(! type in self.callbacks) return false;
+		if(index < 0 || index >= self.callbacks[type].length) return false;
+		self.callbacks[type].splice(index, 1);
 		return true;
 	}
 
@@ -1088,26 +1106,17 @@ OXOcard.AgentUploader = function(config){
 	var self = this;
 
 	config = config || {}
-
+	self.socketCallbackId = -1;
 	self.socket = config['socket'] || null;
 	self.uploadURL = config['uploadURL'] || null;
 	self.port = config['port'] || null;
+	self.progressCallback = config['progressCallback'] || function(message){console.log(message)};
+	self.callback = config['callback'] || function(message){console.warn(message)};
 
 	self.FLASH_COMMAND={
 		"board": "arduino:avr:duo",
-		"filename": "sketch_jul11a.hex",
-		"commandline": "\"{runtime.tools.avrdude.path}/bin/avrdude\" \"-C{runtime.tools.avrdude.path}/etc/avrdude.conf\" {upload.verbose}  -patmega328p -carduino -P{serial.port} -b57600 -V -D \"-Uflash:w:{build.path}/{build.project_name}.hex:i\"", // -V nor reading back, half-time flash
-		"extra": {
-			"auth": {
-				"password": null
-			},
-			"wait_for_upload_port": false,
-			"use_1200bps_touch": false,
-			"network": false,
-			"params_verbose": "-v",
-			"params_quiet": "-q -q",
-			"verbose": false
-		}
+		"filename": "main.hex",
+		"commandline": "\"{runtime.tools.avrdude.path}/bin/avrdude\" \"-C{runtime.tools.avrdude.path}/etc/avrdude.conf\" {upload.verbose}  -patmega328p -carduino -P{serial.port} -b57600 -V -D \"-Uflash:w:{build.path}/{build.project_name}.hex:i\"" // -V nor reading back, half-time flash
 	};
 
 	self.init = function(){
@@ -1127,8 +1136,24 @@ OXOcard.AgentUploader = function(config){
 	}
 
 	self.uploadCallback = function(data){
+		self.socketCallbackId = self.socket.registerCallback('message', self.detectFlashingEnd);
 		console.log("UPLOAD CALLBACK.")
-		console.log(data);
+	}
+
+	self.detectFlashingEnd = function(message){
+		if(typeof message !== 'object') return;
+		if('ProgrammerStatus' in message && message['ProgrammerStatus'] == 'Busy'){
+			self.progressCallback(message['Msg']);
+		}
+		if('ProgrammerStatus' in message && message['ProgrammerStatus'] == 'Done'){
+			if('Flash' in message && message['Flash'] == 'Ok') self.finish(true);
+			else self.finish(false);
+		}
+	}
+
+	self.finish = function(success){
+		self.socket.unregisterCallback('message', self.socketCallbackId);
+		self.callback(success);
 	}
 
 	self.init();

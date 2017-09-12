@@ -38,6 +38,7 @@ void loop() {
             0b00111100,
             0b00011000, 255);
   delay(1000);
+  println("IT WORKS!");
 }
 </textarea>
 
@@ -77,6 +78,14 @@ document.addEventListener("DOMContentLoaded", function() {
 	dm = new OXOcard.DeviceManager();
 
 });
+
+function doIt(){
+  var code = document.getElementById('sourcecode').value;
+  for(var i=0, l=Object.keys(dm.devices).length; i<l; i++){
+    var device = dm.devices[Object.keys(dm.devices)[i]];
+    device.compileAndUpload(code);
+  }
+}
 </script>
 </body>
 </html>

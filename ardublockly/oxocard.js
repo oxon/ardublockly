@@ -636,11 +636,11 @@ OXOcard.DeviceManager = function(config){
 	config = config || {};
 
 	self.agentFoundCallback = config['agentFoundCallback'] || function(agent){ console.log("found agent!"); console.log(agent); };
-	self.agentDisconnectedCallback = config['agentDisconnectedCallback'] || function(event){ console.log("disconnected from agent!"); console.log(event); };
-	self.agentConnectedCallback = config['agentConnectedCallback'] || function(event){ console.log("connected to agent!"); console.log(event); };
+	self.agentDisconnectedCallback = config['agentDisconnectedCallback'] || function(event){ console.log("disconnected from agent!");};
+	self.agentConnectedCallback = config['agentConnectedCallback'] || function(event){ console.log("connected to agent!"); };
 
-	self.deviceFoundCallback = config['cardFoundCallback'] || function(device){ console.log("found card!"); console.log(device); };
-	self.deviceLostCallback = config['cardLostCallback'] || function(device){ console.log("lost card!"); console.log(device); };
+	self.deviceFoundCallback = config['cardFoundCallback'] || function(device){ console.log(">>>found card!"); console.log(device); };
+	self.deviceLostCallback = config['cardLostCallback'] || function(device){ console.log(">>>lost card!"); console.log(device); };
 
 	self.agentFinder = null;
 	self.agentSocket = null;
@@ -664,7 +664,7 @@ OXOcard.DeviceManager = function(config){
 		self.serialList = new OXOcard.AgentSerialList({
 			'socket':self.agentSocket,
 			'addedDeviceCallback':self.deviceFoundCallback,
-			'removeDeviceCallback':self.deviceLostCallback,
+			'removedDeviceCallback':self.deviceLostCallback,
 		});
 		self.agentConnectedCallback(event);
 	}
@@ -751,7 +751,7 @@ OXOcard.AgentSerialList = function(config){
 	self.last_update = 0;
 	self.running = true;
 
-	self.devices = {};
+	self.devices = [];
 
 	self.addedDeviceCallback = config['addedDeviceCallback'] || function(device){ console.log('New device.'); console.log(device); };
 	self.removedDeviceCallback = config['removedDeviceCallback'] || function(device){ console.log('Lost device.'); console.log(device); };
@@ -790,21 +790,45 @@ OXOcard.AgentSerialList = function(config){
 		var currentPorts = new Array();
 		if('Ports' in response && 'Network' in response && response['Network'] == false){
 			self.last_update = (new Date()).getTime();
+			self.markDevicesAsLost();
 			for(var i=0, l=response['Ports'].length; i<l; i++){
 				var port = response['Ports'][i];
 				if(port['VendorID'].toLowerCase() != OXOcard.VENDOR_ID) continue;
 				if(port['ProductID'].toLowerCase() != OXOcard.PRODUCT_ID) continue;
-				if(!port['Name'] in self.devices)
-					self.addedDeviceCallback(port);
-				currentPorts.push(port['Name']);
-				self.devices[port['Name']] = port;
+				self.addDevice(port);
+			}
+			self.removeLostDevices();
+		}
+	}
+
+	self.markDevicesAsLost = function(){
+		for(var i=0, l=self.devices.length; i<l; i++){
+			self.devices[i]['updated'] = false;
+		}
+	}
+
+	self.removeLostDevices = function(){
+		for(var i=0; i<self.devices.length; i++){
+			if(!self.devices[i]['updated']){
+				var device = self.devices.splice(i,1);
+				self.removedDeviceCallback(device[0]);
 			}
 		}
-		for(var i=0, l=self.devices.keys().length; i<l; i++){
-			if(currentPorts.indexOf(self.devices.keys()[i]) === -1){
-				self.removedDeviceCallBack(self.devices[self.devices.keys()[i]]);
-				delete self.devices[self.devices.keys()[i]];
+	}
+
+	self.addDevice = function(device){
+		var deviceIndex = -1;
+		for(var i=0, l=self.devices.length; i<l; i++){
+			if(self.devices[i]['Name'] == device['Name']){
+				deviceIndex = i; break;
 			}
+		}
+		device['updated'] = true;
+		if(deviceIndex === -1){
+			self.devices.push(device);
+			self.addedDeviceCallback(device);
+		}else{
+			self.devices[deviceIndex] = device;
 		}
 	}
 
@@ -843,14 +867,14 @@ OXOcard.AgentSocket = function(config){
 		self.multiplexEvent('message', result);
 	}
 
-	self.onConnect = function(event){
+	self.onConnect = function(){
 		self.isConnected = true;
-		self.multiplexEvent('connect', event);
+		self.multiplexEvent('connect');
 	}
 
-	self.onDisconnect = function(event){
+	self.onDisconnect = function(){
 		self.isConnected = false;
-		self.multiplexEvent('disconnect', event);
+		self.multiplexEvent('disconnect');
 	}
 
 	self.registerCallback = function(type, callback){
@@ -861,7 +885,10 @@ OXOcard.AgentSocket = function(config){
 
 	self.multiplexEvent = function(type, event){
 		for(var i=0, l=self.callbacks[type].length; i<l; i++)
-			self.callbacks[type][i](event);
+			if(typeof variable === 'undefined')
+				self.callbacks[type][i]();
+			else
+				self.callbacks[type][i](event);
 	}
 
 	self.sendCommand = function(command){

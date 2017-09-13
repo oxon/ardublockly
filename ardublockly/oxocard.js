@@ -640,7 +640,6 @@ OXOcard.OXOcard = function(config){
 	self.device = config.device || null;
 	self.socket = config.socket || null;
 	self.uploadURL = config.uploadURL || null;
-	self.listenToSerial = config.listenToSerial || true;
 	self.uploader = null;
 
 	self.outputCallback = config.outputCallback || function(device, message){console.log('oxocard: ' + message);};
@@ -648,8 +647,11 @@ OXOcard.OXOcard = function(config){
 	self.statusCompiledCallback = config.statusCompiledCallback || function(device){console.log('oxocard: ' + "COMPILED");};
 	self.statusUploadedCallback = config.statusUploadedCallback || function(device){console.log('oxocard: ' + "UPLOADED");};
 	self.statusFlashedCallback = config.statusFlashedCallback || function(device){console.log('oxocard: ' + "FLASHED");};
+	self.statusPortChangedCallback = config.statusPortChangedCallback || function(device){console.log('oxocard: port: ' + self.isPortOpen);};
 
-	self.portOpen = false;
+	self.isFlashing = false;
+	self.listenOnPort = false;
+	self.isPortOpen = false;
 
 	self.init = function(){
 		self.socket.registerCallback('message', self.serialMessage);
@@ -661,8 +663,7 @@ OXOcard.OXOcard = function(config){
 			'uploadedCallback':self.uploadedCallback,
 			'flashedCallback':self.flashedCallback
 		});
-		if(self.listenToSerial)
-			self.openPort();
+		self.closePort();
 	};
 
 	self.serialMessage = function(message){
@@ -671,12 +672,17 @@ OXOcard.OXOcard = function(config){
 			for(var i=0, l=message.Ports.length; i<l; i++){
 				var port = message.Ports[i];
 				if(!('Name' in port) || port.Name != self.device.Name) continue;
-				
-				if('IsOpen' in port) self.portOpen = port.IsOpen;
+				if('IsOpen' in port){
+					var notify = false;
+					if(self.isPortOpen != port.IsOpen)
+						notify = true;
+					self.isPortOpen = port.IsOpen;
+					if(notify) self.statusPortChangedCallback(self);
+				}
 			}
 		}
 
-		if(self.portOpen && 'D' in message){
+		if(self.isPortOpen && 'D' in message){
 			self.serialOutputCallback(self, message.D);
 		}
 	};
@@ -700,7 +706,9 @@ OXOcard.OXOcard = function(config){
 	};
 
 	self.upload = function(binary){
-		self.closePort();
+		if(self.listenOnPort)
+			self.closePort();
+		self.isFlashing = true;
 		self.uploader.upload(binary);
 	};
 	
@@ -713,7 +721,8 @@ OXOcard.OXOcard = function(config){
 	};
 
 	self.flashedCallback = function(){
-		if(self.listenToSerial)
+		self.isFlashing = false;
+		if(self.listenOnPort)
 			self.openPort();
 		self.statusFlashedCallback(self);
 	};
@@ -725,6 +734,16 @@ OXOcard.OXOcard = function(config){
 	self.openPort = function(){
 		self.socket.sendCommand('open ' + self.device.Name + ' 115200');
 	};
+
+	self.enableSerialCommunication = function(){
+		self.listenOnPort = true;
+		if(!self.isFlashing)
+			self.openPort();
+	}
+
+	self.disableSerialCommunication = function(){
+		self.closePort();
+	}
 
 	self.init();
 };
@@ -784,9 +803,11 @@ OXOcard.DeviceManager = function(config){
 			'serialOutputCallback':self.statusSerialOutputCallback,
 			'statusCompiledCallback':self.statusCompileFinishedCallback,
 			'statusUploadedCallback':self.statusUploadFinishedCallback,
-			'statusFlashedCallback':self.statusFlashingFinishedCallback
+			'statusFlashedCallback':self.statusFlashingFinishedCallback,
+			'statusPortChangedCallback':self.portChanged
 		});
 		self.devices[device.Name] = card;
+		if(Object.keys(self.devices).length == 1) card.enableSerialCommunication();
 		self.statusDeviceConnectedCallback(card);
 	};
 
@@ -795,6 +816,13 @@ OXOcard.DeviceManager = function(config){
 		self.statusDeviceDisconnectedCallback(self.devices[device.Name]);
 		delete self.devices[device.Name];
 	};
+
+	self.portChanged = function(device){
+		if(device.isPortOpen && device.device.Name != Object.keys(self.devices).sort()[0]){
+			console.log('We need to close!');
+			device.disableSerialCommunication();
+		}
+	}
 
 	self.init();
 };
@@ -931,7 +959,7 @@ OXOcard.AgentSerialList = function(config){
 
 	self.devices = [];
 
-	self.addedDeviceCallback = confi.addedDeviceCallback || function(device){ console.log('New device.'); console.log(device); };
+	self.addedDeviceCallback = config.addedDeviceCallback || function(device){ console.log('New device.'); console.log(device); };
 	self.removedDeviceCallback = config.removedDeviceCallback || function(device){ console.log('Lost device.'); console.log(device); };
 
 	self.init = function(){

@@ -42,42 +42,54 @@ void loop() {
 }
 </textarea>
 
+<textarea id="ide_output" rows="25" cols="100"></textarea>
+
+<textarea id="serial_output" rows="25" cols="100"></textarea>
+
+<button onclick="program();" > PROGRAM </button>
+
+<div style="height:100px; width:300px; background:#ddd" id="status">Agent not connected</div>
+
 <script>
-/*
-var s = null;
-var list = null;
-var us = [];
-
-function foundAgent(agent){
-	console.log(agent);
-	s =  new OXOcard.AgentSocket({'url':agent.foundAgentWS});
-	list = new OXOcard.AgentSerialList({'socket':s});
-	console.log(list.devices);
-	for(var i=0, l=list.devices.length; i<l; i++){
-		console.log("whoop");
-		us.push(new OXOcard.AgentUploader({
-			'socket': s,
-			'port':list.devices[i]['Name'],
-			'uploadURL':agent.foundAgentURL + '/upload'
-		}));
-	}
-}
-
-//  var socket = io();
-var c = new OXOcard.ArduinoCompiler();
-
-var f = new OXOcard.AgentFinder({'callback':foundAgent});
-f.find();*/
 
 var dm = null;
 
+function showStatus(text){
+  document.getElementById('status').innerHTML = text;
+}
 
+function checkConnectedCard(device){
+  if(Object.keys(dm.devices).length > 0)
+    showStatus('Programmable!');
+  else
+    showStatus('Card not connected!');
+  var dev = device || null;
+  if(dev == null)
+    return;
+  
+}
 
 document.addEventListener("DOMContentLoaded", function() {
 
-	dm = new OXOcard.DeviceManager();
+	dm = new OXOcard.DeviceManager({
+    'statusAgentConnectedCallback':checkConnectedCard,
+    'statusAgentDisconnectedCallback':function(){showStatus('Agent not connected')},
+    'statusDeviceDisconnectedCallback':checkConnectedCard,
+    'statusDeviceConnectedCallback':checkConnectedCard,
+    'statusCompileFinishedCallback':function(){showStatus('Uploading')},
+    'statusUploadFinishedCallback':function(){showStatus('Flashing')},
+    'statusFlashingFinishedCallback':checkConnectedCard,
+    'statusIDEOutputCallback':function(device, message){document.getElementById('ide_output').value += message;},
+    'statusSerialOutputCallback':function(device, message){document.getElementById('serial_output').value += message;},
+  });
 
 });
+
+function program(){
+  showStatus('Compiling');
+  doIt();
+
+}
 
 function doIt(){
   var code = document.getElementById('sourcecode').value;

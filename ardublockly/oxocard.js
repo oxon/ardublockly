@@ -1,3 +1,6 @@
+(function () {
+	'use strict';
+ }());
 
 var OXOcard = OXOcard || {};
 
@@ -7,9 +10,9 @@ OXOcard.PRODUCT_ID = '0x7523';
 OXOcard.SimulationManager = function(config){
 	var self = this;
 	config = config || {};
-	self.containerId = config['containerId'] || null;
+	self.containerId = config.containerId || null;
 	self.containerElement = null;
-	self.height = config['height'] || 500;
+	self.height = config.height || 500;
 	self.width = self.height * 0.68;
 
 	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_display_wrapper');
@@ -26,17 +29,17 @@ OXOcard.SimulationManager = function(config){
 
 	self.init = function(){
 		if(self.containerId == null)
-			throw "No element ID provided!";
+			throw 'No element ID provided!';
 		self.containerElement = document.getElementById(self.containerId);
 		if(self.containerElement == null)
-			throw "No valid element ID provided!"
+			throw 'No valid element ID provided!';
 		self.initStructure();
 
-		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId, 'width':(self.height*.26), 'height':self.height*.26});
+		self.display = new OXOcard.SimulationDisplay({'containerId':self.displayId, 'width':(self.height*0.26), 'height':self.height*0.26});
 		self.status = new OXOcard.SimulationStatus({'containerId':self.statusId, 'size':self.height*0.035});
 		self.buttonRow = new OXOcard.SimulationButtonRow({'containerId':self.buttonRowId, 'size':self.height*0.07});
 		self.resetButton = new OXOcard.SimulationButton({'containerId':self.resetButtonId, 'height':self.height*0.07,'width':self.height*0.07});
-	}
+	};
 	
 	self.initStructure = function(){
 		var html = '<div class="oxocard_simulation_wrapper" style="';
@@ -47,26 +50,26 @@ OXOcard.SimulationManager = function(config){
 		html += '<div class="oxocard_simulation_button_wrapper" style="margin:50% 0 0 30%" id="' + self.resetButtonId + '"></div>';
 		html += '</div>';
 		self.containerElement.insertAdjacentHTML('afterbegin',html);
-	}
+	};
 	
 	self.updateUI = function(){
 		self.status.updateUI();
 		self.display.updateUI();
 		self.buttonRow.updateUI();
 		self.resetButton.updateUI();
-	}
+	};
 	
 	self.init();
-}
+};
 
 OXOcard.SimulationStatus = function(config){
 	var self = this;
 
 	config = config || {};
-	self.containerId = config['containerId'] || null;
+	self.containerId = config.containerId || null;
 	self.containerElement = null;
 	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status');
-	self.size = config['size'] || 25;
+	self.size = config.size || 25;
 
 	self.powerLedId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_status_led_power');
 	self.powerLed = null;
@@ -82,10 +85,10 @@ OXOcard.SimulationStatus = function(config){
 
 	self.init = function(){
 		if(self.containerId == null)
-			throw "No element ID provided!";
+			throw 'No element ID provided!';
 		self.containerElement = document.getElementById(self.containerId);
 		if(self.containerElement == null)
-			throw "No valid element ID provided!"
+			throw 'No valid element ID provided!';
 
 		self.initStructure();
 		
@@ -96,7 +99,7 @@ OXOcard.SimulationStatus = function(config){
 
 		self.powerLed.setValue(255);
 		self.chargingLed.setValue(255);
-	}
+	};
 
 	self.initStructure = function(){
 
@@ -120,46 +123,45 @@ OXOcard.SimulationStatus = function(config){
 		html += '</div>';
 
 		self.containerElement.insertAdjacentHTML('beforeend', html);
-	}
+	};
 
 	self.updateUI = function(){
 		self.powerLed.updateUI();
 		self.chargingLed.updateUI();
 		self.serialLed.updateUI();
 		self.bluetoothLed.updateUI();
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.SimulationDisplay = function(config){
 	var self = this;
 
 	config = config || {};
-	self.containerId = config['containerId'] || null;
+	self.containerId = config.containerId || null;
 	self.containerElement = null;
 	self.displayId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_display');
-	self.ledRows = config['ledRows'] || 8;
-	self.ledColumns = config['ledColumns'] || 8;
-	self.width = config['width'] || 160;
-	self.height = config['height'] || 160;
-	self.ledIds = new Array();
+	self.ledRows = config.ledRows || 8;
+	self.ledColumns = config.ledColumns || 8;
+	self.width = config.width || 160;
+	self.height = config.height || 160;
+	self.ledIds = [];
 	self.leds = null;
 
 	self.init = function(){
 		if(self.containerId == null)
-			throw "No element ID provided!";
+			throw 'No element ID provided!';
 		self.containerElement = document.getElementById(self.containerId);
 		if(self.containerElement == null)
-			throw "No valid element ID provided!"
+			throw 'No valid element ID provided!';
 
 		self.initStructure();
-		self.leds = new Array();
+		self.leds = [];
 		for(i=0; i<self.ledRows*self.ledColumns; i++){
 			self.leds.push(new OXOcard.SimulationLed({'containerId':self.ledIds[i], 'height':(self.height/self.ledRows), 'width':(self.width/self.ledColumns)}));
 		}
-
-	}
+	};
 
 	self.initStructure = function(){
 		var html = '<table id="' + self.displayId + '" style="margin:0 auto; border-collapse:seperate; border-spacing:' + (self.width/self.ledColumns)/20 + 'px;"><tbody>';
@@ -168,57 +170,57 @@ OXOcard.SimulationDisplay = function(config){
 			for(var x=0; x<self.ledColumns; x++){
 				var id = OXOcard.helper.findFreeHTMLId('oxocard_simulation_display_led');
 				self.ledIds.push(id);
-				html += '<td id="' + id + '" style="background:#fff;"></td>'
+				html += '<td id="' + id + '" style="background:#fff;"></td>';
 			}
 			html += '</tr>';
 		}
 		html += '</tbody></table>';
 		self.containerElement.insertAdjacentHTML('beforeend', html);
-	}
+	};
 
 	self.updateUI = function(){
 		for(var i=0, l=self.leds.length; i<l; i++){
 			self.leds[i].updateUI();
 		}
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.SimulationLed = function(config){
 	var self = this;
 
 	config = config || {};
 
-	self.containerId = config['containerId'] || null;
+	self.containerId = config.containerId || null;
 	self.containerElement = null;
 
-	self.color = config['color'] || '#e42e87';
+	self.color = config.color || '#e42e87';
 	self.value = 0;
 
 	self.ledId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_led');
 	self.ledElement = null;
-	self.height = config['height'] || 20;
-	self.width = config['width'] || 20;
+	self.height = config.height || 20;
+	self.width = config.width || 20;
 
 	self.init = function(){
 		if(self.containerId == null)
-			throw "No element ID provided!";
+			throw 'No element ID provided!';
 		self.containerElement = document.getElementById(self.containerId);
 		if(self.containerElement == null)
-			throw "No valid element ID provided!"
+			throw 'No valid element ID provided!';
 		self.initStructure();
-	}
+	};
 
 	self.initStructure = function(){
 		var html = '<div id="' + self.ledId + '" />';
 		self.containerElement.insertAdjacentHTML('beforeend', html);
 		self.ledElement = document.getElementById(self.ledId);
-	}
+	};
 
 	self.setValue = function(value){
 		self.value = value;
-	}
+	};
 
 	self.updateUI = function(){
 		self.ledElement.style.height = self.height + 'px';
@@ -226,19 +228,19 @@ OXOcard.SimulationLed = function(config){
 		self.ledElement.style.backgroundColor = self.color;
 		self.ledElement.style.opacity = self.value/255;
 		
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.SimulationButtonRow = function(config){
 	var self = this;
 
 	config = config || {};
-	self.containerId = config['containerId'] || null;
+	self.containerId = config.containerId || null;
 	self.containerElement = null;
 	self.buttonRowId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button_row');
-	self.size = config['size'] || 50;
+	self.size = config.size || 50;
 
 	self.leftButtonId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button_row_left_button');
 	self.ledButton = null;
@@ -251,18 +253,17 @@ OXOcard.SimulationButtonRow = function(config){
 
 	self.init = function(){
 		if(self.containerId == null)
-			throw "No element ID provided!";
+			throw 'No element ID provided!';
 		self.containerElement = document.getElementById(self.containerId);
 		if(self.containerElement == null)
-			throw "No valid element ID provided!"
+			throw 'No valid element ID provided!';
 
 		self.initStructure();
 		
 		self.leftButton = new OXOcard.SimulationButton({'containerId':self.leftButtonId, 'height':self.size, 'width':self.size});
 		self.middleButton = new OXOcard.SimulationButton({'containerId':self.middleButtonId, 'height':self.size, 'width':self.size});
 		self.rightButton = new OXOcard.SimulationButton({'containerId':self.rightButtonId, 'height':self.size, 'width':self.size});
-
-	}
+	};
 
 	self.initStructure = function(){
 		var margin = Math.floor(self.size/7)-2;
@@ -278,59 +279,59 @@ OXOcard.SimulationButtonRow = function(config){
 		html += '</div>';
 
 		self.containerElement.insertAdjacentHTML('beforeend', html);
-	}
+	};
 
 	self.updateUI = function(){
 		self.leftButton.updateUI();
 		self.middleButton.updateUI();
 		self.rightButton.updateUI();
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.SimulationButton = function(config){
 	var self = this;
 
 	config = config || {};
 
-	self.containerId = config['containerId'] || null;
+	self.containerId = config.containerId || null;
 	self.containerElement = null;
 
 
 	self.buttonId = OXOcard.helper.findFreeHTMLId('oxocard_simulation_button');
 	self.buttonElement = null;
-	self.height = config['height'] || 50;
-	self.width = config['width'] || 50;
+	self.height = config.height || 50;
+	self.width = config.width || 50;
 
 	self.init = function(){
 		if(self.containerId == null)
-			throw "No element ID provided!";
+			throw 'No element ID provided!';
 		self.containerElement = document.getElementById(self.containerId);
 		if(self.containerElement == null)
-			throw "No valid element ID provided!"
+			throw 'No valid element ID provided!';
 		self.initStructure();
-	}
+	};
 
 	self.initStructure = function(){
 		var radiusSize = (self.height > self.width) ? self.width : self.height;
 		var html = '<div style="border:2px solid #969696; cursor:pointer;border-radius:' + radiusSize + 'px" id="' + self.buttonId + '" />';
 		self.containerElement.insertAdjacentHTML('beforeend', html);
 		self.buttonElement = document.getElementById(self.buttonId);
-	}
+	};
 
 	self.updateUI = function(){
 		self.buttonElement.style.height = self.height + 'px';
 		self.buttonElement.style.width = self.width + 'px';
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.Helper = function(){
 	var self = this;
 
-	self.usedIds = new Array();
+	self.usedIds = [];
 
 	self.findFreeHTMLId = function(prefix){
 		prefix = prefix || 'id';
@@ -341,18 +342,18 @@ OXOcard.Helper = function(){
 			}
 		}
 		return false;
-	}
+	};
 
 	self.httpPostRequest = function(data, url, callback){
-		OXOcard.helper.httpRequest(url, callback, data)
-	}
+		OXOcard.helper.httpRequest(url, callback, data);
+	};
 
 	self.httpRequest = function(url, callback, data){
 		var http = new XMLHttpRequest();
 		if(data)
 			http.open("POST", url, true);
 		else
-			http.open("GET", url, true)
+			http.open("GET", url, true);
 		http.onreadystatechange = function() {
 			if(http.readyState == 4 && (http.status==200 || http.status==202) ) {
 				var parsedResponse = http.responseText;
@@ -369,11 +370,11 @@ OXOcard.Helper = function(){
 			}else{
 				// ignore for now.
 			}
-		}
+		};
 
 		var contentType = 'text/plain';
 
-		if(typeof data === 'object' || typeof data === 'array'){
+		if(typeof data === 'object'){
 			data = JSON.stringify(data);
 			contentType = 'application/json';
 		}
@@ -384,8 +385,8 @@ OXOcard.Helper = function(){
 		}else{
 			http.send();
 		}
-	}
-}
+	};
+};
 
 OXOcard.helper = new OXOcard.Helper();
 
@@ -396,7 +397,7 @@ OXOcard.DisplayHelper = function(simulation){
 
 	self.init = function(){
 
-	}
+	};
 
 	self.drawImage = function(values){
 		for(var y=0, l=values.length; y<l; y++){
@@ -405,7 +406,7 @@ OXOcard.DisplayHelper = function(simulation){
 			}
 		}
 		self.simulation.updateUI();
-	}
+	};
 
 	self.drawRect = function(x, y, x2, y2, value){
 		value = self.getValue(value);
@@ -425,20 +426,20 @@ OXOcard.DisplayHelper = function(simulation){
 			}
 		}
 		self.simulation.updateUI();
-	}
+	};
 
 	self.drawPixel = function(x, y, value){
 		var pixel = self.getPixel(x, y);
 		pixel.setValue(value);
 		pixel.updateUI();
-	}
+	};
 
 	self.getPixel = function(x, y){
 		var translatedX = x;
 		var translatedY = y;
 		var index = translatedY*self.simulation.display.ledRows + translatedX;
 		return self.simulation.display.leds[index];
-	}
+	};
 
 	self.getValue = function(value){
 		if(typeof value === 'undefined' || value > 255){
@@ -447,10 +448,10 @@ OXOcard.DisplayHelper = function(simulation){
 		if(value < 0)
 			return 0;
 		return value;
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.AnimationPlayer = function(simulation){
 	var self = this;
@@ -462,22 +463,22 @@ OXOcard.AnimationPlayer = function(simulation){
 
 	self.init = function(){
 		self.displayHelper = new OXOcard.DisplayHelper(self.simulation);
-	}
+	};
 
 	self.playAnimation = function(animation){
 		self.animation = animation;
 		self.playFrame();
-	}
+	};
 
 	self.playFrame = function(){
-		self.currentFrame = self.animation.getNextFrame()
+		self.currentFrame = self.animation.getNextFrame();
 		if(self.currentFrame == null){
 			self.stopAnimation();
 			return;
 		}
 		self.displayHelper.drawImage(self.currentFrame.values);
 		setTimeout(self.playOffFrame, self.currentFrame.onTime);
-	}
+	};
 
 	self.playOffFrame = function(){
 		if(self.currentFrame == null){
@@ -485,29 +486,29 @@ OXOcard.AnimationPlayer = function(simulation){
 			return;
 		}
 		setTimeout(self.playFrame, self.currentFrame.offTime);
-	}
+	};
 
 	self.stopAnimation = function(){
 		
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.Animation = function(){
 	var self = this;
 
-	self.frames = new Array();
+	self.frames = [];
 	self.animationIndex = -1;
 	self.loop = true;
 
 	self.init = function(){
 		
-	}
+	};
 
 	self.registerFrame = function(frame){
 		self.frames.push(frame);
-	}
+	};
 
 	self.getNextFrame = function(){
 		self.animationIndex++;
@@ -518,10 +519,10 @@ OXOcard.Animation = function(){
 				return null;
 		}
 		return self.frames[self.animationIndex];
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.AnimationFrame = function(values){
 	var self = this;
@@ -537,24 +538,25 @@ OXOcard.AnimationFrame = function(values){
 		if(self.values == null){
 			self.values = self.generateArray();
 		}
-	}
+	};
 
 	self.drawPixel = function(x,y, value){
 		self.values[y][x] = value;
-	}
+	};
 
 	self.generateArray = function(){
-		var array = new Array();
+		var array = [];
 		for(var y=0; y<self.height; y++){
-			array.push(new Array())
+			array.push([]);
 			for(var x=0; x<self.width; x++){
 				array[y].push(0);
 			}
 		}
 		return array;
-	}
+	};
+
 	self.init();
-}
+};
 
 OXOcard.AnimationHelper = function(containerId, size, url){
 	var self = this;
@@ -571,7 +573,7 @@ OXOcard.AnimationHelper = function(containerId, size, url){
 
 	self.init = function(){
 		if(self.size == null || self.containerId == null || self.url == null)
-			throw "Animation needs a containerId, size and URL!"
+			throw 'Animation needs a containerId, size and URL!';
 			
 
 		var config = {
@@ -581,26 +583,26 @@ OXOcard.AnimationHelper = function(containerId, size, url){
 
 		self.simulation = new OXOcard.SimulationManager(config);
 		self.player = new OXOcard.AnimationPlayer(self.simulation);
-		self.getAnimation(self.player.playAnimation)
-	}
+		self.getAnimation(self.player.playAnimation);
+	};
 
 	self.processAnimation = function(callback){
 		OXOcard.helper.httpRequest(url, function(data){
 			if('f' in data && 't' in data){
 				self.animation = new OXOcard.Animation();
 
-				for(var i=0, l=data['f'].length; i<l; i++){
-					self.processFrame(data['f'][i], data['t'][i]);
+				for(var i=0, l=data.f.length; i<l; i++){
+					self.processFrame(data.f[i], data.t[i]);
 				}
 				callback();
 			}
 		});
-	}
+	};
 
 	self.processFrame = function(origValues, times){
-		var values = new Array();
+		var values = [];
 		for(var y=0; y<8; y++){
-			var line = new Array();
+			var line = [];
 			for(var x=0; x<8; x++){
 				var index = Math.floor((y*8+x)/4);
 				var value = origValues[index];
@@ -611,10 +613,10 @@ OXOcard.AnimationHelper = function(containerId, size, url){
 			values.push(line);
 		}
 		var frame = new OXOcard.AnimationFrame(values);
-		frame.onTime = times['on'];
-		frame.offTime = times['off'];
+		frame.onTime = times.on;
+		frame.offTime = times.off;
 		self.animation.registerFrame(frame);
-	}
+	};
 
 	self.getAnimation = function(callback){
 		if(self.isProcessed){
@@ -625,27 +627,27 @@ OXOcard.AnimationHelper = function(containerId, size, url){
 			self.isProcessed = true;
 			callback(self.animation);
 		});
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.OXOcard = function(config){
 	var self = this;
 	
 	config = config || {};
 
-	self.device = config['device'] || null;
-	self.socket = config['socket'] || null;
-	self.uploadURL = config['uploadURL'] || null;
-	self.listenToSerial = config['listenToSerial'] || true;
+	self.device = config.device || null;
+	self.socket = config.socket || null;
+	self.uploadURL = config.uploadURL || null;
+	self.listenToSerial = config.listenToSerial || true;
 	self.uploader = null;
 
-	self.outputCallback = config['outputCallback'] || function(device, message){console.log('oxocard: ' + message);};
-	self.serialOutputCallback = config['serialOutputCallback'] || function(device, message){console.warn('oxocard: ' + message);};
-	self.statusCompiledCallback = config['statusCompiledCallback'] || function(device){console.log('oxocard: ' + "COMPILED");};
-	self.statusUploadedCallback = config['statusUploadedCallback'] || function(device){console.log('oxocard: ' + "UPLOADED");};
-	self.statusFlashedCallback = config['statusFlashedCallback'] || function(device){console.log('oxocard: ' + "FLASHED");};
+	self.outputCallback = config.outputCallback || function(device, message){console.log('oxocard: ' + message);};
+	self.serialOutputCallback = config.serialOutputCallback || function(device, message){console.warn('oxocard: ' + message);};
+	self.statusCompiledCallback = config.statusCompiledCallback || function(device){console.log('oxocard: ' + "COMPILED");};
+	self.statusUploadedCallback = config.statusUploadedCallback || function(device){console.log('oxocard: ' + "UPLOADED");};
+	self.statusFlashedCallback = config.statusFlashedCallback || function(device){console.log('oxocard: ' + "FLASHED");};
 
 	self.portOpen = false;
 
@@ -654,78 +656,78 @@ OXOcard.OXOcard = function(config){
 		self.uploader = new OXOcard.AgentUploader({
 			'socket':self.socket,
 			'uploadURL':self.uploadURL,
-			'port':self.device['Name'],
+			'port':self.device.Name,
 			'progressCallback':self.progressCallback,
 			'uploadedCallback':self.uploadedCallback,
 			'flashedCallback':self.flashedCallback
 		});
 		if(self.listenToSerial)
 			self.openPort();
-	}
+	};
 
 	self.serialMessage = function(message){
 		if(typeof message !== 'object') return;
-		if('Ports' in message && 'Network' in message && message['Network'] == false){
-			for(var i=0, l=message['Ports'].length; i<l; i++){
-				var port = message['Ports'][i];
-				if(!'Name' in port || port['Name'] != self.device['Name']) continue;
+		if('Ports' in message && 'Network' in message && message.Network == false){
+			for(var i=0, l=message.Ports.length; i<l; i++){
+				var port = message.Ports[i];
+				if(!('Name' in port) || port.Name != self.device.Name) continue;
 				
-				if('IsOpen' in port) self.portOpen = port['IsOpen'];
+				if('IsOpen' in port) self.portOpen = port.IsOpen;
 			}
 		}
 
 		if(self.portOpen && 'D' in message){
-			self.serialOutputCallback(self, message['D']);
+			self.serialOutputCallback(self, message.D);
 		}
-	}
+	};
 
 	self.compileAndUpload = function(code){
 		self.compileCode(code, self.upload);
-	}
+	};
 
 	self.compileCode = function(code, callback){
 		var compiler = new OXOcard.ArduinoCompiler({'callback':self.codeCompiled});
 		compiler.setMainFileContent(code);
-	}
+	};
 
 	self.codeCompiled = function(compiler){
 		if(!compiler.success){
-			console.warn("Compilation failed."); return;
+			console.warn('Compilation failed.'); return;
 		}
 		self.outputCallback(self, compiler.output);
 		self.statusCompiledCallback(self);
 		self.upload(compiler.binary);
-	}
+	};
 
 	self.upload = function(binary){
 		self.closePort();
-		self.uploader.upload(binary)
-	}
+		self.uploader.upload(binary);
+	};
 	
 	self.uploadedCallback = function(){
 		self.statusUploadedCallback(self);
-	}
+	};
 
 	self.progressCallback = function(message){
 		self.outputCallback(self, message);
-	}
+	};
 
 	self.flashedCallback = function(){
 		if(self.listenToSerial)
 			self.openPort();
 		self.statusFlashedCallback(self);
-	}
+	};
 
 	self.closePort = function(){
-		self.socket.sendCommand('close ' + self.device['Name']);
-	}
+		self.socket.sendCommand('close ' + self.device.Name);
+	};
 
 	self.openPort = function(){
-		self.socket.sendCommand('open ' + self.device['Name'] + ' 115200');
-	}
+		self.socket.sendCommand('open ' + self.device.Name + ' 115200');
+	};
 
 	self.init();
-}
+};
 
 OXOcard.DeviceManager = function(config){
 	var self = this;
@@ -736,15 +738,15 @@ OXOcard.DeviceManager = function(config){
 	self.agent = null;
 	self.socket = null;
 
-	self.statusAgentConnectedCallback = config['statusAgentConnectedCallback'] || function(){};
-	self.statusAgentDisonnectedCallback = config['statusAgentDisconnectedCallback'] || function(){};
-	self.statusDeviceConnectedCallback = config['statusDeviceConnectedCallback'] || function(device){};
-	self.statusDeviceDisconnectedCallback = config['statusDeviceDisconnectedCallback'] || function(device){};
-	self.statusCompileFinishedCallback = config['statusCompileFinishedCallback'] || function(device){};
-	self.statusUploadFinishedCallback = config['statusUploadFinishedCallback'] || function(device){};
-	self.statusFlashingFinishedCallback = config['statusFlashingFinishedCallback'] || function(device){};
-	self.statusIDEOutputCallback = config['statusIDEOutputCallback'] || function(device, output){};
-	self.statusSerialOutputCallback = config['statusSerialOutputCallback'] || function(device, output){};
+	self.statusAgentConnectedCallback = config.statusAgentConnectedCallback || function(){};
+	self.statusAgentDisonnectedCallback = config.statusAgentDisconnectedCallback || function(){};
+	self.statusDeviceConnectedCallback = config.statusDeviceConnectedCallback || function(device){};
+	self.statusDeviceDisconnectedCallback = config.statusDeviceDisconnectedCallback || function(device){};
+	self.statusCompileFinishedCallback = config.statusCompileFinishedCallback || function(device){};
+	self.statusUploadFinishedCallback = config.statusUploadFinishedCallback || function(device){};
+	self.statusFlashingFinishedCallback = config.statusFlashingFinishedCallback || function(device){};
+	self.statusIDEOutputCallback = config.statusIDEOutputCallback || function(device, output){};
+	self.statusSerialOutputCallback = config.statusSerialOutputCallback || function(device, output){};
 
 	self.devices = {};
 
@@ -756,22 +758,22 @@ OXOcard.DeviceManager = function(config){
 			'cardFoundCallback':self.addDevice,
 			'cardLostCallback':self.removeDevice
 		});
-	}
+	};
 
 	self.setAgent = function(agent){
 		self.agent = agent;
-	}
+	};
 
 	self.setSocket = function(socket){
 		self.socket = socket;
 		self.statusAgentConnectedCallback();
-	}
+	};
 
 	self.reset = function(){
 		self.agent = null;
 		self.socket = null;
 		self.statusAgentDisonnectedCallback();
-	}
+	};
 
 	self.addDevice = function(device){
 		var card = new OXOcard.OXOcard({
@@ -784,32 +786,30 @@ OXOcard.DeviceManager = function(config){
 			'statusUploadedCallback':self.statusUploadFinishedCallback,
 			'statusFlashedCallback':self.statusFlashingFinishedCallback
 		});
-		self.devices[device['Name']] = card;
+		self.devices[device.Name] = card;
 		self.statusDeviceConnectedCallback(card);
-	}
+	};
 
 	self.removeDevice = function(device){
-		self.devices[device['Name']].closePort();
-		self.statusDeviceDisconnectedCallback(self.devices[device['Name']]);
-		delete self.devices[device['Name']]
-	}
+		self.devices[device.Name].closePort();
+		self.statusDeviceDisconnectedCallback(self.devices[device.Name]);
+		delete self.devices[device.Name];
+	};
 
 	self.init();
-}
-
-
+};
 
 OXOcard.Agent = function(config){
 	var self = this;
 
 	config = config || {};
 
-	self.agentFoundCallback = config['agentFoundCallback'] || function(agent){ console.log("found agent!"); console.log(agent); };
-	self.agentDisconnectedCallback = config['agentDisconnectedCallback'] || function(){ console.log("disconnected from agent!");};
-	self.agentConnectedCallback = config['agentConnectedCallback'] || function(){ console.log("connected to agent!"); };
+	self.agentFoundCallback = config.agentFoundCallback || function(agent){ console.log("found agent!"); console.log(agent); };
+	self.agentDisconnectedCallback = config.agentDisconnectedCallback || function(){ console.log("disconnected from agent!");};
+	self.agentConnectedCallback = config.agentConnectedCallback || function(){ console.log("connected to agent!"); };
 
-	self.deviceFoundCallback = config['cardFoundCallback'] || function(device){ console.log(">>>found card!"); console.log(device); };
-	self.deviceLostCallback = config['cardLostCallback'] || function(device){ console.log(">>>lost card!"); console.log(device); };
+	self.deviceFoundCallback = config.cardFoundCallback || function(device){ console.log(">>>found card!"); console.log(device); };
+	self.deviceLostCallback = config.cardLostCallback || function(device){ console.log(">>>lost card!"); console.log(device); };
 
 	self.agentFinder = null;
 	self.agentSocket = null;
@@ -818,7 +818,7 @@ OXOcard.Agent = function(config){
 	self.init = function(){
 		self.agentFinder = new OXOcard.AgentFinder({'callback':self.agentFound});
 		self.agentFinder.find();
-	}
+	};
 
 	self.agentFound = function(agent){
 		self.agentSocket = new OXOcard.AgentSocket({
@@ -827,7 +827,7 @@ OXOcard.Agent = function(config){
 			'disconnectCallback':self.agentDisconnected,
 		});
 		self.agentFoundCallback(agent);
-	}
+	};
 
 	self.agentDisconnected = function(){
 		self.serialList.forceDisconnectAllDevices();
@@ -836,7 +836,7 @@ OXOcard.Agent = function(config){
 		self.agentSocker = null;
 		self.agentDisconnectedCallback();
 		self.agentFinder.find();
-	}
+	};
 
 	self.agentConnected = function(){
 		self.serialList = new OXOcard.AgentSerialList({
@@ -845,41 +845,39 @@ OXOcard.Agent = function(config){
 			'removedDeviceCallback':self.deviceLostCallback,
 		});
 		self.agentConnectedCallback(self.agentSocket);
-	}
+	};
 
 	self.init();
-}
-
-
+};
 
 OXOcard.AgentFinder = function(config){
 	var self = this;
 
 	config = config || {};
 
-	self.interval = config['interval'] || 1000;
-	self.callback = config['callback'] || null;
+	self.interval = config.interval || 1000;
+	self.callback = config.callback || null;
 
 	self.portRangeStart = 8990;
 	self.portRangeEnd = 9000;
 	self.defaultPort = 8991;
-	self.baseURL = 'http://localhost:{{PORT}}/info'
+	self.baseURL = 'http://localhost:{{PORT}}/info';
 
 	self.triedDefault = false;
 	self.foundPort = null;
-	self.found = false,
+	self.found = false;
 	self.foundAgentURL = null;
 	self.foundAgentWS = null;
 
 	self.init = function(){
 		if(self.callback == null)
 			self.callback = self.defaultCallback;
-	}
+	};
 
 	self.getURL = function(port){
 		port = port || self.currentPort;
 		return self.baseURL.replace('{{PORT}}', port);
-	}
+	};
 
 	self.find = function(){
 		self.triedDefault = false;
@@ -888,7 +886,7 @@ OXOcard.AgentFinder = function(config){
 		self.foundAgentURL = null;
 		self.foundAgentWS = null;
 		self.tryPorts();
-	}
+	};
 
 	self.tryPorts = function(){
 		if(self.found) return;
@@ -901,58 +899,56 @@ OXOcard.AgentFinder = function(config){
 		for(var port=self.portRangeStart; port<=self.portRangeEnd; port++)
 			self.tryPort(port);
 		setTimeout(self.tryPorts, self.interval);
-	}
+	};
 
 	self.tryPort = function(port){
 		OXOcard.helper.httpRequest(self.getURL(port), function(response){
-			if(!'ws' in response || !'http' in response) return;
-			self.foundAgentURL = response['http'];
-			self.foundAgentWS = response['ws'];
+			if(!('ws' in response) || !('http' in response)) return;
+			self.foundAgentURL = response.http;
+			self.foundAgentWS = response.ws;
 			self.foundPort = port;
 			self.found = true;
 			self.callback(self);
 		});
-	}
+	};
 
 	self.defaultCallback = function(){
 		console.log(self);
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.AgentSerialList = function(config){
 	var self = this;
 
 	config = config || {};
 
-	self.socket = config['socket'] || null;
-	self.interval = config['interval'] || 500;
+	self.socket = config.socket || null;
+	self.interval = config.interval || 500;
 	self.lastUpdate = 0;
 	self.running = true;
 
 	self.devices = [];
 
-	self.addedDeviceCallback = config['addedDeviceCallback'] || function(device){ console.log('New device.'); console.log(device); };
-	self.removedDeviceCallback = config['removedDeviceCallback'] || function(device){ console.log('Lost device.'); console.log(device); };
+	self.addedDeviceCallback = confi.addedDeviceCallback || function(device){ console.log('New device.'); console.log(device); };
+	self.removedDeviceCallback = config.removedDeviceCallback || function(device){ console.log('Lost device.'); console.log(device); };
 
 	self.init = function(){
-
 		if(self.socket == null)
 			throw 'No socket provided! We can\'t initialize SerialList';
 		self.socket.registerCallback('message', self.handleResponse);
 		self.start();
-	}
+	};
 
 	self.start = function(){
-
 		self.running = true;
 		self.updateList();
-	}
+	};
 
 	self.stop = function(){
 		self.running = false;
-	}
+	};
 
 	self.updateList = function(){
 		if(!self.socket.isConnected){
@@ -964,54 +960,54 @@ OXOcard.AgentSerialList = function(config){
 		}
 		if(self.running)
 			setTimeout(self.updateList, self.interval);
-	}
+	};
 
 	self.handleResponse = function(response){
 		if(typeof response !== 'object') return;
-		if('Ports' in response && 'Network' in response && response['Network'] == false){
+		if('Ports' in response && 'Network' in response && response.Network == false){
 			self.last_update = (new Date()).getTime();
 			self.markDevicesAsLost();
-			for(var i=0, l=response['Ports'].length; i<l; i++){
-				var port = response['Ports'][i];
-				if(port['VendorID'].toLowerCase() != OXOcard.VENDOR_ID) continue;
-				if(port['ProductID'].toLowerCase() != OXOcard.PRODUCT_ID) continue;
+			for(var i=0, l=response.Ports.length; i<l; i++){
+				var port = response.Ports[i];
+				if(port.VendorID.toLowerCase() != OXOcard.VENDOR_ID) continue;
+				if(port.ProductID.toLowerCase() != OXOcard.PRODUCT_ID) continue;
 				self.addDevice(port);
 			}
 			self.removeLostDevices();
 		}
-	}
+	};
 
 	self.markDevicesAsLost = function(){
 		for(var i=0, l=self.devices.length; i<l; i++){
-			self.devices[i]['updated'] = false;
+			self.devices[i].updated = false;
 		}
-	}
+	};
 
 	self.removeLostDevices = function(){
 		for(var i=0; i<self.devices.length; i++){
-			if(!self.devices[i]['updated']){
+			if(!self.devices[i].updated){
 				var device = self.devices.splice(i,1);
 				self.removedDeviceCallback(device[0]);
 				i--;
 			}
 		}
-	}
+	};
 
 	self.addDevice = function(device){
 		var deviceIndex = -1;
 		for(var i=0, l=self.devices.length; i<l; i++){
-			if(self.devices[i]['Name'] == device['Name']){
+			if(self.devices[i].Name == device.Name){
 				deviceIndex = i; break;
 			}
 		}
-		device['updated'] = true;
+		device.updated = true;
 		if(deviceIndex === -1){
 			self.devices.push(device);
 			self.addedDeviceCallback(device);
 		}else{
 			self.devices[deviceIndex] = device;
 		}
-	}
+	};
 
 	self.forceDisconnectAllDevices = function(){
 		for(var i=0; i<self.devices.length; i++){
@@ -1019,23 +1015,23 @@ OXOcard.AgentSerialList = function(config){
 			self.removedDeviceCallback(device[0]);
 			i--;
 		}
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.AgentSocket = function(config){
 	var self = this;
 
 	config = config || {};
-	self.socketUrl = config['url'] || null;
+	self.socketUrl = config.url || null;
 	self.socket = null;
 	self.isConnected = false;
 
 	self.callbacks = {
-		'connect': new Array(config['connectCallback'] || function(){}),
+		'connect': new Array(config.connectCallback || function(){}),
 		'message': [],
-		'disconnect':  new Array(config['disconnectCallback'] || function(){})
+		'disconnect':  new Array(config.disconnectCallback || function(){})
 	};
 
 	self.init = function(){
@@ -1045,37 +1041,37 @@ OXOcard.AgentSocket = function(config){
 		self.socket.on('connect', self.onConnect);
 		self.socket.on('disconnect', self.onDisconnect);
 		self.socket.on('message', self.onMessage);
-	}
+	};
 
 	self.onMessage = function(result){
 		try{
-			var result = JSON.parse(result);
+			result = JSON.parse(result);
 		}catch(e){ /* ignore */ }
 		self.multiplexEvent('message', result);
-	}
+	};
 
 	self.onConnect = function(){
 		self.isConnected = true;
 		self.multiplexEvent('connect');
-	}
+	};
 
 	self.onDisconnect = function(){
 		self.isConnected = false;
 		self.multiplexEvent('disconnect');
-	}
+	};
 
 	self.registerCallback = function(type, callback){
-		if(! type in self.callbacks) return -1;
+		if(!(type in self.callbacks)) return -1;
 		self.callbacks[type].push(callback);
 		return (self.callbacks[type].length-1);
-	}
+	};
 
 	self.unregisterCallback = function(type, index){
-		if(! type in self.callbacks) return false;
+		if(!(type in self.callbacks)) return false;
 		if(index < 0 || index >= self.callbacks[type].length) return false;
 		self.callbacks[type].splice(index, 1);
 		return true;
-	}
+	};
 
 	self.multiplexEvent = function(type, event){
 		for(var i=0, l=self.callbacks[type].length; i<l; i++)
@@ -1083,26 +1079,26 @@ OXOcard.AgentSocket = function(config){
 				self.callbacks[type][i]();
 			else
 				self.callbacks[type][i](event);
-	}
+	};
 
 	self.sendCommand = function(command){
 		self.socket.emit('command', command);
-	}
+	};
 
 	self.disconnect = function(){
 		self.socket.close();
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.ArduinoCompiler = function(config){
 	var self = this;
 
 	config = config || {};
 
-	self.compileURL = config['compileURL'] || 'http://compile.oxocard.ch/compile/arduino';
-	self.callback = config['callback'] || null;
+	self.compileURL = config.compileURL || 'http://compile.oxocard.ch/compile/arduino';
+	self.callback = config.callback || null;
 	self.mainSource = '';
 
 	self.started = false;
@@ -1114,50 +1110,50 @@ OXOcard.ArduinoCompiler = function(config){
 	self.init = function(){
 		if(self.callback == null)
 			self.callback = self.defaultCallback;
-	}
+	};
 
 	self.setMainFileContent = function(mainSource){
 		self.mainSource = mainSource;
 		// For now we only support "mainSource", so lets compile.
 		if(!self.started)
 			self.compile();
-	}
+	};
 
 	self.compile = function(){
 		self.started = true;
 		OXOcard.helper.httpPostRequest(self.mainSource, self.compileURL, self.compileCallback);
-	}
+	};
 
 	self.compileCallback = function(data){
 		self.finished = true;
 		if('hex' in data && 'id' in data){
-			self.binary = data['hex'];
-			self.output = data['output'] || '';
+			self.binary = data.hex;
+			self.output = data.output || '';
 			self.success = true;
 		}
 		self.callback(self);
-	}
+	};
 
 	self.defaultCallback = function(result){
 		console.log(result);
-	}
+	};
 
 	self.init();
-}
+};
 
 OXOcard.AgentUploader = function(config){
 	var self = this;
 
-	config = config || {}
+	config = config || {};
 
 	self.socketCallbackId = -1;
-	self.socket = config['socket'] || null;
-	self.uploadURL = config['uploadURL'] || null;
-	self.port = config['port'] || null;
+	self.socket = config.socket || null;
+	self.uploadURL = config.uploadURL || null;
+	self.port = config.port || null;
 	
-	self.progressCallback = config['progressCallback'] || function(message){console.log(message)};
-	self.uploadedCallback = config['uploadedCallback'] || function(){console.log("uploaded")};
-	self.flashedCallback = config['flashedCallback'] || function(success){console.log("flashed: " + success)};
+	self.progressCallback = config.progressCallback || function(message){console.log(message);};
+	self.uploadedCallback = config.uploadedCallback || function(){console.log("uploaded");};
+	self.flashedCallback = config.flashedCallback || function(success){console.log("flashed: " + success);};
 
 	self.FLASH_COMMAND={
 		"board": "arduino:avr:duo",
@@ -1172,36 +1168,36 @@ OXOcard.AgentUploader = function(config){
 			throw 'No upload-URL provided! We can\'t upload!';
 		if(self.port == null)
 			throw 'No port provided! We can\'t upload!';
-	}
+	};
 
 	self.upload = function(binary){
 		var request = JSON.parse(JSON.stringify(self.FLASH_COMMAND));
-		request['hex'] = binary;
-		request['port'] = self.port;
-		OXOcard.helper.httpPostRequest(request, self.uploadURL, self.requestCallback)
-	}
+		request.hex = binary;
+		request.port = self.port;
+		OXOcard.helper.httpPostRequest(request, self.uploadURL, self.requestCallback);
+	};
 
 	self.requestCallback = function(data){
 		self.socketCallbackId = self.socket.registerCallback('message', self.detectFlashingEnd);
 		self.uploadedCallback();
-	}
+	};
 
 	self.detectFlashingEnd = function(message){
 		if(typeof message !== 'object') return;
-		if(!'ProgrammerStatus' in message) return;
+		if(!('ProgrammerStatus' in message)) return;
 
-		if(message['ProgrammerStatus'] == 'Busy' && message['Msg'] != '')
-			self.progressCallback(message['Msg']);
+		if(message.ProgrammerStatus == 'Busy' && message.Msg != '')
+			self.progressCallback(message.Msg);
 
-		if(message['ProgrammerStatus'] == 'Done')
-			self.finish('Flash' in message && message['Flash'] == 'Ok');
+		if(message.ProgrammerStatus == 'Done')
+			self.finish('Flash' in message && message.Flash == 'Ok');
 
-	}
+	};
 
 	self.finish = function(success){
 		self.socket.unregisterCallback('message', self.socketCallbackId);
 		self.flashedCallback(success);
-	}
+	};
 
 	self.init();
-}
+};

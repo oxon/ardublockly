@@ -47,6 +47,7 @@ void loop() {
 <textarea id="serial_output" rows="25" cols="100"></textarea>
 
 <button onclick="program();" > PROGRAM </button>
+<button onclick="cancel();" > CANCEL </button>
 
 <div style="height:100px; width:300px; background:#ddd" id="status">Agent not connected</div>
 
@@ -59,8 +60,6 @@ function showStatus(text){
 }
 
 function checkConnectedCard(device){
-  console.log(device);
-  console.log(dm.devices);
   if(Object.keys(dm.devices).length > 0)
     showStatus('Programmable!');
   else
@@ -88,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
     'statusCompileFinishedCallback':function(){showStatus('Uploading')},
     'statusUploadFinishedCallback':function(){showStatus('Flashing')},
     'statusFlashingFinishedCallback':checkConnectedCard,
+    'statusCanceledCallback':function(){addToTextarea('ide_output', 'CANCELED!');checkConnectedCard();},
     'statusIDEOutputCallback':function(device, message){addToTextarea('ide_output',message);},
     'statusSerialOutputCallback':function(device, message){addToTextarea('serial_output',message);},
   });
@@ -96,16 +96,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function program(){
   showStatus('Compiling');
-  doIt();
+  var code = document.getElementById('sourcecode').value;
+  dm.compileAndUploadAllDevices(code);
 
 }
 
-function doIt(){
-  var code = document.getElementById('sourcecode').value;
-  for(var i=0, l=Object.keys(dm.devices).length; i<l; i++){
-    var device = dm.devices[Object.keys(dm.devices)[i]];
-    device.compileAndUpload(code);
-  }
+function cancel(){
+  dm.cancelAllDevices();
 }
 </script>
 </body>

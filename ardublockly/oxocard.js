@@ -641,16 +641,15 @@ OXOcard.OXOcard = function(config){
 	self.listenToSerial = config['listenToSerial'] || true;
 	self.uploader = null;
 
-	self.outputCallback = config['outputCallback'] || function(message){console.log('oxocard: ' + message);};
-	self.serialOutputCallback = config['serialOutputCallback'] || function(message){console.warn('oxocard: ' + message);};
-	self.statusCompiledCallback = config['statusCompiledCallback'] || function(){console.log('oxocard: ' + "COMPILED");};
-	self.statusUploadedCallback = config['statusUploadedCallback'] || function(){console.log('oxocard: ' + "UPLOADED");};
-	self.statusFlashedCallback = config['statusFlashedCallback'] || function(){console.log('oxocard: ' + "FLASHED");};
+	self.outputCallback = config['outputCallback'] || function(device, message){console.log('oxocard: ' + message);};
+	self.serialOutputCallback = config['serialOutputCallback'] || function(device, message){console.warn('oxocard: ' + message);};
+	self.statusCompiledCallback = config['statusCompiledCallback'] || function(device){console.log('oxocard: ' + "COMPILED");};
+	self.statusUploadedCallback = config['statusUploadedCallback'] || function(device){console.log('oxocard: ' + "UPLOADED");};
+	self.statusFlashedCallback = config['statusFlashedCallback'] || function(device){console.log('oxocard: ' + "FLASHED");};
 
 	self.portOpen = false;
 
 	self.init = function(){
-		console.log("I AM: " + self.device['Name']);
 		self.socket.registerCallback('message', self.serialMessage);
 		self.uploader = new OXOcard.AgentUploader({
 			'socket':self.socket,
@@ -676,7 +675,7 @@ OXOcard.OXOcard = function(config){
 		}
 
 		if(self.portOpen && 'D' in message){
-			self.serialOutputCallback(message['D']);
+			self.serialOutputCallback(self, message['D']);
 		}
 	}
 
@@ -693,8 +692,8 @@ OXOcard.OXOcard = function(config){
 		if(!compiler.success){
 			console.warn("Compilation failed."); return;
 		}
-		self.outputCallback(compiler.output);
-		self.statusCompiledCallback();
+		self.outputCallback(self, compiler.output);
+		self.statusCompiledCallback(self);
 		self.upload(compiler.binary);
 	}
 
@@ -704,17 +703,17 @@ OXOcard.OXOcard = function(config){
 	}
 	
 	self.uploadedCallback = function(){
-		self.statusUploadedCallback();
+		self.statusUploadedCallback(self);
 	}
 
 	self.progressCallback = function(message){
-		self.outputCallback(message);
+		self.outputCallback(self, message);
 	}
 
 	self.flashedCallback = function(){
 		if(self.listenToSerial)
 			self.openPort();
-		self.statusFlashedCallback();
+		self.statusFlashedCallback(self);
 	}
 
 	self.closePort = function(){
@@ -737,6 +736,16 @@ OXOcard.DeviceManager = function(config){
 	self.agent = null;
 	self.socket = null;
 
+	self.statusAgentConnectedCallback = config['statusAgentConnectedCallback'] || function(){};
+	self.statusAgentDisonnectedCallback = config['statusAgentDisconnectedCallback'] || function(){};
+	self.statusDeviceConnectedCallback = config['statusDeviceConnectedCallback'] || function(device){};
+	self.statusDeviceDisconnectedCallback = config['statusDeviceDisconnectedCallback'] || function(device){};
+	self.statusCompileFinishedCallback = config['statusCompileFinishedCallback'] || function(device){};
+	self.statusUploadFinishedCallback = config['statusUploadFinishedCallback'] || function(device){};
+	self.statusFlashingFinishedCallback = config['statusFlashingFinishedCallback'] || function(device){};
+	self.statusIDEOutputCallback = config['statusIDEOutputCallback'] || function(device, output){};
+	self.statusSerialOutputCallback = config['statusSerialOutputCallback'] || function(device, output){};
+
 	self.devices = {};
 
 	self.init = function(){
@@ -754,26 +763,35 @@ OXOcard.DeviceManager = function(config){
 	}
 
 	self.setSocket = function(socket){
-		
 		self.socket = socket;
+		self.statusAgentConnectedCallback();
 	}
 
 	self.reset = function(){
 		self.agent = null;
 		self.socket = null;
+		self.statusAgentDisonnectedCallback();
 	}
 
 	self.addDevice = function(device){
 		var card = new OXOcard.OXOcard({
 			'device':device,
 			'socket':self.socket,
-			'uploadURL':self.agent.foundAgentURL + '/upload'
+			'uploadURL':self.agent.foundAgentURL + '/upload',
+			'outputCallback':self.statusIDEOutputCallback,
+			'serialOutputCallback':self.statusSerialOutputCallback,
+			'statusCompiledCallback':self.statusCompileFinishedCallback,
+			'statusUploadedCallback':self.statusUploadFinishedCallback,
+			'statusFlashedCallback':self.statusFlashingFinishedCallback
 		});
 		self.devices[device['Name']] = card;
+		self.statusDeviceConnectedCallback(card);
 	}
 
 	self.removeDevice = function(device){
-		console.log("DEVICE GONE IMPLEMENT!")
+		self.devices[device['Name']].closePort();
+		self.statusDeviceDisconnectedCallback(self.devices[device['Name']]);
+		delete self.devices[device['Name']]
 	}
 
 	self.init();
@@ -1117,7 +1135,6 @@ OXOcard.ArduinoCompiler = function(config){
 			self.output = data['output'] || '';
 			self.success = true;
 		}
-		console.log(self);
 		self.callback(self);
 	}
 

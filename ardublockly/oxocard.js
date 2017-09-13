@@ -812,9 +812,10 @@ OXOcard.DeviceManager = function(config){
 	};
 
 	self.removeDevice = function(device){
-		self.devices[device.Name].closePort();
-		self.statusDeviceDisconnectedCallback(self.devices[device.Name]);
+		var removed = self.devices[device.Name];
+		removed.closePort();
 		delete self.devices[device.Name];
+		self.statusDeviceDisconnectedCallback(removed);
 	};
 
 	self.portChanged = function(device){

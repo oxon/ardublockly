@@ -59,6 +59,8 @@ function showStatus(text){
 }
 
 function checkConnectedCard(device){
+  console.log(device);
+  console.log(dm.devices);
   if(Object.keys(dm.devices).length > 0)
     showStatus('Programmable!');
   else
@@ -67,6 +69,13 @@ function checkConnectedCard(device){
   if(dev == null)
     return;
   
+}
+
+function addToTextarea(id, text){
+  var textarea = document.getElementById(id);
+  
+  textarea.value += text;
+  textarea.scrollTop = textarea.scrollHeight - textarea.clientHeight;
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -79,8 +88,8 @@ document.addEventListener("DOMContentLoaded", function() {
     'statusCompileFinishedCallback':function(){showStatus('Uploading')},
     'statusUploadFinishedCallback':function(){showStatus('Flashing')},
     'statusFlashingFinishedCallback':checkConnectedCard,
-    'statusIDEOutputCallback':function(device, message){document.getElementById('ide_output').value += message;},
-    'statusSerialOutputCallback':function(device, message){document.getElementById('serial_output').value += message;},
+    'statusIDEOutputCallback':function(device, message){addToTextarea('ide_output',message);},
+    'statusSerialOutputCallback':function(device, message){addToTextarea('serial_output',message);},
   });
 
 });

@@ -92,7 +92,7 @@
 </ul>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <!--<li><a id="button_dropdown" class="dropdown-button" href="#!" data-activates="serial-port-dropdown">Select port...<i class="material-icons right">arrow_drop_down</i></a></li>-->
-        <li><a href="#" onclick="js:oxocardAgent.compileAndUpload();" id="button_upload"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" id="loading_icon_upload" style="display:none;">
+        <li><a href="#" onclick="js:oxocardIntegration.compileAndUpload();" id="button_upload"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" id="loading_icon_upload" style="display:none;">
   <path class="loading_corner_1" fill="#ffffff" fill-rule="evenodd" d="M0 17h15v15H0z"/>
   <path class="loading_corner_2" fill="#ffffff" fill-rule="evenodd" d="M17 17h15v15H17z"/>
   <path class="loading_corner_3" fill="#ffffff" fill-rule="evenodd" d="M0 0h15v15H0z"/>
@@ -166,9 +166,6 @@
               </div>
             </div>
           </li>
-
-
-
           <li>
             <div class="collapsible-header">
               <span class="collapsible_logo">[ ]</span>
@@ -206,9 +203,6 @@
               </div>
             </div>
           </li>
-
-
-
           <li>
             <div class="collapsible-header">
               <span class="collapsible_logo">f( )</span>
@@ -407,11 +401,14 @@
   <script src="ardublockly_toolbox.js"></script>
   <script src="ardublockly_blockly.js"></script>
   <script src="ardublockly.js"></script>
-  <script src="oxocard_uploader.js"></script>
+  <!--<script src="oxocard_uploader.js"></script>-->
+  <script src="oxocard.js"></script>
   <script>
+    var oxocardIntegration = null;
     window.addEventListener('load', function load(event) {
       window.removeEventListener('load', load, false);
       Ardublockly.init();
+      oxocardIntegration = new OXOcard.ArdublocklyIntegration();
     });
   </script>
   <script>

@@ -7,6 +7,7 @@ Ardublockly.LOCALISED_TEXT = {
   compiling: "Kompilieren",
   flashing: "Übertragen",
   upload: "Programmieren",
+  upload_done: "Programmiert!",
   open: "Öffnen",
   save: "Speichern",
   copy: "Kopieren",

@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
     'statusCompileFinishedCallback':function(){showStatus('Uploading')},
     'statusUploadFinishedCallback':function(){showStatus('Flashing')},
     'statusFlashingFinishedCallback':checkConnectedCard,
-    'statusCanceledCallback':function(){addToTextarea('ide_output', 'CANCELED!');checkConnectedCard();},
+    'statusCanceledCallback':function(){addToTextarea('ide_output', 'Canceled by user!\n');checkConnectedCard();},
     'statusIDEOutputCallback':function(device, message){addToTextarea('ide_output',message);},
     'statusSerialOutputCallback':function(device, message){addToTextarea('serial_output',message);},
   });

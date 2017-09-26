@@ -838,7 +838,7 @@ OXOcard.DeviceManager = function(config){
 			'statusPortChangedCallback':self.portChanged
 		});
 		self.devices[device.Name] = card;
-		//if(Object.keys(self.devices).length == 1) card.enableSerialCommunication();
+		if(Object.keys(self.devices).length == 1) setTimeout(card.enableSerialCommunication,100);
 		self.statusDeviceConnectedCallback(card);
 	};
 
@@ -1320,7 +1320,7 @@ OXOcard.ArdublocklyIntegration = function(){
 			'statusFlashingFinishedCallback':self.flashingFinished,
 			'statusCanceledCallback':function(){addToTextarea('ide_output', 'Canceled by user!\n');self.checkConnectedCard();},
 			'statusIDEOutputCallback':self.addIDEOutput,
-			'statusSerialOutputCallback':function(device, message){self.addToTextarea('serial_output',message);},
+			'statusSerialOutputCallback':function(device, message){self.addSerialOutput('serial_output',message);},
 		});
 
 		self.disableUpload();
@@ -1344,6 +1344,8 @@ OXOcard.ArdublocklyIntegration = function(){
 		self.setUploadButtonText(Ardublockly.LOCALISED_TEXT.compiling);
 		$('#loading_icon_upload').css('display', 'inline');
 		$('#upload_icon_upload').css('display', 'none');
+		var outputElement = document.getElementById('serial_output');
+		outputElement.innerHTML = '';
 	};
 
 	self.cancel = function(){
@@ -1364,6 +1366,12 @@ OXOcard.ArdublocklyIntegration = function(){
 		outputElement.innerHTML += outputWithNewlines;
 		outputElement.scrollTop = outputElement.scrollHeight;
 	};
+
+	self.addSerialOutput = function(device, message){
+		var outputElement = document.getElementById('serial_output');
+		outputElement.innerHTML += message;
+		outputElement.scrollTop = outputElement.scrollHeight;
+	}
 
 	self.disableUpload = function(){
 		self.canUpload = false;

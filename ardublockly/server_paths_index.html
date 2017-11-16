@@ -1,0 +1,396 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#00878F">
+  <link rel="icon" href="img/favicon.ico">
+  <title class="translatable_title">Ardublockly</title>
+<!-- no caching while dev -->
+  <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0" />
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
+<!-- no caching while dev -->
+  <!-- Materialize, Prettify, and Ardublockly CSS -->
+  <link rel="stylesheet" href="materialize/materialize.css" media="screen,projection">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  <link rel="stylesheet" href="prettify/arduino.css">
+  <link rel="stylesheet" href="ardublockly.css" media="screen,projection">
+
+
+  <script src="blockly/blockly_compressed.js"></script>
+  <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/arduino_compressed.js"></script>
+
+
+  <!-- Default language js files, user selection appended to head on load -->
+  <script src="blockly/msg/js/en.js"></script>
+  <!--<script src="msg/en.js"></script>-->
+</head>
+
+<body>
+  <!-- Horizontal Navigation bar -->
+  <nav class="nav-fixed arduino_teal">
+    <div class="nav-wrapper container">
+      <!--<a class="show-on-large button-collapse" href="#" data-activates="slide-out" id="button-collapse"><i class="mdi-navigation-menu"></i></a>-->
+      <a href="http://www.oxocard.ch/"><div id="oxopus"></div></a>
+      <a id="logo-container" class="brand-logo">
+        <span class="app_title translatable_title">OXOcard Blockly</span>
+        <span class="in_beta_title translatable_in_beta">[ BETA ]</span>
+        <!-- Sketch name editable text field -->
+        <span class="sketch_name_wrapper">
+          <i class="mdi-image-edit sketch_name_icon"></i>
+          <input id="sketch_name" class="sketch_name" type="text" />
+        </span>
+      </a>
+      <!-- Horizontal Navbar links only shown on large resolutions -->
+<ul id="serial-port-dropdown" class="dropdown-content">
+  <li><a href="#!">two</a></li>
+  <li class="divider"></li>
+</ul>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="#" onclick="js:oxocardIntegration.cancel();" id="button_cancel"><span class="translatable_cancel">Open</span><i class="material-icons">not_interested</i></a></li>
+        <!--<li><a id="button_dropdown" class="dropdown-button" href="#!" data-activates="serial-port-dropdown">Select port...<i class="material-icons right">arrow_drop_down</i></a></li>-->
+        <li><a href="#" onclick="js:oxocardIntegration.compileAndUpload();" id="button_upload"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" id="loading_icon_upload" style="display:none;">
+  <path class="loading_corner_1" fill="#ffffff" fill-rule="evenodd" d="M0 17h15v15H0z"/>
+  <path class="loading_corner_2" fill="#ffffff" fill-rule="evenodd" d="M17 17h15v15H17z"/>
+  <path class="loading_corner_3" fill="#ffffff" fill-rule="evenodd" d="M0 0h15v15H0z"/>
+  <path class="loading_corner_4" fill="#ffffff" fill-rule="evenodd" d="M17 0h15v15H17z"/>
+</svg><span id="button_upload_text" class="translatable_upload">Upload</span><i id="upload_icon_upload" class="material-icons">system_update_alt</i></a></li>
+        <li><a href="#" id="button_load"><span class="translatable_open">Open</span><i class="material-icons">file_upload</i></a></li>
+        <li><a href="#" id="button_save"><span class="translatable_save">Save</span><i class="material-icons">file_download</i></a></li>
+        <!--<li><a href="#" id="button_copy" data-clipboard-target="#content_arduino"><span class="translatable_copy">Copy</span><i class="material-icons">content_copy</i></a></li>-->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar navigation -->
+
+
+  <!-- Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col s12 m12 l8" style="position:relative" id="content_wrapper_blockly">
+        <!-- Blockly Panel -->
+        <div class="card-panel white" style="padding: 0">
+          <div id="blocks_panel" class="content blocks_panel_large">
+            <div id="content_blocks" class="content z-depth-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m12 l4" id="content_wrapper_source">
+        <ul class="collapsible z-depth-1" data-collapsible="accordion">
+          <li>
+            <div class="collapsible-header active">
+              <span class="collapsible_logo">?!</span>
+              <span class="translatable_howto">How to</span>
+            </div>
+            <div class="collapsible-body content_arduino_large">
+              <div id="content_howto" class="content" style="padding:0 20px 0 20px;">
+                <ul class="collection"><li class="collection-item">
+<p><b>Wie benutze ich das neue OXOcard-Blockly<sup>BETA</sup>?</b></p>
+<!--<p>Du kannst dank dem Button "Programmieren" deinen Blockly-Code direkt auf deine OXOcard schreiben. Diese Funktionalität kannst du mit folgendem Beispiel testen: <a href="#" onclick="Ardublockly.loadServerXmlFile('../examples/smile.xml');">OXOcard Smile</a>. Sobald der Button Weiss ist, wurde die OXOcard korrekt erkennt und kann programmiert werden.</p>
+<p>Doch wenn der Button Grau ist, brauchst Du unseren OXOcardAgent. Dieser ist herunterzuladen und einzurichten. Nachfolgen findest du eine Liste der nötigen Schritten.</p>-->
+<p>Du kannst dank dem Button "Programmieren" deinen Blockly-Code direkt auf deine OXOcard schreiben.</p>
+
+<p>Bevor wir damit arbeiten können, müssen wir einmalig einen Treiber installieren. Du findest hier die Anleitungen für Mac und Windows:</p>
+<p><b>Einrichtung des Agents unter macOS</b></p>
+<ul>
+<li>- DMG-Datei herunterladen: <a href="http://oxocard.ch/download/OxocardAgent.dmg">OxocardAgent.dmg</a></li>
+<li>- DMG ausführen mit Doppelklick</li>
+<li>- Den Agent in die Applikationen verschieben</li>
+<li>- Mittels Doppelklick den Treiber installieren</li>
+<li>- Starte nun Deinen Computer neu</li>
+<li>- Suche nun das Programm OxocardAgent im Programme-Ordner</li>
+<li><img src="img/app_icon_macos.png" style="padding:3px; border:2px solid #969696; margin:3px 10px;"/></li>
+<li>- und drücke die rechte Maustaste über dem Icon und wähle „öffnen“. Bestätige die Sicherheitsfrage (dies musst Du nur das erste Mal machen)</li>
+<li>- wenn das Programm korrekt läuft, sollte ein kleiner OXOpus oben rechts in der Taskliste erscheinen</li>
+<li><img src="img/trayicon_macos.png" style="border:2px solid #969696; margin:3px 10px; width:400px;"/></li>
+</ul>
+
+<p><b>Einrichtung des Agents unter Windows</b></p>
+<ul>
+<li>- ZIP-Datei herunterladen: <a href="http://oxocard.ch/download/OxocardAgent.zip">OxocardAgent.zip</a></li>
+<li>- ZIP entpacken mittels Doppelklick</li>
+<li>- Mittels Doppelklick auf "OxocardTreiber" den Treiber installieren</li>
+<li>- Nach einem Neustart kannst du den Agent ausführen</li>
+<li>- Bei erfolgreicher Ausführung erscheint ein OXOpus unten rechts</li>
+</ul>
+
+<p><b>Erstes Beispiel</b></p>
+<p>Wenn alles korrekt installiert ist, sollte nun der „Programmieren“-Button in der obersten Leiste weiss sein. Jetzt kannst Du rechts unter „Beispiele“ z.B. <a href="#" onclick="Ardublockly.loadServerXmlFile('examples/smile.xml');">OXOcard-Smile</a> wählen. Drücke anschliessend „programmieren“. Nach eine Weile erscheint das Bild auf der Karte:</p>
+
+<p><img src="img/oxocard_smile.png" style="width:400px; border:2px solid #969696;margin:4px 10px;"/></p>
+                 </li></ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <span class="collapsible_logo">[ ]</span>
+              <span class="translatable_exercises">Exercises</span>
+            </div>
+            <div class="collapsible-body content_arduino_large">
+              <div id="content_exercises" class="content" style="padding:0 20px 0 20px;">
+                <ul class="collection">
+                  <li class="collection-item"><b>Arbeitsblatt 01 - Pixelbild</b><br />
+                      <a href="http://www.oxocard.ch/download/worksheets/blockly/AB01.pdf" target="_blank">Ansehen</a> | 
+                      <a href="#" id="button_exercise_01_template">Vorlage</a> | 
+                      <a href="#" id="button_exercise_01_solution">Lösung</a>
+                  </li>
+                  <li class="collection-item"><b>Arbeitsblatt 02 - Animation</b><br />
+                      <a href="http://www.oxocard.ch/download/worksheets/blockly/AB02.pdf" target="_blank">Ansehen</a> | 
+                      <a href="#" id="button_exercise_02_template">Vorlage</a> | 
+                      <a href="#" id="button_exercise_02_solution">Lösung</a>
+                  </li>
+                  <li class="collection-item"><b>Arbeitsblatt 03 - Grafiken</b><br />
+                      <a href="http://www.oxocard.ch/download/worksheets/blockly/AB03.pdf" target="_blank">Ansehen</a> | 
+                      <a href="#" id="button_exercise_03_template">Vorlage</a> | 
+                      <a href="#" id="button_exercise_03_solution">Lösung</a>
+                  </li>
+                  <li class="collection-item"><b>Arbeitsblatt 04 - Smiley-Maschine</b><br />
+                      <a href="http://www.oxocard.ch/download/worksheets/blockly/AB04.pdf" target="_blank">Ansehen</a> | 
+                      <a href="#" id="button_exercise_04_template">Vorlage</a> | 
+                      <a href="#" id="button_exercise_04_solution">Lösung</a>
+                  </li>
+                  <li class="collection-item"><b>Arbeitsblatt 05 - Countdown</b><br />
+                      <a href="http://www.oxocard.ch/download/worksheets/blockly/AB05.pdf" target="_blank">Ansehen</a> | 
+                      <a href="#" id="button_exercise_05_template">Vorlage</a> | 
+                      <a href="#" id="button_exercise_05_solution">Lösung</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <span class="collapsible_logo">f( )</span>
+              <span class="translatable_examples">Examples</span>
+            </div>
+            <div class="collapsible-body content_arduino_large">
+              <div id="content_examples" class="content" style="padding:0 20px 0 20px;">
+                <ul class="collection">
+                  <li class="collection-item" id="button_example_smile"><a href="#!">OXOcard - Smile</a></li>
+                  <li class="collection-item" id="button_example_AB04"><a href="#!">AB04</a></li>
+                  <li class="collection-item" id="button_example_AB05"><a href="#!">AB05</a></li>
+                  <li class="collection-item" id="button_example_AB06"><a href="#!">AB06</a></li>
+                  <li class="collection-item" id="button_example_AB07"><a href="#!">AB07</a></li>
+                  <li class="collection-item" id="button_example_AB08"><a href="#!">AB08</a></li>
+                  <li class="collection-item" id="button_example_AB09"><a href="#!">AB09</a></li>
+                  <li class="collection-item" id="button_example_AB10"><a href="#!">AB10</a></li>
+                  <li class="collection-item" id="button_example_AB13"><a href="#!">AB13</a></li>
+                  <li class="collection-item" id="button_example_AB14"><a href="#!">AB14</a></li>
+                  <li class="collection-item" id="button_example_AB15a"><a href="#!">AB15 - Sender</a></li>
+                  <li class="collection-item" id="button_example_AB15b"><a href="#!">AB15 - Empfänger</a></li>
+<!--                   <li class="collection-item" id="button_example_AB16a"><a href="#!">AB16 - Vorlage</a></li>
+                  <li class="collection-item" id="button_example_AB16b"><a href="#!">AB16 - Vollversion</a></li>
+                  <li class="collection-item" id="button_example_AB16c"><a href="#!">AB16 - Sag Halloe</a></li>
+                  <li class="collection-item" id="button_example_AB16d"><a href="#!">AB16 - Sound Beispiel</a></li>
+                  <li class="collection-item" id="button_example_AB16e"><a href="#!">AB16 - Moving Pixel</a></li>
+                  <li class="collection-item" id="button_example_AB17a"><a href="#!">AB17 - Sample 12c</a></li>
+                  <li class="collection-item" id="button_example_AB17b"><a href="#!">AB17 - Sample 12d</a></li>-->
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <span class="collapsible_logo">{ }</span>
+              <span class="translatable_arduinoSourceCode">Arduino Source Code</span>
+            </div>
+            <div class="collapsible-body">
+              <pre id="content_arduino" class="content content_height_transition content_arduino_large"></pre>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header">
+              <span class="collapsible_logo">...</span>
+              <span class="translatable_serial_output">serieller Monitor</span>
+            </div>
+            <div class="collapsible-body">
+              <pre id="serial_output" class="content content_height_transition content_arduino_large"></pre>
+            </div>
+          </li>
+          <!--<li>
+            <div class="collapsible-header" id="xml_collapsible_header">
+              <span class="collapsible_logo">&#60; &#62;</span>
+              <span class="translatable_blocksXml">Blocks XML</span>
+            </div>
+            <div class="collapsible-body" style="position:relative" id="xml_collapsible_body">
+              <a class="btn-floating btn-large waves-effect waves-light arduino_teal z-depth-1-half" id="button_load_xml"><i class="mdi-action-extension"></i></a>
+              <textarea id="content_xml" class="content content_height_transition content_xml_large" wrap="soft"></textarea>
+            </div>
+          </li>-->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDE Output content -->
+  <div class="ide_output_wrapper">
+    <ul class="collapsible ide_output_collapsible" data-collapsible="expandable">
+      <li>
+        <div id="ide_output_collapsible_header" class="collapsible-header ide_output_header_normal">
+          <i class="mdi-action-swap-vert Medium" style="font-size: 2.2rem;"></i>
+          <span class="translatable_arduinoOpMainTitle">Arduino IDE output</span>
+        </div>
+        <div class="collapsible-body">
+          <div id="content_ide_output" class="content"></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="ide_output_spacer"></div>
+
+  <!-- Settings: Displayed as a Materialize Modal -->
+  <div id="settings_dialog" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4><span class="translatable_settings">Settings</span></h4>
+      <div class="modal_section">
+        <label><span class="translatable_compilerLocation">Compiler Location</span>:</label>
+        <input type="text" id="settings_compiler_location">
+      </div>
+      <div class="modal_section">
+        <label><span class="translatable_sketchFolder">Sketch Folder</span>:</label>
+        <input type="text" id="settings_sketch_location">
+      </div>
+      <div class="modal_section">
+        <label><span class="translatable_arduinoBoard">Arduino Board</span>:</label>
+        <select name="settings_board" id="board">
+          <option value="uno" class="translatable_arduinoBoardDefault">Arduino Board unknown</option>
+        </select>
+      </div>
+      <div class="modal_section">
+        <label><span class="translatable_comPort">COM Port<span>:</label>
+        <select name="settings_serial" id="serial_port">
+          <option value="COMX" class="translatable_comPortDefault">COM Port unknown</option>
+        </select>
+      </div>
+      <div class="modal_section">
+        <label><span class="translatable_defaultIdeButton">Default IDE button</span>:</label>
+        <select name="settings_ide" id="ide_settings">
+          <option value="verify" class="translatable_defaultIdeButtonDefault">IDE options unknown</option>
+        </select>
+      </div>
+      <div class="modal_section">
+        <label><span class="translatable_language">Language</span>:</label>
+        <select name="settings_language" id="language"></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="waves-effect btn-flat modal-close"><span class="translatable_return">Return</span></a>
+    </div>
+  </div>
+
+  <!-- Select Additional Blocks menu -->
+  <div id="blocks_menu" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <div>
+        <h4><span class="translatable_addBlocksTitle">Additional Blocks</span></h4>
+      </div>
+      <div id="blocks_menu_body"></div>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="waves-effect btn-flat modal-close"><span class="translatable_return">Return</span></a>
+    </div>
+  </div>
+
+  <!-- General Alert: Content is loaded using JavaScript to display alerts -->
+  <div id="gen_alert" class="modal modal_small modal-fixed-footer">
+    <div class="modal-content">
+      <h5 id="gen_alert_title">Empty Alert</h4>
+      <p><span id="gen_alert_body">Empty alert text</span></p>
+    </div>
+    <div class="modal-footer">
+      <a id="gen_alert_ok_link" href="#" class="waves-effect btn-flat modal-close"><span class="translatable_okay">Okay</span></a>
+      <a id="gen_alert_cancel_link" href="#" class="waves-effect btn-flat modal-close"><span class="translatable_cancel">Cancel</span></a>
+    </div>
+  </div>
+
+  <!-- Prompt: Content is loaded using JavaScript to display input prompt -->
+  <div id="gen_prompt" class="modal modal_small modal-fixed-footer">
+    <div class="modal-content">
+      <p><span id="gen_prompt_message">Prompt message</span></p>
+      <p><input id="gen_prompt_input" value="test" /></p>
+    </div>
+    <div class="modal-footer">
+      <a id="gen_prompt_ok_link" href="#" class="waves-effect btn-flat modal-close"><span class="translatable_okay">Okay</span></a>
+      <a id="gen_prompt_cancel_link" href="#" class="waves-effect btn-flat modal-close"><span class="translatable_cancel">Cancel</span></a>
+    </div>
+  </div>
+
+  <!-- Local Modal to be shown if Ardublockly Server is not running. -->
+  <div id="not_running_dialog" class="modal">
+    <div class="modal-content">
+      <div>
+        <h4 id="gen_alert_title"><span class="translatable_noServerTitle">OXOcard-app not running</span></h4>
+      </div>
+      <div class="translatable_noServerBody">
+        <p>Download and run instructions</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="waves-effect btn-flat modal-close"><span class="translatable_okay">Okay</span></a>
+    </div>
+  </div>
+
+  <div id="not_connected_dialog" class="modal">
+    <div class="modal-content">
+      <div>
+        <h4 id="gen_alert_title"><span class="translatable_noOxocardTitle">OXOcard not connected!</span></h4>
+      </div>
+      <div class="translatable_noOxocardBody">
+        <p>Connect and compile instructions</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="waves-effect btn-flat modal-close"><span class="translatable_okay">Okay</span></a>
+    </div>
+  </div>
+
+  <!-- Desktop version of Ardublockly JS, needs to be loaded first. -->
+  <script src="ardublockly_desktop.js"></script>
+  <!-- jQuery and Materialize JS -->
+  <script src="js_libs/jquery-2.1.3.min.js"></script>
+  <script src="materialize/materialize.js"></script>
+  <!-- FileSaver JS -->
+  <script src="js_libs/FileSaver.min.js"></script>
+  <!-- JS Diff -->
+  <script src="js_libs/diff.js"></script>
+  <!-- Prettify JS -->
+  <script src="prettify/prettify.js"></script>
+  <!-- For copy&paste action -->
+  <script src="js_libs/clipboard.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+  <!-- Ardublockly app -->
+  <script src="ardublocklyserver_ajax.js"></script>
+  <script src="ardublockly_lang.js"></script>
+  <script src="ardublockly_design.js"></script>
+  <script src="ardublockly_toolbox.js"></script>
+  <script src="ardublockly_blockly.js"></script>
+  <script src="ardublockly.js"></script>
+  <!--<script src="oxocard_uploader.js"></script>-->
+  <script src="oxocard.js"></script>
+  <script>
+    var oxocardIntegration = null;
+    window.addEventListener('load', function load(event) {
+      window.removeEventListener('load', load, false);
+      Ardublockly.init();
+      oxocardIntegration = new OXOcard.ArdublocklyIntegration();
+    });
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43794603-2', 'auto');
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>

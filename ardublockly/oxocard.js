@@ -344,11 +344,12 @@ OXOcard.Helper = function(){
 		return false;
 	};
 
-	self.httpPostRequest = function(data, url, callback){
-		OXOcard.helper.httpRequest(url, callback, data);
+	self.httpPostRequest = function(data, url, callback, failureCallback){
+		OXOcard.helper.httpRequest(url, callback, data, failureCallback);
 	};
 
-	self.httpRequest = function(url, callback, data){
+	self.httpRequest = function(url, callback, data, failureCallback){
+		failureCallback = failureCallback || function(){};
 		var http = new XMLHttpRequest();
 		if(data)
 			http.open('POST', url, true);
@@ -366,7 +367,8 @@ OXOcard.Helper = function(){
 			}else if(http.readyState == 4 && http.status > 199 && http.status < 300){
 				// we can ignore...
 			}else if(http.readyState == 4 ){
-				console.log('Something wrong on the backend?! url: ' + url + ' / status: ' + http.status);
+				failureCallback(http);
+				//console.log('Something wrong on the backend?! url: ' + url + ' / status: ' + http.status);
 			}else{
 				// ignore for now.
 			}
@@ -650,6 +652,7 @@ OXOcard.OXOcard = function(config){
 	self.statusFlashedCallback = config.statusFlashedCallback || function(device){console.log('oxocard (' + device.device.Name +') - flashed');};
 	self.statusCanceledCallback = config.statusCanceledCallback || function(device){console.log('oxocard (' + device.device.Name +') - flashing canceled');};
 	self.statusPortChangedCallback = config.statusPortChangedCallback || function(device){console.log('oxocard (' + device.device.Name +') - portOpen: ' + self.isPortOpen);};
+	self.statusFailedCompilationCallback = config.statusFailedCompilationCallback || function(device, compilation){console.log('oxocard (' + device.device.Name +') - compilation failed.');};
 
 	self.shouldCancel = false;
 	self.isCompiling = false;
@@ -657,8 +660,10 @@ OXOcard.OXOcard = function(config){
 	self.listenOnPort = false;
 	self.isPortOpen = false;
 
+	self.callbackId = -1;
+
 	self.init = function(){
-		self.socket.registerCallback('message', self.serialMessage);
+		self.callbackId = self.socket.registerCallback('message', self.serialMessage);
 		self.uploader = new OXOcard.AgentUploader({
 			'socket':self.socket,
 			'uploadURL':self.uploadURL,
@@ -669,6 +674,12 @@ OXOcard.OXOcard = function(config){
 			'canceledCallback':self.canceledCallback
 		});
 		self.closePort();
+	};
+
+	self.cleanUp = function(){
+		self.closePort();
+		if(self.callbackId != -1)
+			self.socket.unregisterCallback('message', self.callbackId);
 	};
 
 	self.serialMessage = function(message){
@@ -705,7 +716,11 @@ OXOcard.OXOcard = function(config){
 
 	self.codeCompiled = function(compiler){
 		if(!compiler.success){
-			console.warn('Compilation failed.'); return;
+			console.warn('Compilation failed.');
+			self.outputCallback(self, compiler.output);
+			self.statusFailedCompilationCallback(self, compiler);
+			self.shouldCancel = false;
+			return;
 		}
 		if(self.shouldCancel){
 			self.shouldCancel = false;
@@ -788,12 +803,14 @@ OXOcard.DeviceManager = function(config){
 
 	self.statusAgentConnectedCallback = config.statusAgentConnectedCallback || function(){};
 	self.statusAgentDisonnectedCallback = config.statusAgentDisconnectedCallback || function(){};
+	self.statusAgentNotFoundCallback = config.statusAgentNotFoundCallback || function(){};
 	self.statusDeviceConnectedCallback = config.statusDeviceConnectedCallback || function(){};
 	self.statusDeviceDisconnectedCallback = config.statusDeviceDisconnectedCallback || function(){};
 	self.statusCompileFinishedCallback = config.statusCompileFinishedCallback || function(){};
 	self.statusUploadFinishedCallback = config.statusUploadFinishedCallback || function(){};
 	self.statusFlashingFinishedCallback = config.statusFlashingFinishedCallback || function(){};
 	self.statusCanceledCallback = config.statusCanceledCallback || function(){};
+	self.statusFailedCompilationCallback = config.statusFailedCompilationCallback || function(){};
 	self.statusIDEOutputCallback = config.statusIDEOutputCallback || function(){};
 	self.statusSerialOutputCallback = config.statusSerialOutputCallback || function(){};
 
@@ -803,6 +820,7 @@ OXOcard.DeviceManager = function(config){
 		self.wrapper = new OXOcard.Agent({
 			'agentFoundCallback':self.setAgent,
 			'agentConnectedCallback':self.setSocket,
+			'agentNotFoundCallback':self.statusAgentNotFoundCallback,
 			'agentDisconnectedCallback':self.reset,
 			'cardFoundCallback':self.addDevice,
 			'cardLostCallback':self.removeDevice
@@ -819,8 +837,6 @@ OXOcard.DeviceManager = function(config){
 	};
 
 	self.reset = function(){
-		self.agent = null;
-		self.socket = null;
 		self.statusAgentDisonnectedCallback();
 	};
 
@@ -835,6 +851,7 @@ OXOcard.DeviceManager = function(config){
 			'statusUploadedCallback':self.statusUploadFinishedCallback,
 			'statusFlashedCallback':self.statusFlashingFinishedCallback,
 			'statusCanceledCallback':self.statusCanceledCallback,
+			'statusFailedCompilationCallback':self.statusFailedCompilationCallback,
 			'statusPortChangedCallback':self.portChanged
 		});
 		self.devices[device.Name] = card;
@@ -844,7 +861,7 @@ OXOcard.DeviceManager = function(config){
 
 	self.removeDevice = function(device){
 		var removed = self.devices[device.Name];
-		removed.closePort();
+		removed.cleanUp();
 		delete self.devices[device.Name];
 		self.statusDeviceDisconnectedCallback(removed);
 	};
@@ -881,6 +898,7 @@ OXOcard.Agent = function(config){
 	self.agentFoundCallback = config.agentFoundCallback || function(agent){ console.log('found agent!'); console.log(agent); };
 	self.agentDisconnectedCallback = config.agentDisconnectedCallback || function(){ console.log('disconnected from agent!');};
 	self.agentConnectedCallback = config.agentConnectedCallback || function(){ console.log('connected to agent!'); };
+	self.agentNotFoundCallback = config.agentNotFoundCallback || function(){ console.log('agent not found!'); };
 
 	self.deviceFoundCallback = config.cardFoundCallback || function(device){ console.log('found card!'); console.log(device); };
 	self.deviceLostCallback = config.cardLostCallback || function(device){ console.log('lost card!'); console.log(device); };
@@ -893,8 +911,11 @@ OXOcard.Agent = function(config){
 	self.serialMessageCallbackId = -1;
 
 	self.init = function(){
-		self.agentFinder = new OXOcard.AgentFinder({'callback':self.agentFound});
-		self.agentFinder.find();
+		self.agentFinder = new OXOcard.AgentFinder({
+			'callback':self.agentFound,
+			'notFoundCallback':self.agentNotFoundCallback
+		});
+		self.findAgent();
 	};
 
 	self.agentFound = function(agent){
@@ -910,8 +931,12 @@ OXOcard.Agent = function(config){
 		self.serialList.forceDisconnectAllDevices();
 		self.serialList = null;
 		self.agentSocket.disconnect();
-		self.agentSocker = null;
+		self.agentSocket = null;
 		self.agentDisconnectedCallback();
+		self.findAgent();
+	};
+
+	self.findAgent = function(){
 		self.agentFinder.find();
 	};
 
@@ -925,7 +950,10 @@ OXOcard.Agent = function(config){
 	};
 
 	self.installTool = function(){
-		if(self.isToolInstalled) return;
+		if(self.isToolInstalled){
+			self.agentConnected();
+			return;
+		}
 		self.serialMessageCallbackId = self.agentSocket.registerCallback('message', self.serialMessage);
 		self.agentSocket.sendCommand('downloadtool avrdude');
 	};
@@ -951,13 +979,16 @@ OXOcard.AgentFinder = function(config){
 
 	self.interval = config.interval || 1000;
 	self.callback = config.callback || null;
+	self.notFoundCallback = config.notFoundCallback || function(){console.log('Agent not found. Retries: ' + self.retries);};
 
 	self.portRangeStart = 8990;
 	self.portRangeEnd = 9000;
 	self.defaultPort = 8991;
 	self.baseURL = 'http://localhost:{{PORT}}/info';
 
-	self.triedDefault = false;
+	self.retries = 0;
+	self.triedDefaultPort = false;
+	self.triedAllPorts = false;
 	self.foundPort = null;
 	self.found = false;
 	self.foundAgentURL = null;
@@ -974,7 +1005,8 @@ OXOcard.AgentFinder = function(config){
 	};
 
 	self.find = function(){
-		self.triedDefault = false;
+		self.triedDefaultPort = false;
+		self.triedAllPorts = false;
 		self.currentPort = null;
 		self.found = false;
 		self.foundAgentURL = null;
@@ -983,15 +1015,20 @@ OXOcard.AgentFinder = function(config){
 	};
 
 	self.tryPorts = function(){
-		if(self.found) return;
-		if(!self.triedDefault){
-			self.triedDefault = true;
+		if(self.found){ return;}
+		if(self.triedDefaultPort && self.triedAllPorts){
+			self.notFoundCallback();
+		}
+		if(!self.triedDefaultPort){
+			self.triedDefaultPort = true;
 			self.tryPort(self.defaultPort);
 			setTimeout(self.tryPorts, self.interval);
 			return;
 		}
 		for(var port=self.portRangeStart; port<=self.portRangeEnd; port++)
 			self.tryPort(port);
+		self.triedAllPorts = true;
+		self.retries += 1;
 		setTimeout(self.tryPorts, self.interval);
 	};
 
@@ -1119,6 +1156,7 @@ OXOcard.AgentSocket = function(config){
 
 	config = config || {};
 	self.socketUrl = config.url || null;
+	
 	self.socket = null;
 	self.isConnected = false;
 
@@ -1131,10 +1169,12 @@ OXOcard.AgentSocket = function(config){
 	self.init = function(){
 		if(self.socketUrl == null)
 			throw 'No socket-URL provided! We can\'t connect in AgentSocket.init()';
-		self.socket = io(self.socketUrl);
+
+		self.socket = io.connect(self.socketUrl, {'forceNew': true, 'autoConnect': false });
 		self.socket.on('connect', self.onConnect);
 		self.socket.on('disconnect', self.onDisconnect);
 		self.socket.on('message', self.onMessage);
+		self.socket.connect();
 	};
 
 	self.onMessage = function(result){
@@ -1168,11 +1208,9 @@ OXOcard.AgentSocket = function(config){
 	};
 
 	self.multiplexEvent = function(type, event){
-		for(var i=0, l=self.callbacks[type].length; i<l; i++)
-			if(typeof event === 'undefined')
-				self.callbacks[type][i]();
-			else
-				self.callbacks[type][i](event);
+		for(var i=0; i<self.callbacks[type].length; i++){
+			self.callbacks[type][i](event);
+		}
 	};
 
 	self.sendCommand = function(command){
@@ -1191,7 +1229,7 @@ OXOcard.ArduinoCompiler = function(config){
 
 	config = config || {};
 
-	self.compileURL = config.compileURL || 'http://compile.oxocard.ch/compile/arduino';
+	self.compileURL = config.compileURL || 'https://build.oxocard.ch/compile/arduino';
 	self.callback = config.callback || null;
 	self.mainSource = '';
 
@@ -1215,15 +1253,29 @@ OXOcard.ArduinoCompiler = function(config){
 
 	self.compile = function(){
 		self.started = true;
-		OXOcard.helper.httpPostRequest(self.mainSource, self.compileURL, self.compileCallback);
+		OXOcard.helper.httpPostRequest(self.mainSource, self.compileURL, self.compileCallback, self.compileFailedCallback);
 	};
 
 	self.compileCallback = function(data){
+		console.log(data);
 		self.finished = true;
-		if('hex' in data && 'id' in data){
-			self.binary = data.hex;
-			self.output = data.output || '';
+		if('binary' in data && 'id' in data){
+			self.binary = data.binary;
+			self.output = data.message || '';
 			self.success = true;
+		}
+		self.callback(self);
+	};
+
+	self.compileFailedCallback = function(request){
+		self.success = false;
+		if(request.status == 400){
+			try{
+				var response = JSON.parse(request.responseText);
+				self.output = response.message || 'Error.';
+			}catch(err){
+				console.warn("We have a serious issue in the compilation Backend.");
+			}
 		}
 		self.callback(self);
 	};
@@ -1308,17 +1360,20 @@ OXOcard.ArdublocklyIntegration = function(){
 	self.isConnected = false;
 	self.canUpload = false;
 	self.showingCardDialog = false;
+	self.showingAgentDialog = false;
 
 	self.init = function(){
 		self.deviceManager = new OXOcard.DeviceManager({
-			'statusAgentConnectedCallback':function(){},
-			'statusAgentDisconnectedCallback':function(){},
-			'statusDeviceDisconnectedCallback':self.checkState,
-			'statusDeviceConnectedCallback':self.checkState,
+			'statusAgentConnectedCallback':function(){self.checkAgentState(false);},
+			'statusAgentDisconnectedCallback':function(){self.checkAgentState(true);},
+			'statusAgentNotFoundCallback':function(){self.checkAgentState(true);},
+			'statusDeviceDisconnectedCallback':self.checkDeviceState,
+			'statusDeviceConnectedCallback':self.checkDeviceState,
 			'statusCompileFinishedCallback':function(){self.setUploadButtonText(Ardublockly.LOCALISED_TEXT.flashing)},
 			'statusUploadFinishedCallback':function(){self.setUploadButtonText(Ardublockly.LOCALISED_TEXT.upload)},
 			'statusFlashingFinishedCallback':self.flashingFinished,
-			'statusCanceledCallback':function(){addToTextarea('ide_output', 'Canceled by user!\n');self.checkConnectedCard();},
+			'statusCanceledCallback':function(device){self.checkDeviceState(); self.addIDEOutput(null, 'Canceled by user!'); self.flashingFinished(device, 'Abgebrochen!');},
+			'statusFailedCompilationCallback':function(device, compilation){self.flashingFinished(device,'Fehlerhaft!')},
 			'statusIDEOutputCallback':self.addIDEOutput,
 			'statusSerialOutputCallback':function(device, message){self.addSerialOutput('serial_output',message);},
 		});
@@ -1326,7 +1381,7 @@ OXOcard.ArdublocklyIntegration = function(){
 		self.disableUpload();
 	};
 
-	self.checkState = function(device){
+	self.checkDeviceState = function(device){
 		if(Object.keys(self.deviceManager.devices).length > 0){
 			self.enableUpload();
 			if(self.showingCardDialog)
@@ -1337,6 +1392,16 @@ OXOcard.ArdublocklyIntegration = function(){
 		}
 	};
 
+	self.checkAgentState = function(showPopup){
+		if(showPopup){
+			self.disableUpload();
+			self.showAgentDialog();
+		}else{
+			self.hideAgentDialog();
+			self.checkDeviceState();
+		}
+	};
+
 	self.compileAndUpload = function(){
 		self.disableUpload();
 		var code = Blockly.Arduino.workspaceToCode(Ardublockly.workspace);
@@ -1344,6 +1409,7 @@ OXOcard.ArdublocklyIntegration = function(){
 		self.setUploadButtonText(Ardublockly.LOCALISED_TEXT.compiling);
 		$('#loading_icon_upload').css('display', 'inline');
 		$('#upload_icon_upload').css('display', 'none');
+		$('#button_cancel').css('display', 'block');
 		var outputElement = document.getElementById('serial_output');
 		outputElement.innerHTML = '';
 	};
@@ -1352,11 +1418,13 @@ OXOcard.ArdublocklyIntegration = function(){
 		self.deviceManager.cancelAllDevices();
 	};
 
-	self.flashingFinished = function(){
+	self.flashingFinished = function(device, message){
+		message = message || Ardublockly.LOCALISED_TEXT.upload_done;
 		self.enableUpload();
-		self.setUploadButtonText(Ardublockly.LOCALISED_TEXT.upload_done);
+		self.setUploadButtonText(message);
 		$('#loading_icon_upload').css('display', 'none');
 		$('#upload_icon_upload').css('display', 'inline');
+		$('#button_cancel').css('display', 'none');
 		setTimeout(self.enableUpload, 2000);
 	};
 
@@ -1370,6 +1438,7 @@ OXOcard.ArdublocklyIntegration = function(){
 	self.addSerialOutput = function(device, message){
 		var outputElement = document.getElementById('serial_output');
 		outputElement.innerHTML += message;
+		outputElement.innerHTML = outputElement.innerHTML.substr(outputElement.innerHTML.length-5000);
 		outputElement.scrollTop = outputElement.scrollHeight;
 	}
 
@@ -1389,6 +1458,7 @@ OXOcard.ArdublocklyIntegration = function(){
 	};
 
 	self.showCardDialog = function(){
+		if(self.showingCardDialog || self.showingAgentDialog) return;
 		self.showingCardDialog = true;
 		$('#not_connected_dialog').openModal({
 			dismissible: true,
@@ -1400,8 +1470,26 @@ OXOcard.ArdublocklyIntegration = function(){
 
 	self.hideCardDialog = function(){
 		$('#not_connected_dialog').closeModal();
+		self.showingCardDialog = false;
 	};
 	
+	self.showAgentDialog = function(){
+		if(self.showingCardDialog) self.hideCardDialog();
+		if(self.showingAgentDialog) return;
+		self.showingAgentDialog = true;
+		$('#not_running_dialog').openModal({
+			dismissible: true,
+			opacity: .5,
+			in_duration: 200,
+			out_duration: 250
+		});
+	};
+
+	self.hideAgentDialog = function(){
+		$('#not_running_dialog').closeModal();
+		self.showingAgentDialog = false;
+	};
+
 	self.init();
 };
 

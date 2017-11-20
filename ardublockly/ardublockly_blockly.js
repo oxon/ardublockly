@@ -42,7 +42,7 @@ Ardublockly.injectBlockly = function(blocklyEl, toolboxXml, blocklyPath) {
       disable: true,
       grid: false,
       maxBlocks: Infinity,
-      media: blocklyPath + '/media/',
+      //media: blocklyPath + '/media/',
       rtl: false,
       scrollbars: true,
       sounds: true,
